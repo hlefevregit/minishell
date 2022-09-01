@@ -12,6 +12,17 @@
 
 #include "../minishell.h"
 
+static int	exit_condition(char *l)
+{
+	if (!l || ft_strcmp(l, "exit") == 0
+		|| (ft_strncmp(l, "exit", 4) == 0 && !ft_isprint(l[4])
+			&& !ft_strchr(l, '|'))
+		|| ft_strncmp(l, "\"exit\"", 6) == 0
+		|| ft_strncmp(l, "\'exit\'", 6) == 0)
+		return (1);
+	return (0);
+}
+
 void	loop_prompt(t_list *list)
 {
 	char	*line;
@@ -24,7 +35,7 @@ void	loop_prompt(t_list *list)
 			add_history(line);
 		if (line && (get_quote(line) || is_empty(line)))
 			continue ;
-		else if (exit_condition == 1)
+		else if (exit_condition(line) == 1)
 			exit(EXIT_SUCCESS);
 		else if (line[0] == 0 || ft_isspace(line))
 			continue ;
