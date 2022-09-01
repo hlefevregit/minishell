@@ -28,20 +28,18 @@
 
 # define PROMPT "minishell$"
 
-typedef struct s_mini
-{
-	char	*actual_line;
-	char	*history
-	char	*env;
-	int		status;
-}t_mini;
-
 /**********************MAIN********************/
 
-void	prompt(t_mini *minishell, const char *prompt);
+void	loop_prompt(t_list *list)
 
 /*********************AUTRES*******************/
 
 void	execute(t_mini shell);
+
+/********************UTILS***********************/
+
+t_list	*init_list(char **env);
+
+char	*char_toa(char c);
 
 #endif
