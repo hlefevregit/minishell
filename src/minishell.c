@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/06/06 18:24:03 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/06/07 15:27:42 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,48 @@ void	free_double(char **str)
 	free(str);
 }
 
+int	ft_is_cmd(char *cmd)
+{
+	if (ft_strncmp(cmd, "echo", 4) == 0)
+		return (1);
+	if (ft_strncmp(cmd, "exit", 4) == 0)
+		return (1);
+	if (ft_strncmp(cmd, "cd", 2) == 0)
+		return (1);
+	if (ft_strncmp(cmd, "pwd", 3) == 0)
+		return (1);
+	if (ft_strncmp(cmd, "export", 6) == 0)
+		return (1);
+	if (ft_strncmp(cmd, "env", 3) == 0)
+		return (1);
+	if (ft_strncmp(cmd, "unset", 5) == 0)
+		return (1);
+	return (0);
+}
+
+void	search_for_args(t_mini mini)
+{
+	int	i;
+
+	i = -1;
+	if (mini.token[0].type == T_ERR)
+		perror("Error");
+	while (++i < cntwrd(mini.cmd, 32))
+	{
+		if (mini.token[i].type == T_DLESS && mini.token[i + 1].type == T_ERR)
+			mini.token[i + 1].type = T_HEREDOC;
+		if (mini.token[i].type == T_CMD)
+			while (mini.token[++i].type == T_ERR)
+				mini.token[i].type = T_ARG;
+		if (mini.token[i].type == T_RLESS && mini.token[i + 1].type == T_ERR)
+			mini.token[i + 1].type = T_I_FILE;
+		if ((mini.token[i].type == T_RGREAT || mini.token[i].type == T_DGREAT) && mini.token[i + 1].type == T_ERR)
+			mini.token[i + 1].type = T_O_FILE;
+		if ((mini.token[i].type == T_PIPE || mini.token[i].type == T_AND || mini.token[i].type == T_OR) && mini.token[i + 1].type == T_ERR)
+			perror("Error");
+	}
+}
+
 void	get_token_type(t_mini mini)
 {
 	int	i;
@@ -33,8 +75,6 @@ void	get_token_type(t_mini mini)
 	i = -1;
 	while (++i < cntwrd(mini.cmd, 32))
 	{
-		if (ft_strncmp(mini.token[i].value, "-", 1) == 0)
-			mini.token[i].type = T_FLAG;
 		if (ft_strncmp(mini.token[i].value, "<", 1) == 0)
 			mini.token->type = T_RLESS;
 		if (ft_strncmp(mini.token[i].value, ">", 1) == 0)
@@ -43,17 +83,19 @@ void	get_token_type(t_mini mini)
 			mini.token->type = T_DLESS;
 		if (ft_strncmp(mini.token[i].value, ">>", 2) == 0)
 			mini.token->type = T_DGREAT;
-		if (ft_strncmp(mini.token[i].value, "|", 1) == 0)
+		if (ft_strncmp(mini.token[i].value, "|", 2) == 0)
 			mini.token->type = T_PIPE;
 		if (ft_strncmp(mini.token[i].value, "||", 2) == 0)
 			mini.token->type = T_OR;
 		if (ft_strncmp(mini.token[i].value, "&&", 2) == 0)
 			mini.token->type = T_AND;
-		else if (execve(mini.path, mini.cmd_split, mini.envp) != -1)
+		if (ft_is_cmd(mini.token[i].value) == 1)
 			mini.token[i].type = T_ARG;
-		printf("token[%i].type = %d\n", i, mini.token[i].type);
+		else
+			mini.token[i].type = T_ERR;
+		printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
 	}
-	// search_for_args_or_cmd(mini);
+	search_for_args(mini);
 }
 
 void	get_lex_of_cmd(t_mini mini)
@@ -68,34 +110,28 @@ void	get_lex_of_cmd(t_mini mini)
 	get_token_type(mini);
 }
 
-
-
-char	*find_path(char *cmd, char **envp)
+char	*find_in_env(char *cmd, char **envp)
 {
-	char	**split_path;
-	char	*o_path;
-	char	*part_path;
+	char	*ret;
 	int		i;
+	int		k;
 
 	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+	while (ft_strnstr(envp[i], cmd , ft_strlen(cmd)) == 0)
 		i++;
-	split_path = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (split_path[i])
+	k = 0;
+	while (envp[i][k] != '\n')
+		k++;
+	ret = malloc(sizeof(char) * k);
+	k = 0;
+	while (envp[i][k] != '\n')
 	{
-		part_path = ft_strjoin(split_path[i], "/");
-		o_path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(o_path, F_OK | X_OK) == 0)
-		{
-			return (o_path);
-		}
-		free(o_path);
+		ret[k] = envp[i][k];
 		i++;
+		k++;
 	}
-	free_double(split_path);
-	return (cmd);
+	ret[k] = '\0';
+	return (ret);
 }
 
 void	init_prompt(char **envp)
@@ -106,7 +142,9 @@ void	init_prompt(char **envp)
 	while (1)
 	{
 		mini.cmd = readline(STDIN_FILENO);
-		mini.path = find_path(mini.cmd, mini.envp);	
+		if (ft_strncmp(mini.cmd, "exit", 4) == 0)
+			exit(EXIT_SUCCESS);
+		add_history(mini.cmd);
 		get_lex_of_cmd(mini);
 		free(mini.cmd);
 	}

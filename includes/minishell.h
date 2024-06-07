@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/06/06 18:05:12 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/06/07 15:24:00 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@
 typedef enum e_token_type
 {
 	T_CMD,
-	T_FLAG,
     T_ARG,
 	T_RLESS,
     T_RGREAT,
@@ -56,6 +55,8 @@ typedef enum e_token_type
 	T_AND,
 	T_OR,
 	T_NL,
+	T_ERR,
+	T_HEREDOC,
 }	t_token_type;
 
 typedef struct s_token
@@ -69,7 +70,6 @@ typedef struct s_mini
     char    **envp;
     char    *cmd;
     char    **cmd_split;
-    char    *path;
     t_token *token;
 }             t_mini;
 
