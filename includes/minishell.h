@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/06/07 15:24:00 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:15:01 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@
 
 # define IN  STDOUT
 # define OUT STDIN
+
+# define GREEN "\033[0m\033[1;32m"
+# define CYAN "\033[0m\033[1;36m"
+# define YELLOW "\033[0m\033[1;33m\033[3;33m"
+# define RESET "\033[0m"
 
 typedef enum e_token_type
 {
