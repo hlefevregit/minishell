@@ -6,7 +6,7 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/06/10 15:01:55 by hulefevr         ###   ########.fr        #
+#    Updated: 2024/06/10 17:16:31 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,10 @@ CFLAGS	:= -Werror -Wextra -Wall -g
 # Name of the final executable
 NAME	:= minishell
 
-SRC		:= ./src/minishell.c \
+SRC		:= 	./src/minishell.c \
+			./src/utils/free_double.c \
+			./src/utils/find_in_env.c \
+			./src/lexer/lexer.c \
 
 OBJ		:= $(SRC:.c=.o)
 
