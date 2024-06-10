@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/06/07 18:15:01 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/06/10 17:07:46 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <signal.h>
 # include <termios.h>
 # include <stdbool.h>
@@ -45,6 +47,7 @@
 # define CYAN "\033[0m\033[1;36m"
 # define YELLOW "\033[0m\033[1;33m\033[3;33m"
 # define RESET "\033[0m"
+# define RED "\e[0;31m"
 
 typedef enum e_token_type
 {
@@ -62,6 +65,9 @@ typedef enum e_token_type
 	T_NL,
 	T_ERR,
 	T_HEREDOC,
+	T_VAR,
+	T_S_QUOTE,
+	T_D_QUOTE,
 }	t_token_type;
 
 typedef struct s_token
@@ -75,6 +81,10 @@ typedef struct s_mini
     char    **envp;
     char    *cmd;
     char    **cmd_split;
+	int		num_of_pipe;
+	int		infile;
+	int		outfile;
+	int		status;
     t_token *token;
 }             t_mini;
 
