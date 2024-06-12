@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/06/10 17:16:18 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:58:23 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_mini
     char    **envp;
     char    *cmd;
     char    **cmd_split;
+	char	**isolate_cmd;
 	int		num_of_pipe;
 	int		infile;
 	int		outfile;
@@ -96,12 +97,15 @@ char	*find_in_env(char *cmd, char **envp);
 /***************** LEXER *******************/
 
 void	get_lex_of_cmd(t_mini mini);
-void	get_token_type(t_mini mini);
+t_mini	get_token_type(t_mini mini);
 void	search_for_args(t_mini mini);
 int		ft_is_cmd(char *cmd);
 
 /**************** PARSER ******************/
 
 void	parse_cmd(t_mini mini);
+t_mini	isolate_cmd(t_mini mini);
+int		get_nb_cmd(t_mini mini);
+
 
 #endif

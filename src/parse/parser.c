@@ -6,110 +6,61 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:14:16 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/06/10 17:14:42 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/06/12 13:59:12 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-/*void	get_infile(t_mini mini)
+/*
+void	remove_io_file(t_mini mini, int k)
 {
 	int	i;
 
-	i = 0;
-	while (mini.token[i].type != T_PIPE)
+	i = 0;	
+	while (mini.isolate_cmd[k][i])
 	{
-		if (mini.token[i].type == T_I_FILE)
+		if (mini.isolate_cmd[k][i] == '<' && mini.isolate_cmd[k][i + 1] == '<')
 		{
-			mini.infile = open(mini.token[i].value, O_RDONLY, 0777);
-			if (mini.infile == -1)
+			while (mini.isolate_cmd[k][i + 3] != '\0' && mini.isolate_cmd[k][i + 3] != 32)
 			{
-				perror(RED"Error"RESET" : file error\n");
-				exit(EXIT_FAILURE);
+				mini.isolate_cmd[k][i + 3] = 32;
+				i++;
 			}
-			dup2(mini.infile, STDIN_FILENO);
 		}
-	}	
-}
-
-int		get_outfile(t_mini mini)
-{
-	int	i;
-
-	i = 0;
-	while (mini.token[i].type && mini.token[i].type != T_AND && mini.token[i].type != T_OR)
-	{
-		
-		if (mini.token[i].type == T_O_FILE)
+		else if (mini.isolate_cmd[k][i] == '>' && mini.isolate_cmd[k][i + 1] == '>')
 		{
-			mini.outfile = open(mini.token[i].value, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-			if (mini.outfile == -1)
+			while (mini.isolate_cmd[k][i + 3] != '\0' && mini.isolate_cmd[k][i + 3] != 32)
 			{
-				perror(RED"Error"RESET" : file error\n");
-				exit(EXIT_FAILURE);
+				mini.isolate_cmd[k][i + 3] = 32;
+				i++;
 			}
-			return (mini.outfile);
+		}
+		else if (mini.isolate_cmd[k][i] == '<')
+		{
+			while (mini.isolate_cmd[k][i + 2] != '\0' && mini.isolate_cmd[k][i + 2] != 32)
+			{
+				mini.isolate_cmd[k][i + 2] = 32;
+				i++;
+			}
+		}
+		else if (mini.isolate_cmd[k][i] == '>')
+		{
+			while (mini.isolate_cmd[k][i + 2] != '\0' && mini.isolate_cmd[k][i + 2] != 32)
+			{
+				mini.isolate_cmd[k][i + 2] = 32;
+				i++;
+			}
 		}
 		i++;
-	}
-	return (mini.outfile);
-}
-
-void	ft_execute(t_mini)
-{
-	
-}
-
-void	ft_child_proc(t_mini mini)
-{
-	pid_t	pid;
-	int		fd[2];
-
-	if (pipe(fd) == -1)
-		exit(EXIT_FAILURE);
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("Error fork bonus \n");
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		mini.status = 0;
-		ft_execute(mini);
-	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		waitpid(pid, NULL, 0);
 	}
 }
 
 void	parse_cmd(t_mini mini)
 {
-	int	i;
-	int num;
+	remove_io_file(mini, 0);
+	remove_io_file(mini, get_nb_cmd - 1);
 
-	i = 0;
-	num = -1;
-	mini.outfile = get_outfile(mini);
-	while (mini.token[i].type && mini.token[i].type != T_AND && mini.token[i].type != T_OR)
-	{
-		if (mini.token[i].type == T_PIPE)
-		{
-			get_infile(mini);
-			num = i;
-			ft_child_proc(mini);
-		}
-		i++;
-	}
-	dup2(mini.outfile, STDOUT_FILENO);
-	if (num != -1)
-	{
-		mini.status = 2;
-		ft_execute(mini);
-	}	
-}*/
+	for (int i = 0; i < get_nb_cmd; i++)
+		printf("arg[%i] = %s\n", i, mini.isolate_cmd[i]);
+}
+*/
