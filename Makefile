@@ -6,13 +6,13 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/06/12 14:55:02 by hulefevr         ###   ########.fr        #
+#    Updated: 2024/07/03 14:33:41 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compilation variables
 CC		:= gcc
-FLAGS	:= -Lvendor/readline/lib -lreadline -ltinfo -g
+FLAGS	:= -Lvendor/readline/lib -lreadline -ltinfo -g 
 CFLAGS	:= -Werror -Wextra -Wall -g
 
 # Name of the final executable
@@ -21,7 +21,18 @@ NAME	:= minishell
 SRC		:= 	./src/minishell.c \
 			./src/utils/free_double.c \
 			./src/utils/find_in_env.c \
+			./src/utils/ft_strerror.c \
 			./src/lexer/lexer.c \
+			./src/parse/parser.c \
+			./src/parse/remove_files.c \
+			./src/exec/exec_pipex.c \
+			./src/builtin/cd.c \
+			./src/builtin/echo.c \
+			./src/builtin/env.c \
+			./src/builtin/export.c \
+			./src/builtin/pwd.c \
+			./src/builtin/unset.c \
+			./src/builtin/utils.c \
 
 OBJ		:= $(SRC:.c=.o)
 
@@ -221,7 +232,7 @@ fclean:
 	@rm -rdf $(NAME) test_parser
 	@printf $(GREEN)"\r\033[KBinary file cleaned 🗑"$(RESET)
 	@printf $(GREEN)"\r\033[KForce cleaned 🗑"$(RESET)
-	@vlc includes/videoplayback.mp4
+	# @vlc includes/videoplayback.mp4
 	@clear
 
 # Clean readline
