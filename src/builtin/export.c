@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:56:15 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/03 14:49:47 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:32:00 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,11 @@ void	ft_export(char **av, t_mini mini)
 	if (count_array(av) == 1)
 		print_var(mini);
 	else if (count_array(av) >= 2)
+	{
 		if (!update_var(av, mini))
+		{
+			mini.exit_status = EXIT_FAILURE;
 			return ;
+		}
+	}
 }

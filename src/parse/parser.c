@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:14:16 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/03 13:25:41 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:48:53 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,13 @@ void	parse_cmd(t_mini mini)
 }
 
 void	remove_io_file(t_mini mini, int k)
-{
-	remove_infile(mini, k);
-	remove_outfile(mini, k);
-	remove_infile_simple(mini, k);
-	remove_outfile_simple(mini, k);
+{	
+	if (remove_infile(mini, k) == 1)
+		return ;
+	else if (remove_outfile(mini, k) == 1)
+		return ;
+	else if (remove_infile_simple(mini, k) == 1)
+		return ;
+	else if (remove_outfile_simple(mini, k) == 1)
+		return ;
 }

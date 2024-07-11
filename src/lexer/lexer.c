@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/03 13:17:02 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:50:25 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	search_for_args(t_mini mini)
 			mini.token[i + 1].type = T_OD_FILE;
 		else if ((mini.token[i].type == T_PIPE || mini.token[i].type == T_AND || mini.token[i].type == T_OR) && mini.token[i + 1].type == T_ERR)
 			perror("Error ");
-		/*else if (mini.token[i].type == T_VAR)
-			get_var_name(mini);*/
 		printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
 	}
 }
@@ -113,8 +111,8 @@ t_mini	get_token_type(t_mini mini)
 {
 	int	i;
 
-	i = 0;
-	while (i < cntwrd(mini.cmd, 32))
+	i = -1;
+	while (++i < cntwrd(mini.cmd, 32))
 	{
 		if (ft_strncmp(mini.token[i].value, "<<", 2) == 0)
 			mini.token[i].type = T_DLESS;
@@ -132,14 +130,9 @@ t_mini	get_token_type(t_mini mini)
 			mini.token[i].type = T_AND;
 		else if (ft_is_cmd(mini.token[i].value) == 1)
 			mini.token[i].type = T_CMD;
-		else if (mini.token[i].value[0] == '$')
-			mini.token[i].type = T_VAR;
 		else
 			mini.token[i].type = T_ERR;
-		i++;
 	}
-	search_for_args(mini);
-	mini = isolate_cmd(mini);
 	return (mini);
 }
 
@@ -153,5 +146,7 @@ void	get_lex_of_cmd(t_mini mini)
 	while (++i < cntwrd(mini.cmd, 32))
 		mini.token[i].value = mini.cmd_split[i];
 	mini = get_token_type(mini);
+	search_for_args(mini);	
+	mini = isolate_cmd(mini);
 	parse_cmd(mini);
 }

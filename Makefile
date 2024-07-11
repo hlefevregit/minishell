@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
+#    By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/07/03 14:33:41 by hulefevr         ###   ########.fr        #
+#    Updated: 2024/07/04 18:05:48 by hugolefevre      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compilation variables
 CC		:= gcc
-FLAGS	:= -Lvendor/readline/lib -lreadline -ltinfo -g 
+FLAGS	:= -Lvendor/readline/lib -lreadline -g 
 CFLAGS	:= -Werror -Wextra -Wall -g
 
 # Name of the final executable

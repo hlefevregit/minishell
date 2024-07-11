@@ -3,65 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:10:30 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/03 14:49:56 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:37:59 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	clear_var(int i_env, int i, char **av, t_mini mini)
+int is_valid_identifier(const char *str)
 {
-	int		arg;
-	char	**env;
-
-	if (mini.envp[i_env]
-		&& ft_strncmp(mini.envp[i_env], av[i], ft_strlen(av[i])) == 0)
+	if (!str || !(*str))
+		return 0;
+	if (!(ft_isalpha(*str) || *str == '_'))
+		return 0;
+	str++;
+	while (*str)
 	{
-		env = ft_calloc(sizeof(char *), count_array(mini.envp));
-		arg = 0;
-		while (arg < i_env)
-		{
-			env[arg] = ft_strdup(mini.envp[arg]);
-			arg++;
-		}
-		i_env++;
-		while (mini.envp[i_env])
-		{
-			env[arg] = ft_strdup(mini.envp[i_env]);
-			i_env++;
-			arg++;
-		}
-		free_double(mini.envp);
-		mini.envp = env;
+		if (!(ft_isalnum(*str) || *str == '_'))
+			return 0;
+		str++;
 	}
+	return 1;
 }
 
-void	ft_unset(char **av, t_mini mini)
+int find_env_var_index(char **env, const char *key)
+{
+	size_t key_len;
+	int i;
+
+	key_len = strlen(key);
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], key, key_len) == 0 && env[i][key_len] == '=')
+			return i;
+		i++;
+	}
+	return -1;
+}
+
+void ft_unset(char **arg, t_mini mini)
 {
 	int		i;
-	int		i_env;
-	int		ac;
+	char	*key;
+	int		index;
 
-	i = 0;
-	ac = count_array(av);
-	if (ac > 1)
+	if (!arg || !*arg)
+		return;
+	i = 1;
+	while (arg[i] != NULL)
 	{
-		while (av[++i])
+		key = arg[i];
+		if (!is_valid_identifier(key))
 		{
-			i_env = 0;
-			if (ft_strcheckunset(av[i]) == 0)
-			{
-				ft_error2("unset", av[i], "not a valid identifier");
-				return ;
-			}
-			while (mini.envp[i_env]
-				&& ft_strncmp(mini.envp[i_env], av[i],
-					ft_strlen(av[i])) != 0)
-				i_env++;
-			clear_var(i_env, i, av, mini);
+			printf("unset: `%s': not a valid identifier\n", key);
+			i++;
+			continue;
 		}
+		index = find_env_var_index(mini.envp, key);
+		if (index != -1)
+		{
+			free(mini.envp[index]);
+			while (mini.envp[index + 1])
+			{
+				mini.envp[index] = mini.envp[index + 1];
+				index++;
+			}
+			mini.envp[index] = NULL;
+		}
+		i++;
 	}
 }

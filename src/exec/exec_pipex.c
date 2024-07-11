@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/03 14:53:54 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:40:25 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	find_path_cmd(char *cmd)
 int	ft_execve(char **cmd, t_mini mini)
 {
 	if (ft_strncmp(cmd[0], "echo\0", 5) == 0)
-		ft_echo(cmd);
+		ft_echo(cmd, mini);
 	else if (ft_strncmp(cmd[0], "unset\0", 6) == 0)
 		ft_unset(cmd, mini);
 	else if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
@@ -47,17 +47,10 @@ void	ft_execute(char *arg, t_mini mini)
 	cmd = ft_split(arg, ' ');
 	if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
 		exit(EXIT_SUCCESS);
-	if (find_path_cmd(cmd[0]) == 0)
-	{
-		ft_strerror("Command not found.");
-		return ;
-	}
-	
 	if (ft_execve(cmd, mini) == -1)
-	{
-		free_double(cmd);
 		perror("command not found\n");
-	}
+	free_double(cmd);
+	return ;
 }
 
 void	ft_child_proc(char *av, t_mini mini)
@@ -70,7 +63,7 @@ void	ft_child_proc(char *av, t_mini mini)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("Error fork bonus \n");
+		perror("Error fork \n");
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
@@ -153,20 +146,17 @@ void	ft_exec_pipex(t_mini mini)
 		if (mini.token[i].type == T_HEREDOC)
 			here_doc(mini.token[i].value);
 		else if (mini.token[i].type == T_I_FILE)
-			mini.infile = open(mini.token[i].value, O_RDONLY, 0777);
+			mini.infile = open(mini.token[i].value, O_RDONLY, 0644);
 		else if (mini.token[i].type == T_OR_FILE)
-			mini.outfile = open(mini.token[i].value, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			mini.outfile = open(mini.token[i].value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (mini.token[i].type == T_OD_FILE)
-			mini.outfile = open(mini.token[i].value, O_WRONLY | O_CREAT | O_APPEND, 0777);
+			mini.outfile = open(mini.token[i].value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		printf("mini.token[%i].type = %i\n", i, mini.token[i].type);
 		i++;
-		//printf("mini.token[%i].type = %i\n", i, mini.token[i].type);
 	}
-	dup2(mini.infile, STDIN_FILENO);
 	printf("debug\n");
 	while (i < get_nb_cmd(mini) - 2)
 		ft_child_proc(mini.isolate_cmd[i++], mini);
-	dup2(mini.outfile, STDOUT_FILENO);
 	ft_execute(mini.isolate_cmd[get_nb_cmd(mini) - 1], mini);
 	printf("infile = %i\n Outfile = %i\n", mini.infile, mini.outfile);
 }

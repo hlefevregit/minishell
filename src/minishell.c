@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/03 14:16:25 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:58:07 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	init_prompt(char **envp)
 
 	mini.envp = envp;
 	mini.num_of_pipe = 0;
+	mini.infile = 0;
+	mini.outfile = 0;
 	while (1)
 	{
 		mini.cmd = readline(GREEN"MINISHELL DRUCKER A LA RESCOUSSE > "RESET"");
 		if (ft_strncmp(mini.cmd, "exit", 4) == 0)
 		{
-			rl_clear_history();
+			clear_history();
 			exit(EXIT_SUCCESS);
 		}
 		add_history(mini.cmd);

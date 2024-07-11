@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/03 16:52:24 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:48:07 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_mini
 	int		num_of_pipe;
 	int		infile;
 	int		outfile;
-	int		status;
+	int		exit_status;
     t_token *token;
 }             t_mini;
 
@@ -125,10 +125,10 @@ int		get_nb_cmd(t_mini mini);
 
 /*************** REMOVE FILES **************/
 
-void	remove_outfile_simple(t_mini mini, int k);
-void	remove_outfile(t_mini mini, int k);
-void	remove_infile_simple(t_mini mini, int k);
-void	remove_infile(t_mini mini, int k);
+int		remove_outfile_simple(t_mini mini, int k);
+int		remove_outfile(t_mini mini, int k);
+int		remove_infile_simple(t_mini mini, int k);
+int		remove_infile(t_mini mini, int k);
 void	remove_io_file(t_mini mini, int k);
 
 /*************** EXEC ****************/
@@ -137,7 +137,7 @@ void	ft_exec_pipex(t_mini mini);
 
 /**************** BUILT-IN ***********/
 
-void	ft_echo(char **argv);
+void	ft_echo(char **argv, t_mini mini);
 void	ft_cd(char **av, t_mini mini);
 void	ft_pwd(t_mini mini);
 void	ft_unset(char **av, t_mini mini);
