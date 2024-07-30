@@ -6,7 +6,7 @@
 #    By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/07/28 15:46:00 by hugolefevre      ###   ########.fr        #
+#    Updated: 2024/07/30 14:14:45 by hugolefevre      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -232,7 +232,7 @@ fclean:
 	@printf $(GREEN)"\r\033[KBinary file cleaned 🗑"$(RESET)
 	@printf $(GREEN)"\r\033[KForce cleaned 🗑"$(RESET)
 	# @vlc includes/videoplayback.mp4
-	@open includes/videoplayback.mp4
+	# @open includes/videoplayback.mp4
 	@clear
 
 # Clean readline

@@ -6,7 +6,7 @@
 /*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/26 17:02:08 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/07/30 15:05:40 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void	ft_execute(char *arg, t_mini mini)
 	if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
 		exit(EXIT_SUCCESS);
 	if (ft_execve(cmd, mini) == -1)
+	{
 		perror("command not found\n");
+		mini.exit_status = EXIT_FAILURE;
+	}
 	free_double(cmd);
 	return ;
 }
@@ -151,12 +154,11 @@ void	ft_exec_pipex(t_mini mini)
 			mini.outfile = open(mini.token[i].value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (mini.token[i].type == T_OD_FILE)
 			mini.outfile = open(mini.token[i].value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		printf("mini.token[%i].type = %i\n", i, mini.token[i].type);
+		// printf("mini.token[%i].type = %i\n", i, mini.token[i].type);
 		i++;
 	}
-	printf("debug\n");
 	while (i < get_nb_cmd(mini) - 2)
 		ft_child_proc(mini.isolate_cmd[i++], mini);
 	ft_execute(mini.isolate_cmd[get_nb_cmd(mini) - 1], mini);
-	printf("infile = %i\nOutfile = %i\n", mini.infile, mini.outfile);
+	// printf("infile = %i\nOutfile = %i\n", mini.infile, mini.outfile);
 }

@@ -6,7 +6,7 @@
 /*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/28 11:25:15 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/07/30 15:15:29 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,27 @@ void	search_for_args(t_mini mini)
 	int	i;
 
 	i = -1;
-	printf("\n");
+	// printf("\n");
 	while (++i < cntwrd(mini.cmd, 32))
 	{
 		if (mini.token[i].type == T_DLESS && mini.token[i + 1].type == T_ERR)
 			mini.token[i + 1].type = T_HEREDOC;
 		else if (mini.token[i].type == T_D_QUOTE)
 		{
-			while (mini.token[i + 1].type != T_D_QUOTE)
+			while (mini.token[i + 1].type != T_D_QUOTE && !mini.token[i + 1].value)
 			{
 				mini.token[i + 1].type = T_ARG;
-				printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
+				// printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
 				i++;
 			}
 			i++;
 		}
 		else if (mini.token[i].type == T_S_QUOTE)
 		{
-			while (mini.token[i + 1].type != T_S_QUOTE)
+			while (mini.token[i + 1].type != T_S_QUOTE && !mini.token[i + 1].value)
 			{
 				mini.token[i + 1].type = T_ARG;
-				printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
+				// printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
 				i++;
 			}
 			i++;
@@ -50,7 +50,7 @@ void	search_for_args(t_mini mini)
 			mini.token[i + 1].type = T_OD_FILE;
 		else if ((mini.token[i].type == T_PIPE || mini.token[i].type == T_AND || mini.token[i].type == T_OR) && mini.token[i + 1].type == T_ERR)
 			perror("Error ");
-		printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
+		// printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
 	}
 }
 
@@ -80,6 +80,7 @@ int	get_nb_cmd(t_mini mini)
 
 	i = 0;
 	ret = 1;
+	mini.num_of_pipe = 0;
 	while (mini.token[i].type != T_OR && mini.token[i].type != T_AND && mini.cmd_split[i])
 	{
 		if (mini.token[i].type == T_PIPE)
@@ -99,7 +100,7 @@ t_mini	isolate_cmd(t_mini mini)
 	int	nb_cmd;
 
 	nb_cmd = get_nb_cmd(mini);
-	printf("nb_cmd = %i\n", nb_cmd);
+	// printf("nb_cmd = %i\n", nb_cmd);
 	mini.isolate_cmd = (char **)malloc(sizeof(char *) * (nb_cmd));
 	i = 0;
 	j = 0;
@@ -115,7 +116,7 @@ t_mini	isolate_cmd(t_mini mini)
 			j++;
 		}
 		j++;
-		printf("mini.isolate_cmd[%i] = %s\n", i, mini.isolate_cmd[i]);
+		// printf("mini.isolate_cmd[%i] = %s\n", i, mini.isolate_cmd[i]);
 		i++;
 	}
 	return (mini);

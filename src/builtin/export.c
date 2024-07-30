@@ -6,7 +6,7 @@
 /*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:56:15 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/29 15:24:22 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/07/30 14:14:23 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,99 +124,78 @@
 // 			return ;
 // 		}
 // 	}
-// }
+//}
 
-void update_env_var(char **env, const char *name, const char *value)
+void update_env(char **env, const char *name, const char *value)
 {
-    int name_len = strlen(name);
-    int value_len = strlen(value);
-    int entry_len = name_len + value_len + 2; // +1 for '=' and +1 for '\0'
-    char *entry = malloc(entry_len);
-    if (entry == NULL)
-	{
-        perror("malloc");
-        exit(EXIT_FAILURE);
-    }
+	int	i;
 
-    // Construct the environment variable entry
-    strcpy(entry, name);
-    entry[name_len] = '=';
-    strcpy(entry + name_len + 1, value);
-    entry[entry_len - 1] = '\0';
-
-    // Find and update the environment variable
-    int i = 0;
-    while (env[i] != NULL)
+	i = 0;
+	while (env[i])
 	{
-        if (strncmp(env[i], name, name_len) == 0 && env[i][name_len] == '=')
+		if (strncmp(env[i], name, strlen(name)) == 0 && env[i][strlen(name)] == '=')
 		{
-            free(env[i]);
-            env[i] = entry;
-            return;
-        }
-        i++;
-    }
-
-    // If not found, add the environment variable
-    env[i] = entry;
-    env[i + 1] = NULL;
+			free(env[i]);
+			env[i] = malloc(strlen(name) + strlen(value) + 2);
+			sprintf(env[i], "%s=%s", name, value);
+			return;
+		}
+		i++;
+	}
+	env[i] = malloc(strlen(name) + strlen(value) + 2);
+	printf("%s=%s", name, value);
+	env[i + 1] = NULL;
 }
 
-// Function to parse and export environment variables
+void parse_arg(char *arg, char **name, char **value)
+{
+	int		in_squote;
+	int		in_dquote;
+	char	*p;
+	char	q;
+
+	*name = arg;
+	*value = NULL;
+	in_dquote = 0;
+	in_squote = 0;
+	p = arg;
+	while (*p)
+	{
+		if (*p == '\'' && !in_dquote)
+			in_squote = !in_squote;
+		else if (*p == '"' && !in_squote)
+			in_dquote = !in_dquote;
+		else if (*p == '=' && !in_squote && !in_dquote)
+		{
+			*p = '\0';
+			*value = p + 1;
+			break;
+		}
+		p++;
+	}
+	if (!*value)
+		*value = "";
+	if (**value == '"' || **value == '\'')
+	{
+		q = **value;
+		(*value)++;
+		p = *value + strlen(*value) - 1;
+		if (*p == q) *p = '\0';
+	}
+}
+
 void ft_export(char **arg, t_mini mini)
 {
-	int		i;
-	char	*name;
-	char	*value;
-	char	*p;
-	int		in_single_quote;
-	int		in_double_quote;
-	char	**env = mini.envp;
+	int     i;
+	char    *name;
+	char    *value;
 
 	i = 1;
-	in_single_quote = 0;
-	in_double_quote = 0;
-    while (arg[i] != NULL)
+	while (arg[i])
 	{
-        p = arg[i];
-        while (*p)
-		{
-            if (*p == '\'' && !in_double_quote)
-			{
-                in_single_quote = !in_single_quote;
-                p++;
-            }
-			else if (*p == '"' && !in_single_quote)
-			{
-                in_double_quote = !in_double_quote;
-                p++;
-            }
-			else if (*p == '=' && !in_single_quote && !in_double_quote)
-			{
-                *p = '\0';
-                name = arg[i];
-                value = p + 1;
-                break;
-            }
-			else
-                p++;
-        }
-
-		
-        if (name == NULL)
-		{
-            name = arg[i];
-            value = "";
-        }
-        if (value[0] == '\'' || value[0] == '"')
-		{
-            char quote = value[0];
-            value++;
-            char *end = value + strlen(value) - 1;
-            if (*end == quote)
-                *end = '\0';
-        }
-        update_env_var(env, name, value);
-        i++;
-    }
+		parse_arg(arg[i], &name, &value);
+		update_env(mini.envp, name, value);
+		i++;
+	}
+	mini.exit_status = 0;
 }
