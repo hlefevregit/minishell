@@ -6,7 +6,7 @@
 #    By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/07/13 20:34:59 by hugolefevre      ###   ########.fr        #
+#    Updated: 2024/07/28 15:46:00 by hugolefevre      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRC		:= 	./src/minishell.c \
 			./src/utils/ft_strerror.c \
 			./src/lexer/lexer.c \
 			./src/parse/parser.c \
-			./src/parse/remove_files.c \
 			./src/exec/exec_pipex.c \
 			./src/builtin/cd.c \
 			./src/builtin/echo.c \
@@ -53,7 +52,7 @@ RESET	:= "\033[0m"
 
 # Compile all .o files
 $(NAME): vendor/readline $(OBJ)
-	@clear
+	# @clear
 	@printf $(GREEN)"\r\033[KObjects compiled succesfully ✅"$(RESET)
 	@make -C lib/libft
 	@make -C lib/get_next_line
@@ -233,6 +232,7 @@ fclean:
 	@printf $(GREEN)"\r\033[KBinary file cleaned 🗑"$(RESET)
 	@printf $(GREEN)"\r\033[KForce cleaned 🗑"$(RESET)
 	# @vlc includes/videoplayback.mp4
+	@open includes/videoplayback.mp4
 	@clear
 
 # Clean readline

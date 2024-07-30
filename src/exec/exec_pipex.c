@@ -6,7 +6,7 @@
 /*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/10 15:40:25 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/07/26 17:02:08 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,5 @@ void	ft_exec_pipex(t_mini mini)
 	while (i < get_nb_cmd(mini) - 2)
 		ft_child_proc(mini.isolate_cmd[i++], mini);
 	ft_execute(mini.isolate_cmd[get_nb_cmd(mini) - 1], mini);
-	printf("infile = %i\n Outfile = %i\n", mini.infile, mini.outfile);
+	printf("infile = %i\nOutfile = %i\n", mini.infile, mini.outfile);
 }

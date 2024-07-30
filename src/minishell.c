@@ -6,7 +6,7 @@
 /*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/10 14:58:07 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/07/28 13:21:47 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	init_prompt(char **envp)
 	mini.num_of_pipe = 0;
 	mini.infile = 0;
 	mini.outfile = 0;
+	mini.exit_status = 0;
 	while (1)
 	{
 		mini.cmd = readline(GREEN"MINISHELL DRUCKER A LA RESCOUSSE > "RESET"");

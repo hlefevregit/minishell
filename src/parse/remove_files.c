@@ -6,35 +6,23 @@
 /*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:24:17 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/10 15:51:30 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/07/26 16:52:30 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	remove_infile(t_mini mini, int k)
+int	remove_infile(t_mini mini)
 {
 	size_t	i;
+	size_t	k;
 
 	i = 0;
-	while (i < ft_strlen(mini.isolate_cmd[k]))
+	k = 0;
+	while (k < get_nb_cmd(mini))
 	{
-		if (mini.isolate_cmd[k][i] == '<' && mini.isolate_cmd[k][i + 1] == '<')
-		{
-			while (mini.isolate_cmd[k][i] && mini.isolate_cmd[k][i] == '<')
-			{
-				mini.isolate_cmd[k][i] = 0;
-				i++;
-			}
-			while (mini.isolate_cmd[k][i] && mini.isolate_cmd[k][i] != 32)
-			{
-				mini.isolate_cmd[k][i] = 0;
-				i++;
-			}
-			return (1);
-		}
-		else
-			i++;
+		if (mini.token[k] == )
+		k++;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:10:30 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/10 15:37:59 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/07/28 13:21:04 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,11 @@ void ft_unset(char **arg, t_mini mini)
 	int		index;
 
 	if (!arg || !*arg)
+	{
+		printf("unset: not enough arguments\n");
+		mini.exit_status = 1;
 		return;
+	}
 	i = 1;
 	while (arg[i] != NULL)
 	{

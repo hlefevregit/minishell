@@ -6,7 +6,7 @@
 /*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/10 15:48:07 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/07/28 13:18:18 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_mini
     char    *cmd;
     char    **cmd_split;
 	char	**isolate_cmd;
+	char	**new_isolation;
 	int		num_of_pipe;
 	int		infile;
 	int		outfile;
@@ -125,11 +126,11 @@ int		get_nb_cmd(t_mini mini);
 
 /*************** REMOVE FILES **************/
 
-int		remove_outfile_simple(t_mini mini, int k);
-int		remove_outfile(t_mini mini, int k);
-int		remove_infile_simple(t_mini mini, int k);
-int		remove_infile(t_mini mini, int k);
-void	remove_io_file(t_mini mini, int k);
+// int		remove_outfile_simple(t_mini mini, int k);
+// int		remove_outfile(t_mini mini, int k);
+// int		remove_infile_simple(t_mini mini, int k);
+// int		remove_infile(t_mini mini, int k);
+// void	remove_io_file(t_mini mini, int k);
 
 /*************** EXEC ****************/
 

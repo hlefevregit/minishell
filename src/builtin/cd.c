@@ -6,7 +6,7 @@
 /*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:51:22 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/10 15:32:32 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/07/28 13:27:32 by hugolefevre      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void ft_cd(char **arg, t_mini mini)
         if (home == NULL)
 		{
             printf("cd: Impossible de trouver le répertoire home.\n");
-            mini.exit_status = 0;
+            mini.exit_status = EXIT_FAILURE;
             return ;
         }
         if (chdir(home) != 0)
