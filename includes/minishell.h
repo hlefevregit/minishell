@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/28 13:18:18 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/08/01 16:09:51 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_mini
     char    *cmd;
     char    **cmd_split;
 	char	**isolate_cmd;
-	char	**new_isolation;
+	char	*prev_dir;
 	int		num_of_pipe;
 	int		infile;
 	int		outfile;
@@ -92,24 +92,11 @@ typedef struct s_mini
     t_token *token;
 }             t_mini;
 
-typedef struct s_export
-{
-	int		i;
-	int		i_env;
-	int		arg;
-	char	*tmp;
-}				t_export;
-
 /***************** UTILS ********************/
 
 void	free_double(char **str);
 char	*find_in_env(char *cmd, char **envp);
 char	*find_path(char *cmd, char **envp);
-int		count_array(char **arr);
-void	ft_error2(char *msg, char *msg2, char *error_msg);
-int		ft_strcheckunset(const char *str);
-int		ft_checkunset(char c);
-int		ft_strerror(char *msg);
 
 /***************** LEXER *******************/
 
@@ -124,17 +111,10 @@ void	parse_cmd(t_mini mini);
 t_mini	isolate_cmd(t_mini mini);
 int		get_nb_cmd(t_mini mini);
 
-/*************** REMOVE FILES **************/
-
-// int		remove_outfile_simple(t_mini mini, int k);
-// int		remove_outfile(t_mini mini, int k);
-// int		remove_infile_simple(t_mini mini, int k);
-// int		remove_infile(t_mini mini, int k);
-// void	remove_io_file(t_mini mini, int k);
-
 /*************** EXEC ****************/
 
 void	ft_exec_pipex(t_mini mini);
+void	here_doc(char *limiter);
 
 /**************** BUILT-IN ***********/
 

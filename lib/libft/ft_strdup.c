@@ -6,11 +6,11 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:44:12 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/06/06 13:01:49 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:44:35 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "libft.h"
 
 char	*ft_strdup(const char *src)
 {

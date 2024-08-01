@@ -6,11 +6,11 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 12:53:37 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/06/06 13:03:02 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:56:40 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "libft.h"
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {

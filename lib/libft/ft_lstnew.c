@@ -6,11 +6,11 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:47:53 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/06/06 13:02:37 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:53:23 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "libft.h"
 
 t_list	*ft_lstnew(void *content)
 {

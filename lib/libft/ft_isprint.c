@@ -6,11 +6,11 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 09:43:22 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/06/06 13:03:09 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:21:29 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "libft.h"
 
 int	ft_isprint(int c)
 {

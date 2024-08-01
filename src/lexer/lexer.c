@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/30 15:15:29 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/08/01 14:13:11 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@ void	search_for_args(t_mini mini)
 			mini.token[i + 1].type = T_HEREDOC;
 		else if (mini.token[i].type == T_D_QUOTE)
 		{
-			while (mini.token[i + 1].type != T_D_QUOTE && !mini.token[i + 1].value)
+			i++;
+			while (mini.token[i].type != T_D_QUOTE && mini.token[i].value != NULL)
 			{
-				mini.token[i + 1].type = T_ARG;
+				mini.token[i].type = T_ARG;
 				// printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
 				i++;
 			}
@@ -34,9 +35,10 @@ void	search_for_args(t_mini mini)
 		}
 		else if (mini.token[i].type == T_S_QUOTE)
 		{
-			while (mini.token[i + 1].type != T_S_QUOTE && !mini.token[i + 1].value)
+			i++;
+			while (mini.token[i].type != T_S_QUOTE && !mini.token[i].value)
 			{
-				mini.token[i + 1].type = T_ARG;
+				mini.token[i].type = T_ARG;
 				// printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
 				i++;
 			}

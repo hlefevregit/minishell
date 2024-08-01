@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/28 13:21:47 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/08/01 15:39:26 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ void	init_prompt(char **envp)
 {
 	t_mini mini;
 
-	mini.envp = envp;
-	mini.num_of_pipe = 0;
-	mini.infile = 0;
-	mini.outfile = 0;
+	mini.envp = envp;	
 	mini.exit_status = 0;
 	while (1)
 	{

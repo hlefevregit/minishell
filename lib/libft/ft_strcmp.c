@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strerror.c                                      :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 14:32:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/03 14:34:11 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/03/14 13:59:06 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/03/14 14:02:36 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include <unistd.h>
 
-int	ft_strerror(char *msg)
+int	ft_strcmp(char *s1, char *s2)
 {
-	ft_putstr_fd(msg, 2);
-	return (0);
+	unsigned int	i;
+
+	i = 0;
+	while ((s1[i] && s2[i]) && (s1[i] == s2[i]))
+		i++;
+	if (s1[i] == s2[i])
+		return (0);
+	else
+		return (s1[i] - s2[i]);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipex.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/30 15:05:40 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/08/01 15:23:33 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_execute(char *arg, t_mini mini)
 		exit(EXIT_SUCCESS);
 	if (ft_execve(cmd, mini) == -1)
 	{
-		perror("command not found\n");
+		perror("command not found");
 		mini.exit_status = EXIT_FAILURE;
 	}
 	free_double(cmd);
@@ -83,60 +83,14 @@ void	ft_child_proc(char *av, t_mini mini)
 	}
 }
 
-int	simple_gnl(char **line, char *limiter)
+void	ft_parent(t_mini mini)
 {
-	char	*buffer;
-	int		i;
-	int		r;
-	char	c;
+	int	saved_stdout;
 
-	i = 0;
-	r = 0;
-	buffer = (char *)malloc(BUFSIZ);
-	if (!buffer)
-		return (-1);
-	r = read(0, &c, 1);
-	while (r && c != '\n' && c != '\0')
-	{
-		if (c != '\n' && c != '\0')
-			buffer[i++] = c;
-		r = read(0, &c, 1);
-	}
-	buffer[i] = '\n';
-	buffer[++i] = '\0';
-	*line = buffer;
-	if (ft_strncmp(buffer, limiter, ft_strlen(limiter)) == 0)
-		exit(EXIT_SUCCESS);
-	return (r);
-}
-
-void	here_doc(char *limiter)
-{
-	pid_t	pid2;
-	int		fd[2];
-	char	*line;
-
-	if (pipe(fd) == -1)
-		exit(EXIT_FAILURE);
-	pid2 = fork();
-	if (pid2 == 0)
-	{
-		close(fd[0]);
-		line = malloc(BUFSIZ);
-		while (simple_gnl(&line, limiter))
-		{
-			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-				exit(EXIT_SUCCESS);
-			ft_putstr_fd(line, fd[1]);
-			free(line);
-		}
-	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		wait(NULL);
-	}
+	saved_stdout = dup(STDOUT_FILENO);
+	dup2(mini.outfile, STDOUT_FILENO);
+	ft_execute(mini.isolate_cmd[get_nb_cmd(mini) - 1], mini);
+	dup2(saved_stdout, STDOUT_FILENO);
 }
 
 void	ft_exec_pipex(t_mini mini)
@@ -154,11 +108,12 @@ void	ft_exec_pipex(t_mini mini)
 			mini.outfile = open(mini.token[i].value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (mini.token[i].type == T_OD_FILE)
 			mini.outfile = open(mini.token[i].value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		// printf("mini.token[%i].type = %i\n", i, mini.token[i].type);
+		printf("mini.token[%i].type = %i\n", i, mini.token[i].type);
 		i++;
 	}
+	printf("infile = %i\nOutfile = %i\n", mini.infile, mini.outfile);
 	while (i < get_nb_cmd(mini) - 2)
 		ft_child_proc(mini.isolate_cmd[i++], mini);
-	ft_execute(mini.isolate_cmd[get_nb_cmd(mini) - 1], mini);
-	// printf("infile = %i\nOutfile = %i\n", mini.infile, mini.outfile);
+	ft_parent(mini);
+	ft_putstr_fd(GREEN"Done\n"RESET, 0);
 }

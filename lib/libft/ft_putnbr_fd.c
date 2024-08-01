@@ -6,11 +6,11 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:41:11 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/06/06 13:02:05 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:41:28 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "libft.h"
 
 void	ft_putnbr_fd(int nb, int fd)
 {

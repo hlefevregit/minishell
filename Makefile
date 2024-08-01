@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+         #
+#    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/07/30 14:14:45 by hugolefevre      ###   ########.fr        #
+#    Updated: 2024/08/01 13:27:26 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compilation variables
 CC		:= gcc
-FLAGS	:= -Lvendor/readline/lib -lreadline -g 
+FLAGS	:= -Lvendor/readline/lib -lreadline -ltinfo -g 
 CFLAGS	:= -Werror -Wextra -Wall -g
 
 # Name of the final executable
@@ -25,6 +25,7 @@ SRC		:= 	./src/minishell.c \
 			./src/lexer/lexer.c \
 			./src/parse/parser.c \
 			./src/exec/exec_pipex.c \
+			./src/exec/heredoc.c \
 			./src/builtin/cd.c \
 			./src/builtin/echo.c \
 			./src/builtin/env.c \

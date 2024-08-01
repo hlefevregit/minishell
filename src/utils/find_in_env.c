@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:15:48 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/03 13:18:04 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/01 15:38:48 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,15 @@
 
 char	*find_in_env(char *cmd, char **envp)
 {
-	char	*ret;
-	int		i;
-	int		k;
+	int	i;
 
-	i = 0;
-	while (ft_strnstr(envp[i], cmd , ft_strlen(cmd)) == 0)
-		i++;
-	k = 0;
-	while (envp[i][k] != '\n')
-		k++;
-	ret = malloc(sizeof(char) * k);
-	k = 0;
-	while (envp[i][k] != '\n')
+	while (envp[i])
 	{
-		ret[k] = envp[i][k];
+		if (ft_strncmp(envp[i], cmd, ft_strlen(cmd)) == 0 && envp[i][ft_strlen(cmd)] == '=')
+			return (envp[i] + ft_strlen(cmd) + 1);
 		i++;
-		k++;
 	}
-	ret[k] = '\0';
-	return (ret);
+	return (NULL);
 }
 
 char	*find_path(char *cmd, char **envp)
