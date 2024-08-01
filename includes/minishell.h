@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/01 16:09:51 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:00:05 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
 
+# define _XOPEN_SOURCE 700
+# define _GNU_SOURCE
+
 # define TRUE  1
 # define FALSE 0
-
-# define IN  STDOUT
-# define OUT STDIN
 
 # define GREEN "\033[0m\033[1;32m"
 # define CYAN "\033[0m\033[1;36m"
@@ -88,9 +88,15 @@ typedef struct s_mini
 	int		num_of_pipe;
 	int		infile;
 	int		outfile;
-	int		exit_status;
     t_token *token;
 }             t_mini;
+
+typedef struct s_global
+{
+	int	exit_status;
+}			t_global;
+
+extern t_global	g_global;
 
 /***************** UTILS ********************/
 

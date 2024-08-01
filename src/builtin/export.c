@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:56:15 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/01 16:02:09 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:47:10 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,5 @@ void ft_export(char **arg, t_mini mini)
 		update_env(mini.envp, name, value);
 		i++;
 	}
-	mini.exit_status = 0;
+	g_global.exit_status = 0;
 }

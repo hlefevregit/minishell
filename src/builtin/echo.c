@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugolefevre <hugolefevre@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:45:33 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/07/30 15:14:27 by hugolefevre      ###   ########.fr       */
+/*   Updated: 2024/08/01 17:47:51 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void ft_echo(char **arg, t_mini mini)
 	{
         if (i > 1 || (i > 2 && newline == 0))
             putchar(' ');
-        print_with_variables(arg[i], mini.envp, mini.exit_status);
+        print_with_variables(arg[i], mini.envp, g_global.exit_status);
         i++;
     }
     if (newline)

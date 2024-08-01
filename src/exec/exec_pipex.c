@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/01 15:23:33 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/01 17:48:12 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_execute(char *arg, t_mini mini)
 	if (ft_execve(cmd, mini) == -1)
 	{
 		perror("command not found");
-		mini.exit_status = EXIT_FAILURE;
+		g_global.exit_status = EXIT_FAILURE;
 	}
 	free_double(cmd);
 	return ;
