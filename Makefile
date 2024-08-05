@@ -6,14 +6,14 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/08/01 17:23:34 by hulefevr         ###   ########.fr        #
+#    Updated: 2024/08/05 15:58:54 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compilation variables
 CC		:= gcc
 FLAGS	:= -Lvendor/readline/lib -lreadline -ltinfo -lncurses -g 
-CFLAGS	:= -Werror -Wextra -Wall -g
+CFLAGS	:= -Werror -Wextra -Wall -fsanitize=address -g
 
 # Name of the final executable
 NAME	:= minishell
@@ -22,7 +22,6 @@ SRC		:= 	./src/minishell.c \
 			./src/utils/free_double.c \
 			./src/utils/find_in_env.c \
 			./src/lexer/lexer.c \
-			./src/parse/parser.c \
 			./src/exec/exec_pipex.c \
 			./src/exec/heredoc.c \
 			./src/builtin/cd.c \

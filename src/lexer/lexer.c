@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/01 14:13:11 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:49:48 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ t_mini	isolate_cmd(t_mini mini)
 	int	nb_cmd;
 
 	nb_cmd = get_nb_cmd(mini);
-	// printf("nb_cmd = %i\n", nb_cmd);
 	mini.isolate_cmd = (char **)malloc(sizeof(char *) * (nb_cmd));
 	i = 0;
 	j = 0;
@@ -118,7 +117,6 @@ t_mini	isolate_cmd(t_mini mini)
 			j++;
 		}
 		j++;
-		// printf("mini.isolate_cmd[%i] = %s\n", i, mini.isolate_cmd[i]);
 		i++;
 	}
 	return (mini);
@@ -165,5 +163,5 @@ void	get_lex_of_cmd(t_mini mini)
 	mini = get_token_type(mini);
 	search_for_args(mini);	
 	mini = isolate_cmd(mini);
-	parse_cmd(mini);
+	ft_exec_pipex(mini);
 }

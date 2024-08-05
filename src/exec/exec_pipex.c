@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/01 17:48:12 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/05 15:46:45 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@ int	ft_execve(char **cmd, t_mini mini)
 		ft_pwd(mini);
 	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
 		ft_env(cmd, mini);
-	else
+	else if (execve(cmd[0], cmd, mini.envp) == -1)
+	{
+		perror("execve");
+		printf("command not found\n");
 		return (-1);
+	}
 	return (0);
 }
 
@@ -44,14 +48,13 @@ void	ft_execute(char *arg, t_mini mini)
 {
 	char	**cmd;
 
+	if (!arg[0])
+		return ;
 	cmd = ft_split(arg, ' ');
 	if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
 		exit(EXIT_SUCCESS);
 	if (ft_execve(cmd, mini) == -1)
-	{
-		perror("command not found");
-		g_global.exit_status = EXIT_FAILURE;
-	}
+		g_global.exit_status = 127;
 	free_double(cmd);
 	return ;
 }
@@ -108,10 +111,10 @@ void	ft_exec_pipex(t_mini mini)
 			mini.outfile = open(mini.token[i].value, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		else if (mini.token[i].type == T_OD_FILE)
 			mini.outfile = open(mini.token[i].value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		printf("mini.token[%i].type = %i\n", i, mini.token[i].type);
+		// printf("mini.token[%i].type = %i\n", i, mini.token[i].type);
 		i++;
 	}
-	printf("infile = %i\nOutfile = %i\n", mini.infile, mini.outfile);
+	// printf("infile = %i\nOutfile = %i\n", mini.infile, mini.outfile);
 	while (i < get_nb_cmd(mini) - 2)
 		ft_child_proc(mini.isolate_cmd[i++], mini);
 	ft_parent(mini);
