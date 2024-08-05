@@ -6,14 +6,14 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/08/05 15:58:54 by hulefevr         ###   ########.fr        #
+#    Updated: 2024/08/05 16:08:18 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compilation variables
 CC		:= gcc
 FLAGS	:= -Lvendor/readline/lib -lreadline -ltinfo -lncurses -g 
-CFLAGS	:= -Werror -Wextra -Wall -fsanitize=address -g
+CFLAGS	:= -Werror -Wextra -Wall -g
 
 # Name of the final executable
 NAME	:= minishell

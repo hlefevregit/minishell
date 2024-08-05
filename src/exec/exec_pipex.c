@@ -6,20 +6,11 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/05 15:46:45 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:59:25 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	find_path_cmd(char *cmd)
-{
-	if (strncmp(cmd, "unset", 5) != 0 && ft_strncmp(cmd, "echo", 4) != 0)
-		if (ft_strncmp(cmd, "cd", 2) != 0 && ft_strncmp(cmd, "export", 6) != 0)
-			if (ft_strncmp(cmd, "pwd", 3) != 0 && ft_strncmp(cmd, "env", 3) != 0)
-				return (0);
-	return (1);
-}
 
 int	ft_execve(char **cmd, t_mini mini)
 {
@@ -114,7 +105,6 @@ void	ft_exec_pipex(t_mini mini)
 		// printf("mini.token[%i].type = %i\n", i, mini.token[i].type);
 		i++;
 	}
-	// printf("infile = %i\nOutfile = %i\n", mini.infile, mini.outfile);
 	while (i < get_nb_cmd(mini) - 2)
 		ft_child_proc(mini.isolate_cmd[i++], mini);
 	ft_parent(mini);

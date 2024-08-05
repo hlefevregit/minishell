@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:15:48 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/01 15:38:48 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:47:59 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ char	*find_in_env(char *cmd, char **envp)
 
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], cmd, ft_strlen(cmd)) == 0 && envp[i][ft_strlen(cmd)] == '=')
+		if (ft_strncmp(envp[i], cmd, ft_strlen(cmd)) == 0
+			&& envp[i][ft_strlen(cmd)] == '=')
 			return (envp[i] + ft_strlen(cmd) + 1);
 		i++;
 	}
