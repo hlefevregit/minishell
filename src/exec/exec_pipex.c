@@ -6,49 +6,11 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/05 17:59:25 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:51:24 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	ft_execve(char **cmd, t_mini mini)
-{
-	if (ft_strncmp(cmd[0], "echo\0", 5) == 0)
-		ft_echo(cmd, mini);
-	else if (ft_strncmp(cmd[0], "unset\0", 6) == 0)
-		ft_unset(cmd, mini);
-	else if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
-		ft_cd(cmd, mini);
-	else if (ft_strncmp(cmd[0], "export\0", 7) == 0)
-		ft_export(cmd, mini);
-	else if (ft_strncmp(cmd[0], "pwd\0", 4) == 0)
-		ft_pwd(mini);
-	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
-		ft_env(cmd, mini);
-	else if (execve(cmd[0], cmd, mini.envp) == -1)
-	{
-		perror("execve");
-		printf("command not found\n");
-		return (-1);
-	}
-	return (0);
-}
-
-void	ft_execute(char *arg, t_mini mini)
-{
-	char	**cmd;
-
-	if (!arg[0])
-		return ;
-	cmd = ft_split(arg, ' ');
-	if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
-		exit(EXIT_SUCCESS);
-	if (ft_execve(cmd, mini) == -1)
-		g_global.exit_status = 127;
-	free_double(cmd);
-	return ;
-}
 
 void	ft_child_proc(char *av, t_mini mini)
 {
@@ -79,8 +41,9 @@ void	ft_child_proc(char *av, t_mini mini)
 
 void	ft_parent(t_mini mini)
 {
-	int	saved_stdout;
+	int		saved_stdout;
 
+	
 	saved_stdout = dup(STDOUT_FILENO);
 	dup2(mini.outfile, STDOUT_FILENO);
 	ft_execute(mini.isolate_cmd[get_nb_cmd(mini) - 1], mini);

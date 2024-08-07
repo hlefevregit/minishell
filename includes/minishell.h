@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/01 18:00:05 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:51:40 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <stdbool.h>
 # include <dirent.h>
 # include <curses.h>
+# include <sys/ioctl.h>
+# include <sys/ioctl.h>
 
 // # ifndef READLINE_LIBRARY 
 // #  define READLINE_LIBRARY 
@@ -84,8 +86,6 @@ typedef struct s_mini
     char    *cmd;
     char    **cmd_split;
 	char	**isolate_cmd;
-	char	*prev_dir;
-	int		num_of_pipe;
 	int		infile;
 	int		outfile;
     t_token *token;
@@ -114,13 +114,14 @@ int		ft_is_cmd(char *cmd);
 /**************** PARSER ******************/
 
 void	parse_cmd(t_mini mini);
-t_mini	isolate_cmd(t_mini mini);
+char	**isolate_cmd(t_mini mini);
 int		get_nb_cmd(t_mini mini);
 
 /*************** EXEC ****************/
 
 void	ft_exec_pipex(t_mini mini);
 void	here_doc(char *limiter);
+void	ft_execute(char *arg, t_mini mini);
 
 /**************** BUILT-IN ***********/
 

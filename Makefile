@@ -6,7 +6,7 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/08/05 16:08:18 by hulefevr         ###   ########.fr        #
+#    Updated: 2024/08/07 14:52:00 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC		:= 	./src/minishell.c \
 			./src/utils/find_in_env.c \
 			./src/lexer/lexer.c \
 			./src/exec/exec_pipex.c \
+			./src/exec/ft_execute.c \
 			./src/exec/heredoc.c \
 			./src/builtin/cd.c \
 			./src/builtin/echo.c \

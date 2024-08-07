@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/05 15:49:48 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:55:14 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ void	search_for_args(t_mini mini)
 			mini.token[i + 1].type = T_OR_FILE;
 		else if ( mini.token[i].type == T_DGREAT && mini.token[i + 1].type == T_ERR)
 			mini.token[i + 1].type = T_OD_FILE;
-		else if ((mini.token[i].type == T_PIPE || mini.token[i].type == T_AND || mini.token[i].type == T_OR) && mini.token[i + 1].type == T_ERR)
-			perror("Error ");
 		// printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
 	}
 }
@@ -82,44 +80,39 @@ int	get_nb_cmd(t_mini mini)
 
 	i = 0;
 	ret = 1;
-	mini.num_of_pipe = 0;
-	while (mini.token[i].type != T_OR && mini.token[i].type != T_AND && mini.cmd_split[i])
+	while (mini.cmd_split[i])
 	{
 		if (mini.token[i].type == T_PIPE)
-		{
 			ret++;
-			mini.num_of_pipe++;
-		}
 		i++;
 	}
 	return (ret);
 }
 
-t_mini	isolate_cmd(t_mini mini)
+char	**isolate_cmd(t_mini mini)
 {
 	int	i;
 	int j;
-	int	nb_cmd;
+	char **ret;
 
-	nb_cmd = get_nb_cmd(mini);
-	mini.isolate_cmd = (char **)malloc(sizeof(char *) * (nb_cmd));
+	ret = (char **)malloc(sizeof(char *) * (get_nb_cmd(mini)));
 	i = 0;
 	j = 0;
-	while (i < nb_cmd)
+	while (i < get_nb_cmd(mini))
 	{
-		mini.isolate_cmd[i] = "";
+		ret[i] = "";
 		while (mini.token[j].type != T_PIPE && mini.cmd_split[j] && mini.token[j].type != T_OR && mini.token[j].type != T_AND)
 		{
 			if (mini.token[j].type != T_I_FILE && mini.token[j].type != T_OD_FILE && mini.token[j].type != T_HEREDOC
 				&& mini.token[j].type != T_OR_FILE && mini.token[j].type != T_DLESS && mini.token[j].type != T_DGREAT
 				&& mini.token[j].type != T_RLESS && mini.token[j].type != T_RGREAT)
-				mini.isolate_cmd[i] = ft_strjoin_with_space(mini.isolate_cmd[i], mini.token[j].value);
+				ret[i] = ft_strjoin_with_space(ret[i], mini.token[j].value);
 			j++;
 		}
 		j++;
 		i++;
 	}
-	return (mini);
+	return (ret);
 }
 
 t_mini	get_token_type(t_mini mini)
@@ -162,6 +155,8 @@ void	get_lex_of_cmd(t_mini mini)
 		mini.token[i].value = mini.cmd_split[i];
 	mini = get_token_type(mini);
 	search_for_args(mini);	
-	mini = isolate_cmd(mini);
+	mini.isolate_cmd = isolate_cmd(mini);
+	// for (int j = 0; j < get_nb_cmd(mini); j++)
+	// 	printf("mini.isolate_cmd[%i] = %c\n", j, mini.isolate_cmd[j]);
 	ft_exec_pipex(mini);
 }

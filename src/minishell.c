@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/01 18:00:18 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/07 13:03:23 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@ void	handle(int sig)
 {
 	if (sig == SIGQUIT)
 	{
-		printf("\b\b  \b\b");
 		g_global.exit_status = 131;
 		printf("Quit: 3\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
 	else if (sig == SIGINT)
 	{
@@ -33,6 +35,13 @@ void	handle(int sig)
 	}
 }
 
+void	handle_ctrl_d(void)
+{
+	printf(RED"Exit\n"RESET);
+	rl_clear_history();
+	exit(0);
+}
+
 void	init_prompt(char **envp)
 {
 	t_mini mini;
@@ -41,18 +50,13 @@ void	init_prompt(char **envp)
 	g_global.exit_status = 0;
 	while (1)
 	{
-		signal(SIGQUIT, handle);
-		signal(SIGINT, handle);
 		mini.cmd = readline(GREEN"MINISHELL DRUCKER A LA RESCOUSSE > "RESET);
-		if (ft_strncmp(mini.cmd, "exit", 4) == 0)
-		{
-			clear_history();
-			exit(EXIT_SUCCESS);
-		}
 		if (!mini.cmd)
+			handle_ctrl_d();
+		if (ft_strcmp(mini.cmd, "exit") == 0)
 		{
-			printf(RED"EXIT\n"RESET);
-			break ;
+			rl_clear_history();
+			exit(EXIT_SUCCESS);
 		}
 		add_history(mini.cmd);
 		get_lex_of_cmd(mini);
@@ -65,6 +69,8 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 
+	signal(SIGQUIT, handle);
+	signal(SIGINT, handle);
 	if (ac == 1)
 		init_prompt(envp);
 	return (0);
