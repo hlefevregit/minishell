@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 14:51:40 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:17:48 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 # define STDIN  STDIN_FILENO
 # define STDOUT STDOUT_FILENO
 # define STDERR STDERR_FILENO
+
+# define S_QUOTE 39
+# define D_QUOTE 34
 
 # define _XOPEN_SOURCE 700
 # define _GNU_SOURCE
@@ -86,6 +89,7 @@ typedef struct s_mini
     char    *cmd;
     char    **cmd_split;
 	char	**isolate_cmd;
+	int		size_cmd;
 	int		infile;
 	int		outfile;
     t_token *token;
@@ -110,6 +114,8 @@ void	get_lex_of_cmd(t_mini mini);
 t_mini	get_token_type(t_mini mini);
 void	search_for_args(t_mini mini);
 int		ft_is_cmd(char *cmd);
+int		cntquotes(char *cmd);
+char	**ft_split_cmd(char *s, t_mini mini);
 
 /**************** PARSER ******************/
 

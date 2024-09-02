@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 13:03:23 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/08/27 15:50:14 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ void	handle_ctrl_d(void)
 	exit(0);
 }
 
+void	free_struct(t_mini mini)
+{
+	free(mini.cmd);
+	mini.infile = STDIN_FILENO;
+	mini.outfile = STDOUT;
+	return ;
+}
+
 void	init_prompt(char **envp)
 {
 	t_mini mini;
@@ -60,7 +68,7 @@ void	init_prompt(char **envp)
 		}
 		add_history(mini.cmd);
 		get_lex_of_cmd(mini);
-		free(mini.cmd);
+		free_struct(mini);
 	}
 }
 

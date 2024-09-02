@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:50:59 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 14:51:26 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:30:09 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,23 @@
 int	try_execve(char **cmd, t_mini mini)
 {
 	pid_t	pid;
+	char	*path;
 
 	pid = fork();
+	path = find_path(cmd[0], mini.envp);
 	if (pid <= 0)
 	{
-		if (execve(cmd[0], cmd, mini.envp) == -1)
+		if (execve(path, cmd, mini.envp) == -1)
 		{
-			printf("minishell: command not found: %s\n", cmd[0]);
+			ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
+			ft_putendl_fd(cmd[0], 2);
 			g_global.exit_status = 127;
 			exit(EXIT_FAILURE);
 		}
 	}
 	else
 		waitpid(pid, NULL, 0);
+	free(path);
 	return (1);
 	
 }
@@ -66,6 +70,6 @@ void	ft_execute(char *arg, t_mini mini)
 		exit(EXIT_SUCCESS);
 	if (ft_execve(cmd, mini) == -1)
 		printf(RED"->"RESET);
-	free_double(cmd);
+	// free_double(cmd);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 12:55:14 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:28:24 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	search_for_args(t_mini mini)
 	int	i;
 
 	i = -1;
-	// printf("\n");
 	while (++i < cntwrd(mini.cmd, 32))
 	{
 		if (mini.token[i].type == T_DLESS && mini.token[i + 1].type == T_ERR)
@@ -28,7 +27,6 @@ void	search_for_args(t_mini mini)
 			while (mini.token[i].type != T_D_QUOTE && mini.token[i].value != NULL)
 			{
 				mini.token[i].type = T_ARG;
-				// printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
 				i++;
 			}
 			i++;
@@ -39,7 +37,6 @@ void	search_for_args(t_mini mini)
 			while (mini.token[i].type != T_S_QUOTE && !mini.token[i].value)
 			{
 				mini.token[i].type = T_ARG;
-				// printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
 				i++;
 			}
 			i++;
@@ -50,7 +47,6 @@ void	search_for_args(t_mini mini)
 			mini.token[i + 1].type = T_OR_FILE;
 		else if ( mini.token[i].type == T_DGREAT && mini.token[i + 1].type == T_ERR)
 			mini.token[i + 1].type = T_OD_FILE;
-		// printf("token[%i].type = %d value = %s\n", i, (int)mini.token[i].type, mini.token[i].value);
 	}
 }
 
@@ -89,32 +85,6 @@ int	get_nb_cmd(t_mini mini)
 	return (ret);
 }
 
-char	**isolate_cmd(t_mini mini)
-{
-	int	i;
-	int j;
-	char **ret;
-
-	ret = (char **)malloc(sizeof(char *) * (get_nb_cmd(mini)));
-	i = 0;
-	j = 0;
-	while (i < get_nb_cmd(mini))
-	{
-		ret[i] = "";
-		while (mini.token[j].type != T_PIPE && mini.cmd_split[j] && mini.token[j].type != T_OR && mini.token[j].type != T_AND)
-		{
-			if (mini.token[j].type != T_I_FILE && mini.token[j].type != T_OD_FILE && mini.token[j].type != T_HEREDOC
-				&& mini.token[j].type != T_OR_FILE && mini.token[j].type != T_DLESS && mini.token[j].type != T_DGREAT
-				&& mini.token[j].type != T_RLESS && mini.token[j].type != T_RGREAT)
-				ret[i] = ft_strjoin_with_space(ret[i], mini.token[j].value);
-			j++;
-		}
-		j++;
-		i++;
-	}
-	return (ret);
-}
-
 t_mini	get_token_type(t_mini mini)
 {
 	int	i;
@@ -144,19 +114,52 @@ t_mini	get_token_type(t_mini mini)
 	return (mini);
 }
 
+char	**isolate_cmd(t_mini mini)
+{
+	int	i;
+	int j;
+	char **ret;
+
+	ret = (char **)ft_calloc(sizeof(char *), (get_nb_cmd(mini)));
+	i = 0;
+	j = 0;
+	while (i < get_nb_cmd(mini))
+	{
+		ret[i] = "";
+		while (mini.token[j].type != T_PIPE && j < cntquotes(mini.cmd) + cntwrd(mini.cmd, 32))
+		{
+			// printf("acutal mini.token[%i].type = %d and mini.token[%i].value = %s\n", j, mini.token[j].type, j, mini.token[j].value);
+			if (mini.token[j].type == T_ARG || mini.token[j].type == T_CMD
+				|| mini.token[j].type == T_S_QUOTE || mini.token[j].type == T_D_QUOTE
+				|| mini.token[j].type == T_ERR)
+				ret[i] = ft_strjoin_with_space(ret[i], mini.token[j].value);
+			j++;
+		}
+		j++;
+		i++;
+	}
+	return (ret);
+}
+
+
+
 void	get_lex_of_cmd(t_mini mini)
 {
 	int		i;
 
-	mini.cmd_split = ft_split(mini.cmd, ' ');
-	mini.token = malloc(sizeof(t_token) * cntwrd(mini.cmd, 32));
+	mini.cmd_split = ft_split_cmd(mini.cmd, mini);
+	mini.token = malloc(sizeof(t_token) * (cntwrd(mini.cmd, 32) + cntquotes(mini.cmd) + 2));
 	i = -1;
-	while (++i < cntwrd(mini.cmd, 32))
+	// printf("num of token = %i\n", cntwrd(mini.cmd, 32) + cntquotes(mini.cmd));
+	while (++i < (cntwrd(mini.cmd, 32) + cntquotes(mini.cmd)))
+	{
 		mini.token[i].value = mini.cmd_split[i];
+		// printf("token[%i] = %s\n", i, mini.token[i].value);
+	}
 	mini = get_token_type(mini);
-	search_for_args(mini);	
+	search_for_args(mini);
 	mini.isolate_cmd = isolate_cmd(mini);
 	// for (int j = 0; j < get_nb_cmd(mini); j++)
-	// 	printf("mini.isolate_cmd[%i] = %c\n", j, mini.isolate_cmd[j]);
+	// 	printf("mini.isolate_cmd[%i] = %s\n", j, mini.isolate_cmd[j]);
 	ft_exec_pipex(mini);
 }

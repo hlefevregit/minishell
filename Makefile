@@ -6,7 +6,7 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/08/07 14:52:00 by hulefevr         ###   ########.fr        #
+#    Updated: 2024/09/02 13:37:28 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC		:= 	./src/minishell.c \
 			./src/utils/free_double.c \
 			./src/utils/find_in_env.c \
 			./src/lexer/lexer.c \
+			./src/lexer/ft_split_cmd.c \
 			./src/exec/exec_pipex.c \
 			./src/exec/ft_execute.c \
 			./src/exec/heredoc.c \
@@ -232,7 +233,7 @@ fclean:
 	@printf $(GREEN)"\r\033[KForce cleaned 🗑"$(RESET)
 	# @vlc includes/videoplayback.mp4
 	# @open includes/videoplayback.mp4
-	@clear
+	# @clear
 
 # Clean readline
 fclean_readline:
