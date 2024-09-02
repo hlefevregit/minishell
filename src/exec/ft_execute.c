@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:50:59 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/02 16:11:45 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:24:31 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,12 @@ void	ft_execute(char *arg, t_mini mini)
 	if (!arg[0])
 		return ;
 	cmd = ft_split(arg, ' ');
-	// for (int j = 0; j < cntwrd(arg, 32); j++)
-	// 	printf("split[%i] = %s\n", j, cmd[j]);
+	for (int j = 0; j < cntwrd(arg, 32); j++)
+		printf("cmd[%i] = %s\n", j, cmd[j]);
 	if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
 		exit(EXIT_SUCCESS);
 	if (ft_execve(cmd, mini) == -1)
 		printf(RED"->"RESET);
+	free_double(cmd);
 	return ;
 }

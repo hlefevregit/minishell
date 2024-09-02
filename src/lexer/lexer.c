@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/02 15:28:24 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:36:16 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	**isolate_cmd(t_mini mini)
 	while (i < get_nb_cmd(mini))
 	{
 		ret[i] = "";
-		while (mini.token[j].type != T_PIPE && j < cntquotes(mini.cmd) + cntwrd(mini.cmd, 32))
+		while (mini.token[j].type != T_PIPE && j < mini.size_cmd)
 		{
 			// printf("acutal mini.token[%i].type = %d and mini.token[%i].value = %s\n", j, mini.token[j].type, j, mini.token[j].value);
 			if (mini.token[j].type == T_ARG || mini.token[j].type == T_CMD
@@ -140,8 +140,6 @@ char	**isolate_cmd(t_mini mini)
 	}
 	return (ret);
 }
-
-
 
 void	get_lex_of_cmd(t_mini mini)
 {
@@ -159,6 +157,12 @@ void	get_lex_of_cmd(t_mini mini)
 	mini = get_token_type(mini);
 	search_for_args(mini);
 	mini.isolate_cmd = isolate_cmd(mini);
+	if (mini.token)
+		free(mini.token);
+	for (int j = 0; j < mini.size_cmd; j++)
+		printf("mini.cmd_split[%i] = %s\n", j, mini.cmd_split[j]);
+	if (mini.cmd_split)
+		free_double(mini.cmd_split);
 	// for (int j = 0; j < get_nb_cmd(mini); j++)
 	// 	printf("mini.isolate_cmd[%i] = %s\n", j, mini.isolate_cmd[j]);
 	ft_exec_pipex(mini);

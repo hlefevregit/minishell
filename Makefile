@@ -6,12 +6,12 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/09/02 13:37:28 by hulefevr         ###   ########.fr        #
+#    Updated: 2024/09/02 18:12:20 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compilation variables
-CC		:= gcc
+CC		:= cc
 FLAGS	:= -Lvendor/readline/lib -lreadline -ltinfo -lncurses -g 
 CFLAGS	:= -Werror -Wextra -Wall -g
 

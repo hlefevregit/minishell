@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/02 15:17:48 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/02 17:48:46 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ extern t_global	g_global;
 /***************** UTILS ********************/
 
 void	free_double(char **str);
+int		count_array(char **arr);
 char	*find_in_env(char *cmd, char **envp);
 char	*find_path(char *cmd, char **envp);
 

@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:43:26 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/04/22 15:40:51 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/02 18:09:13 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	char	*s;
+	void	*ptr;
 
-	s = malloc(size * count);
-	if (!s)
-		return (0);
-	ft_memset(s, 0, count * size);
-	return (s);
+	ptr = (void*)malloc(count * size);
+	if (!ptr)
+		return (NULL);
+	ft_bzero(ptr, count);
+	return (ptr);
 }
