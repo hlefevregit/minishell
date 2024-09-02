@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 14:51:24 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:07:53 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	ft_parent(t_mini mini)
 
 	
 	saved_stdout = dup(STDOUT_FILENO);
-	dup2(mini.outfile, STDOUT_FILENO);
+	if (mini.outfile != STDOUT)
+		dup2(mini.outfile, STDOUT_FILENO);
 	ft_execute(mini.isolate_cmd[get_nb_cmd(mini) - 1], mini);
 	dup2(saved_stdout, STDOUT_FILENO);
 }

@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/27 15:50:14 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/02 16:04:20 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	init_prompt(char **envp)
 		if (ft_strcmp(mini.cmd, "exit") == 0)
 		{
 			rl_clear_history();
-			exit(EXIT_SUCCESS);
+			exit(0);
 		}
 		add_history(mini.cmd);
 		get_lex_of_cmd(mini);
