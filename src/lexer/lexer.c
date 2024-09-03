@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/02 18:36:16 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:22:49 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,12 @@ void	get_lex_of_cmd(t_mini mini)
 	mini.cmd_split = ft_split_cmd(mini.cmd, mini);
 	mini.token = malloc(sizeof(t_token) * (cntwrd(mini.cmd, 32) + cntquotes(mini.cmd) + 2));
 	i = -1;
-	// printf("num of token = %i\n", cntwrd(mini.cmd, 32) + cntquotes(mini.cmd));
-	while (++i < (cntwrd(mini.cmd, 32) + cntquotes(mini.cmd)))
+	mini.size_cmd = cntwrd(mini.cmd, 32) + cntquotes(mini.cmd);
+	printf("num of token = %i\n", cntwrd(mini.cmd, 32) + cntquotes(mini.cmd));
+	while (++i < mini.size_cmd)
 	{
 		mini.token[i].value = mini.cmd_split[i];
-		// printf("token[%i] = %s\n", i, mini.token[i].value);
+		printf("token[%i] = %s\n", i, mini.token[i].value);
 	}
 	mini = get_token_type(mini);
 	search_for_args(mini);
@@ -161,9 +162,7 @@ void	get_lex_of_cmd(t_mini mini)
 		free(mini.token);
 	for (int j = 0; j < mini.size_cmd; j++)
 		printf("mini.cmd_split[%i] = %s\n", j, mini.cmd_split[j]);
-	if (mini.cmd_split)
-		free_double(mini.cmd_split);
-	// for (int j = 0; j < get_nb_cmd(mini); j++)
-	// 	printf("mini.isolate_cmd[%i] = %s\n", j, mini.isolate_cmd[j]);
+	for (int j = 0; j < get_nb_cmd(mini); j++)
+		printf("mini.isolate_cmd[%i] = %s\n", j, mini.isolate_cmd[j]);
 	ft_exec_pipex(mini);
 }

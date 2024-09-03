@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:10:23 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/02 17:48:35 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/03 16:14:57 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,15 @@ void	free_double(char **str)
 	if (!str)
 		return ;
 	i = -1;
-	while (str[++i])
-		free(str[i]);
+	if (count_array(str) != 1)
+	{
+		while (str[++i])
+		{
+			if (str[i])
+				free(str[i]);
+			str[i] = NULL;
+		}
+	}
 	free(str);
 }
 
