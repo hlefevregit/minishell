@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/03 16:22:49 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:52:26 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	get_nb_cmd(t_mini mini)
 
 	i = 0;
 	ret = 1;
-	while (mini.cmd_split[i])
+	while (mini.token[i].value != NULL)
 	{
 		if (mini.token[i].type == T_PIPE)
 			ret++;
@@ -114,55 +114,66 @@ t_mini	get_token_type(t_mini mini)
 	return (mini);
 }
 
-char	**isolate_cmd(t_mini mini)
+char	**isolate_cmd1(t_mini mini)
 {
-	int	i;
-	int j;
-	char **ret;
+	int		i;
+	int		j;
+	char	**ret;
+	char	*tmp;
 
-	ret = (char **)ft_calloc(sizeof(char *), (get_nb_cmd(mini)));
+	ret = (char **)ft_calloc(get_nb_cmd(mini) + 1, sizeof(char *));
+	if (!ret)
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (i < get_nb_cmd(mini))
 	{
-		ret[i] = "";
-		while (mini.token[j].type != T_PIPE && j < mini.size_cmd)
+		ret[i] = ft_strdup("");
+		if (!ret[i])
+			return (NULL);
+		while (j < mini.size_cmd && mini.token[j].type != T_PIPE)
 		{
-			// printf("acutal mini.token[%i].type = %d and mini.token[%i].value = %s\n", j, mini.token[j].type, j, mini.token[j].value);
 			if (mini.token[j].type == T_ARG || mini.token[j].type == T_CMD
 				|| mini.token[j].type == T_S_QUOTE || mini.token[j].type == T_D_QUOTE
 				|| mini.token[j].type == T_ERR)
-				ret[i] = ft_strjoin_with_space(ret[i], mini.token[j].value);
+			{
+				tmp = ft_strjoin_with_space(ret[i], mini.token[j].value);
+				free(ret[i]);
+				ret[i] = tmp;
+				printf("ret[%d] = %s\n", i, ret[i]);
+			}
 			j++;
 		}
 		j++;
 		i++;
 	}
+	ret[i] = NULL;
 	return (ret);
 }
 
-void	get_lex_of_cmd(t_mini mini)
+int	get_lex_of_cmd(t_mini mini)
 {
 	int		i;
 
 	mini.cmd_split = ft_split_cmd(mini.cmd, mini);
+	if (!mini.cmd_split)
+		return (-1);
+	for (i = 0; mini.cmd_split[i]; i++)
+	{
+		printf("mini.cmd_split[%d] = %s\n", i, mini.cmd_split[i]);
+	}
 	mini.token = malloc(sizeof(t_token) * (cntwrd(mini.cmd, 32) + cntquotes(mini.cmd) + 2));
 	i = -1;
 	mini.size_cmd = cntwrd(mini.cmd, 32) + cntquotes(mini.cmd);
-	printf("num of token = %i\n", cntwrd(mini.cmd, 32) + cntquotes(mini.cmd));
 	while (++i < mini.size_cmd)
-	{
 		mini.token[i].value = mini.cmd_split[i];
-		printf("token[%i] = %s\n", i, mini.token[i].value);
-	}
 	mini = get_token_type(mini);
 	search_for_args(mini);
-	mini.isolate_cmd = isolate_cmd(mini);
+	mini.isolate_cmd = isolate_cmd1(mini);
 	if (mini.token)
 		free(mini.token);
-	for (int j = 0; j < mini.size_cmd; j++)
-		printf("mini.cmd_split[%i] = %s\n", j, mini.cmd_split[j]);
-	for (int j = 0; j < get_nb_cmd(mini); j++)
-		printf("mini.isolate_cmd[%i] = %s\n", j, mini.isolate_cmd[j]);
-	ft_exec_pipex(mini);
+	if (ft_exec_pipex(mini))
+		return (-1);
+	free_struct(mini);
+	return (0);
 }

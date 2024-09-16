@@ -1,0 +1,9 @@
+includes
+infile
+install_readline.sh
+lib
+Makefile
+minishell
+outfile
+src
+vendor

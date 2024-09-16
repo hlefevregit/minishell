@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/02 17:48:46 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:42:15 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # include <curses.h>
 # include <sys/ioctl.h>
 # include <sys/ioctl.h>
-
 // # ifndef READLINE_LIBRARY 
 // #  define READLINE_LIBRARY 
 // # endif
@@ -93,6 +92,7 @@ typedef struct s_mini
 	int		infile;
 	int		outfile;
     t_token *token;
+	int		num_tokens;
 }             t_mini;
 
 typedef struct s_global
@@ -111,7 +111,7 @@ char	*find_path(char *cmd, char **envp);
 
 /***************** LEXER *******************/
 
-void	get_lex_of_cmd(t_mini mini);
+int		get_lex_of_cmd(t_mini mini);
 t_mini	get_token_type(t_mini mini);
 void	search_for_args(t_mini mini);
 int		ft_is_cmd(char *cmd);
@@ -126,7 +126,7 @@ int		get_nb_cmd(t_mini mini);
 
 /*************** EXEC ****************/
 
-void	ft_exec_pipex(t_mini mini);
+int		ft_exec_pipex(t_mini mini);
 void	here_doc(char *limiter);
 void	ft_execute(char *arg, t_mini mini);
 
@@ -138,5 +138,8 @@ void	ft_pwd(t_mini mini);
 void	ft_unset(char **av, t_mini mini);
 void	ft_export(char **av, t_mini mini);
 void	ft_env(char **argv, t_mini mini);
+
+void	free_struct(t_mini mini);
+int		count_array(char **arr);
 
 #endif

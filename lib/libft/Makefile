@@ -6,7 +6,7 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 13:00:21 by hulefevr          #+#    #+#              #
-#    Updated: 2024/06/06 13:18:33 by hulefevr         ###   ########.fr        #
+#    Updated: 2024/09/16 16:03:17 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,8 @@ SRCS	:=	ft_atoi.c \
 			ft_tolower.c \
 			ft_toupper.c \
 			ft_strcmp.c \
+			ft_strncpy.c \
+			ft_isspace.c \
 
 OBJS	:= $(SRCS:.c=.o)
 

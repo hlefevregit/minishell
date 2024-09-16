@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:50:59 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/03 16:15:16 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:53:11 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	ft_execve(char **cmd, t_mini mini)
 void	ft_execute(char *arg, t_mini mini)
 {
 	char	**cmd;
+	int		i;
 
 	if (!arg[0])
 		return ;
@@ -81,6 +82,14 @@ void	ft_execute(char *arg, t_mini mini)
 		printf(RED"->"RESET);
 		return ;
 	}
-	free_double(cmd);
+	i = -1;
+	while (cmd[++i])
+	{
+		if (cmd[i])
+		{
+			free(cmd[i]);
+			printf("free cmd[%d]\n", i);
+		}
+	}
 	return ;
 }

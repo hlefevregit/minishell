@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 12:54:34 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/02 18:34:20 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:14:17 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,92 +32,92 @@ int	cntquotes(char *cmd)
 	return (d_q + s_q);
 }
 
-char	*quote_dup(char c)
-{
-	char	*ret;
+// int	ft_isspace(int c)
+// {
+// 	return (c == ' ' || c == '\t' || c == '\n'
+// 		|| c == '\v' || c == '\f' || c == '\r');
+// }
 
-	ret = malloc(sizeof(char) * (2));
-	if (c == S_QUOTE)
-		ret[0] = '\'';
-	else if (c == D_QUOTE)
-		ret[0] = '"';
-	ret[1] = '\0';
-	return (ret);
+// char	*ft_strncpy(char *dest, char *src, unsigned int n)
+// {
+// 	unsigned int	i;
+
+// 	i = 0;
+// 	while (src[i] != '\0' && i < n)
+// 	{
+// 		dest[i] = src[i];
+// 		i++;
+// 	}
+// 	while (i < n)
+// 	{
+// 		dest[i] = '\0';
+// 		i++;
+// 	}
+// 	return (dest);
+// }
+
+int count_words_with_quotes(char *str)
+{
+    int count = 0;
+    int in_word = 0;
+    
+    while (*str)
+	{
+        if (ft_isspace(*str))
+            in_word = 0;
+        else if (*str == '\'' || *str == '"')
+            count++; // compte chaque quote comme un mot
+        else if (!in_word)
+		{
+            count++;
+            in_word = 1;
+        }
+        str++;
+    }
+    return count;
 }
 
-static int	split_words(char **result, char *s, char c, int word)
+char *copy_word(char **str)
 {
-	int		start_cur;
-	int		end_cur;
-
-	end_cur = 0;
-	start_cur = 0;
-	while (s[end_cur])
+    char *start = *str;
+    while (**str && !ft_isspace(**str) && **str != '\'' && **str != '"')
+        (*str)++;
+    int len = *str - start;
+    char *word = malloc(len + 1);
+    if (word)
 	{
-		if (s[end_cur] == c || s[end_cur] == 0)
-			start_cur = end_cur + 1;
-		if (s[end_cur] != c && (s[end_cur + 1] == c || s[end_cur + 1] == 0))
-		{
-			result[word] = malloc(sizeof(char) * (end_cur - start_cur + 2));
-			if (!result[word])
-			{
-				while (word++)
-					free(result[word]);
-				return (0);
-			}
-			ft_strlcpy(result[word], (s + start_cur), end_cur - start_cur + 2);
-			word++;
-		}
-		if (s[end_cur] == S_QUOTE || s[end_cur] == D_QUOTE)
-		{
-			result[word] = quote_dup(s[end_cur]);
-			word++;
-			end_cur++;
-		}
-		end_cur++;
-	}
-	return (1);
+        ft_strncpy(word, start, len);
+        word[len] = '\0';
+    }
+    return (word);
 }
 
-char	**remove_s_d_quotes(char **s, int size)
+char **ft_split_cmd(char *str, t_mini mini)
 {
-	int	i;
-	int	j;
+    mini.size_cmd = count_words_with_quotes(str);
+    char **result = malloc((mini.size_cmd + 1) * sizeof(char *));
+    int index = 0;
 
-	i = 0;
-	while (i < size)
+    while (*str)
 	{
-		j = 0;
-		if (ft_strlen (s[i]) == 1)
-			i++;
+        if (ft_isspace(*str))
+            str++; // skip espaces
+		else if (*str == '\'' || *str == '"')
+		{
+            // Isoler quote
+            result[index] = malloc(2); // pour le quote + \0
+            result[index][0] = *str;
+            result[index][1] = '\0';
+            index++;
+            str++;
+        }
 		else
 		{
-			while (s[i][j])
-			{	
-				if (s[i][j] == S_QUOTE)
-					s[i][j] = 2;
-				else if (s[i][j] == D_QUOTE)
-					s[i][j] = 2;
-				j++;
-			}
-			i++;
-		}
-	}
-	return (s);
-}
-
-char	**ft_split_cmd(char *s, t_mini mini)
-{
-	char	**ret;
-
-	mini.size_cmd = cntwrd(s, 32) + cntquotes(s);
-	ret = ft_calloc(sizeof(char *), mini.size_cmd);
-	if (!ret)
-		return (NULL);
-	if (!split_words(ret, s, 32, 0))
-		return (NULL);
-	ret = remove_s_d_quotes(ret, mini.size_cmd);
-	// for (int r = 0; r < mini.size_cmd; r++)
-	// 	printf("split[%i] = %s\n", r, ret[r]);
-	return (ret);
+            // Copier le mot jusqu'à un espace ou un quote
+            result[index] = copy_word(&str);
+            index++;
+        }
+    }
+    result[index] = NULL; // fin du tableau
+    return (result);
 }

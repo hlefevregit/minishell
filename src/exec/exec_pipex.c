@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/03 16:06:35 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:30:26 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_parent(t_mini mini)
 	dup2(saved_stdout, STDOUT_FILENO);
 }
 
-void	ft_exec_pipex(t_mini mini)
+int	ft_exec_pipex(t_mini mini)
 {
 	int	i;
 
@@ -73,4 +73,5 @@ void	ft_exec_pipex(t_mini mini)
 		ft_child_proc(mini.isolate_cmd[i++], mini);
 	ft_parent(mini);
 	ft_putstr_fd(GREEN"Done\n"RESET, 0);
+	return (0);
 }

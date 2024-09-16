@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/03 16:26:35 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:43:53 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,62 @@ void	handle_ctrl_d(void)
 
 void	free_struct(t_mini mini)
 {
+	int	i;
 	free(mini.cmd);
 	mini.infile = STDIN_FILENO;
 	mini.outfile = STDOUT;
+	// if (mini.token)
+	// {
+	// 	free(mini.token);
+	// }
+	if (mini.cmd_split)
+	{
+		i = -1;
+		while (mini.cmd_split[++i])
+		{
+			printf("free mini.cmd_split[%d] = %s\n", i, mini.cmd_split[i]);
+			if (mini.cmd_split[i])
+				free(mini.cmd_split[i]);
+		}
+		free(mini.cmd_split);
+		printf("free mini.cmd_split\n");
+	}
+	if (mini.isolate_cmd)
+	{
+		i = -1;
+		printf("len of mini.isolate_cmd = %d\n", count_array(mini.isolate_cmd));
+		while (mini.isolate_cmd[++i])
+		{
+			printf("free mini.isolate_cmd[%d] = %s\n", i, mini.isolate_cmd[i]);
+			if (mini.isolate_cmd[i])
+				free(mini.isolate_cmd[i]);
+		}
+		free(mini.isolate_cmd);
+		printf("free mini.isolate_cmd\n");
+	}
 	return ;
+}
+
+t_mini	init_mini(char **envp)
+{
+	t_mini	mini;
+
+	mini.envp = envp;
+	mini.cmd = NULL;
+	mini.cmd_split = NULL;
+	mini.isolate_cmd = NULL;
+	mini.infile = STDIN_FILENO;
+	mini.outfile = STDOUT;
+	mini.token = NULL;
+	mini.num_tokens = 0;
+	return (mini);
 }
 
 void	init_prompt(char **envp)
 {
 	t_mini mini;
 
-	mini.envp = envp;	
-	g_global.exit_status = 0;
+	mini = init_mini(envp);
 	while (1)
 	{
 		mini.cmd = readline(GREEN"MINISHELL DRUCKER A LA RESCOUSSE > "RESET);
@@ -68,8 +112,9 @@ void	init_prompt(char **envp)
 		}
 		add_history(mini.cmd);
 		if (mini.cmd[0] != 0)
-			get_lex_of_cmd(mini);
-		free_struct(mini);
+			if (get_lex_of_cmd(mini) == -1)
+				break ;
+		// free_struct(mini);
 	}
 }
 
