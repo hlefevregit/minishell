@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:50:59 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/16 17:53:11 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:12:21 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,7 @@ void	ft_execute(char *arg, t_mini mini)
 			printf("free cmd[%d]\n", i);
 		}
 	}
+	if (cmd)
+		free(cmd);
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/16 17:52:26 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:02:39 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ int	get_lex_of_cmd(t_mini mini)
 		mini.token[i].value = mini.cmd_split[i];
 	mini = get_token_type(mini);
 	search_for_args(mini);
+	mini.num_cmd = get_nb_cmd(mini);
 	mini.isolate_cmd = isolate_cmd1(mini);
 	if (mini.token)
 		free(mini.token);

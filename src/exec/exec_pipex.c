@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/16 15:30:26 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:05:35 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	ft_parent(t_mini mini)
 	saved_stdout = dup(STDOUT_FILENO);
 	if (mini.outfile != STDOUT)
 		dup2(mini.outfile, STDOUT_FILENO);
-	ft_execute(mini.isolate_cmd[get_nb_cmd(mini) - 1], mini);
+	printf("mini.num_cmd = %d\n", mini.num_cmd);
+	ft_execute(mini.isolate_cmd[mini.num_cmd - 1], mini);
 	dup2(saved_stdout, STDOUT_FILENO);
 }
 
@@ -69,7 +70,8 @@ int	ft_exec_pipex(t_mini mini)
 		// printf("mini.token[%i].type = %i\n", i, mini.token[i].type);
 		i++;
 	}
-	while (i < get_nb_cmd(mini) - 2)
+	i = 0;
+	while (i < mini.num_cmd - 2)
 		ft_child_proc(mini.isolate_cmd[i++], mini);
 	ft_parent(mini);
 	ft_putstr_fd(GREEN"Done\n"RESET, 0);

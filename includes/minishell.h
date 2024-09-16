@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/16 16:42:15 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:01:11 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_mini
 	int		outfile;
     t_token *token;
 	int		num_tokens;
+	int		num_cmd;
 }             t_mini;
 
 typedef struct s_global
