@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/16 19:02:12 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/23 12:51:09 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,25 @@ void	free_struct(t_mini mini)
 		i = -1;
 		while (mini.cmd_split[++i])
 		{
-			printf("free mini.cmd_split[%d] = %s\n", i, mini.cmd_split[i]);
+			// printf("free mini.cmd_split[%d] = %s\n", i, mini.cmd_split[i]);
 			if (mini.cmd_split[i])
 				free(mini.cmd_split[i]);
 		}
 		free(mini.cmd_split);
-		printf("free mini.cmd_split\n");
+		// printf("free mini.cmd_split\n");
 	}
 	if (mini.isolate_cmd)
 	{
 		i = -1;
-		printf("len of mini.isolate_cmd = %d\n", count_array(mini.isolate_cmd));
+		// printf("len of mini.isolate_cmd = %d\n", count_array(mini.isolate_cmd));
 		while (mini.isolate_cmd[++i])
 		{
-			printf("free mini.isolate_cmd[%d] = %s\n", i, mini.isolate_cmd[i]);
+			// printf("free mini.isolate_cmd[%d] = %s\n", i, mini.isolate_cmd[i]);
 			if (mini.isolate_cmd[i])
 				free(mini.isolate_cmd[i]);
 		}
 		free(mini.isolate_cmd);
-		printf("free mini.isolate_cmd\n");
+		// printf("free mini.isolate_cmd\n");
 	}
 	return ;
 }
@@ -84,6 +84,11 @@ t_mini	init_mini(char **envp)
 {
 	t_mini	mini;
 
+	if (envp[0] == NULL)
+	{
+		printf("Error: envp is NULL\n");
+		exit(1);
+	}
 	mini.envp = envp;
 	mini.cmd = NULL;
 	mini.cmd_split = NULL;

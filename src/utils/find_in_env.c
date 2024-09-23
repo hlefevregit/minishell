@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:15:48 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/16 19:20:44 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/23 10:58:04 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,12 @@ char	*find_path(char *cmd, char **envp)
 		free(part_path);
 		if (access(o_path, F_OK | X_OK) == 0)
 		{
-			i = -1;
-			while (split_path[++i])
-				if (split_path[i])
-					free(split_path[i]);
-			if (split_path)
-				free(split_path);
+			free_double(split_path);
 			return (o_path);
 		}
 		free(o_path);
 		i++;
 	}
-	i = -1;
-	while (split_path[++i])
-	{
-		if (split_path[i])
-		{
-			free(split_path[i]);
-			printf("free split_path[%d]\n", i);
-		}
-	}
-	if (split_path)
-		free(split_path);
+	free_double(split_path);
 	return (cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:45:33 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/01 17:47:51 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/23 11:11:28 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char *get_env_var(char **env, const char *key)
 	key_len = ft_strlen(key);
     while (env[i])
 	{
-        if (strncmp(env[i], key, key_len) == 0 && env[i][key_len] == '=')
+        if (ft_strncmp(env[i], key, key_len) == 0 && env[i][key_len] == '=')
             return (env[i] + key_len + 1);
         i++;
     }
@@ -74,6 +74,7 @@ void print_with_variables(char *str, char **env, int last_exit_status)
         }
     }
 }
+
 void ft_echo(char **arg, t_mini mini)
 {
     int	i;
