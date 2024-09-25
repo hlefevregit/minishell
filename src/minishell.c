@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/23 12:51:09 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:45:13 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ t_mini	init_mini(char **envp)
 	mini.token = NULL;
 	mini.num_tokens = 0;
 	mini.num_cmd = 0;
+	mini.exit = -1;
 	return (mini);
 }
 
@@ -111,16 +112,16 @@ void	init_prompt(char **envp)
 		mini.cmd = readline(GREEN"MINISHELL DRUCKER A LA RESCOUSSE > "RESET);
 		if (!mini.cmd)
 			handle_ctrl_d();
-		if (ft_strcmp(mini.cmd, "exit") == 0)
-		{
-			rl_clear_history();
-			exit(0);
-		}
 		add_history(mini.cmd);
 		if (mini.cmd[0] != 0)
 			if (get_lex_of_cmd(mini) == -1)
 				break ;
 		// free_struct(mini);
+		if (mini.exit >= 0)
+		{
+			rl_clear_history();
+			exit(g_global.exit_status % 256);
+		}
 	}
 }
 

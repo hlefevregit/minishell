@@ -6,7 +6,7 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/09/23 11:15:41 by hulefevr         ###   ########.fr        #
+#    Updated: 2024/09/25 14:45:57 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC		:= 	./src/minishell.c \
 			./src/builtin/export.c \
 			./src/builtin/pwd.c \
 			./src/builtin/unset.c \
+			./src/builtin/exit.c \
 
 OBJ		:= $(SRC:.c=.o)
 

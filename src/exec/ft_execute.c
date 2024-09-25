@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:50:59 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/23 16:28:02 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:58:22 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,32 +69,33 @@ int	ft_execve(char **cmd, t_mini mini)
 		ft_pwd(mini);
 	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
 		ft_env(cmd, mini);
-	// else if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
-	// 	ft_exit(cmd, mini);
 	else
 	{
 		if (try_execve(cmd, mini) == 1)
-			return (-1);
+			if (g_global.exit_status == 127)
+				return (-1);
 	}
-	g_global.exit_status = 0;
 	return (0);
 }
 
-void	ft_execute(char *arg, t_mini mini)
+void	ft_execute(char **arg, t_mini mini, int in_fd, int out_fd)
 {
-	char	**cmd;
-
-	if (!arg[0])
-		return ;
-	cmd = ft_split(arg, ' ');
-	for (int j = 0; j < cntwrd(arg, 32); j++)
-		printf("cmd[%i] = %s\n", j, cmd[j]);
-	if (ft_execve(cmd, mini) == -1)
+	handle_redirections(arg);
+	
+	if (in_fd != STDIN_FILENO)
 	{
-		free_double(cmd);
-		printf(RED"->"RESET);
-		return ;
+		dup2(in_fd, STDIN_FILENO);
+		close(in_fd);
 	}
-	free_double(cmd);
-	return ;
+	if (out_fd != STDOUT_FILENO)
+	{
+		dup2(out_fd, STDOUT_FILENO);
+		close(out_fd);
+	}
+	if (ft_execve(arg, mini) == -1)
+	{
+		printf("exit_status = %d\n", g_global.exit_status);
+		exit(127);
+	}
+	exit(0);
 }

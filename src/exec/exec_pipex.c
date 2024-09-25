@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/23 18:07:26 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:15:53 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,95 +161,65 @@
 // 	dup2(saved_stdout, STDOUT_FILENO);
 // }
 
-int	handle_out_redir(char *cmd)
+void	handle_redirections(char **cmd)
 {
-	int	out_fd;
 	int	i;
+	int	fd;
 
 	i = 0;
-	out_fd = 0;
 	while (cmd[i])
 	{
-		if (cmd[i] == '>')
+		if (ft_strcmp(cmd[i], "<") == 0)
 		{
-			i++;
-			if (cmd[i] == '>')
+			fd = open(cmd[i + 1], O_RDONLY);
+			if (fd < 0)
 			{
-				while (cmd[i] == ' ')
-					i++;
-				out_fd = open(&cmd[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-				if (out_fd < 0)
-				{
-					perror("open");
-					exit(EXIT_FAILURE);
-				}
+				perror("open");
+				exit(EXIT_FAILURE);
 			}
-			else
-			{
-				while (cmd[i] == ' ')
-					i++;
-				out_fd = open(&cmd[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				if (out_fd < 0)
-				{
-					perror("open");
-					exit(EXIT_FAILURE);
-				}
-			}
-			cmd[i] = '\0';
-			break ;
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+			cmd[i] = NULL;
+			if (cmd[i + 1])
+				cmd[i + 1] = NULL;
 		}
-		else
-			{
-				out_fd = open(&cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				if (out_fd < 0)
-				{
-					perror("open");
-					exit(EXIT_FAILURE);
-				}
-			}
-			cmd[i] = '\0';
-			break ;
-		i++;
-	}
-	return (out_fd);
-}
-
-int	handle_in_redir(char *cmd)
-{
-	int	in_fd;
-	int	i;
-
-	i = 0;
-	in_fd = 0;
-	while (cmd[i])
-	{
-		if (cmd[i] == '<')
+		else if (ft_strcmp(cmd[i], ">") == 0)
 		{
-			i++;
-			if (cmd[i] == '<')
+			fd = open(cmd[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd < 0)
 			{
-				while (cmd[i] == ' ')
-					i++;
-				here_doc(cmd + i);
-				break ;
+				perror("open");
+				exit(EXIT_FAILURE);
 			}
-			else
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+			cmd[i] = NULL;
+			if (cmd[i + 1])
+				cmd[i + 1] = NULL;
+		}
+		else if (ft_strcmp(cmd[i], ">>") == 0)
+		{
+			fd = open(cmd[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (fd < 0)
 			{
-				while (cmd[i] == ' ')
-					i++;
-				in_fd = open(&cmd[i], O_RDONLY, 0644);
-				if (in_fd < 0)
-				{
-					perror("open");
-					exit(EXIT_FAILURE);
-				}
-				cmd[i] = '\0';
-				break ;
+				perror("open");
+				exit(EXIT_FAILURE);
 			}
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+			cmd[i] = NULL;
+			if (cmd[i + 1])
+				cmd[i + 1] = NULL;
+		}
+		else if (ft_strcmp(cmd[i], "<<") == 0)
+		{
+			here_doc(cmd[i + 1]);
+			cmd[i] = NULL;
+			if (cmd[i + 1])
+				cmd[i + 1] = NULL;
 		}
 		i++;
 	}
-	return (in_fd);
 }
 
 void	ft_child_proc(char **av, t_mini mini)
@@ -258,69 +228,69 @@ void	ft_child_proc(char **av, t_mini mini)
 	int		fd[2];
 	int		i;
 	int		prev_fd;
+	int		status;
 
 	i = 0;
-	prev_fd = -1;
-	if (mini.num_cmd == 1)
+	prev_fd = STDIN_FILENO;
+	while (i < mini.num_cmd)
 	{
-		pid = fork();
-		if (pid == -1)
+		printf("av[%d] = %s\n", i, av[i]);
+		if (i < mini.num_cmd - 1)
 		{
-			perror("Error fork \n");
-			exit(EXIT_FAILURE);
+			if (pipe(fd) == -1)
+			{
+				perror("Error pipe \n");
+				exit(EXIT_FAILURE);
+			}
 		}
-		if (pid == 0)
+		if (ft_strncmp(av[i], " exit", 5) == 0)
 		{
-			ft_execute(av[i], mini);
-			exit(EXIT_SUCCESS);
+			printf("exit\n");
+			g_global.exit_status = ft_exit(ft_split(av[i], 32), mini);
+			if (g_global.exit_status != -1)
+				exit(g_global.exit_status);
 		}
 		else
-			waitpid(pid, NULL, 0);
-		return ;
-	}
-	while (i < mini.num_cmd - 1)
-	{
-		if (pipe(fd) == -1)
 		{
-			perror("pipe");
-			exit(EXIT_FAILURE);
-		}
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("Error fork \n");
+				exit(EXIT_FAILURE);
+			}
+			else if (pid == 0)
+			{
+				printf("child process\n");
+				if (prev_fd != STDIN_FILENO)
+				{
+					dup2(prev_fd, STDIN_FILENO);
+					close(prev_fd);
+				}
+				if (i < mini.num_cmd - 1)
+				{
+					close(fd[0]);
+					dup2(fd[1], STDOUT_FILENO);
+					close(fd[1]);
+				}
+				ft_execute(ft_split(av[i], 32), mini, STDIN_FILENO, STDOUT_FILENO);
+			}
+			else
+			{
+				printf("parent process\n");
+				waitpid(pid, &status, 0);
+				if (WIFEXITED(status))
+					g_global.exit_status = WEXITSTATUS(status);
+				if (prev_fd != STDIN_FILENO)
+					close(prev_fd);
+				if (i < mini.num_cmd - 1)
+				{
+					close(fd[1]);
+					prev_fd = fd[0];
+				}
+				printf("prev_fd = %d\n", prev_fd);
+			}
+			}		
 		i++;
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("Error fork \n");
-			exit(EXIT_FAILURE);
-		}
-		if (pid == 0)
-		{
-			
-			if (i > 0)
-			{
-				dup2(prev_fd, STDIN_FILENO);
-				close(prev_fd);
-			}
-			if (i < mini.num_cmd - 1)
-			{
-				close(fd[0]);
-				dup2(fd[1], STDOUT_FILENO);
-				close(fd[1]);
-			}
-			ft_execute(av[i], mini);
-			printf("av[%d] = %s\n", i, av[i]);
-			exit(EXIT_SUCCESS);
-		}
-		else
-		{
-			if (i > 0)
-				close(prev_fd);
-			if (i < mini.num_cmd - 1)
-			{
-				close(fd[1]);
-				prev_fd = fd[0];
-			}
-			waitpid(pid, NULL, 0);
-		}
 	}
 }
 
