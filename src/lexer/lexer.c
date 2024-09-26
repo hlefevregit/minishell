@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/25 16:02:46 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:24:43 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ int	get_lex_of_cmd(t_mini mini)
 		free(mini.token);
 	if (ft_exec_pipex(mini))
 		return (-1);
-	// free_struct(mini);
+	printf("LEX\n");
+	free_struct(mini);
 	return (0);
 }

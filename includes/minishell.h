@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/25 16:02:31 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:28:10 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_mini
 	int		num_tokens;
 	int		num_cmd;
 	int		exit;
+	int		in_error_state;
 }             t_mini;
 
 typedef struct s_global
@@ -111,6 +112,7 @@ void	free_double(char **str);
 int		count_array(char **arr);
 char	*find_in_env(char *cmd, char **envp);
 char	*find_path(char *cmd, char **envp);
+char	*get_env_var(char **env, const char *key);
 
 /***************** LEXER *******************/
 
@@ -127,12 +129,14 @@ void	parse_cmd(t_mini mini);
 char	**isolate_cmd(t_mini mini);
 int		get_nb_cmd(t_mini mini);
 void	handle_redirections(char **cmd);
+int		ft_is_builtin(char *cmd);
 
 /*************** EXEC ****************/
 
 int		ft_exec_pipex(t_mini mini);
 void	here_doc(char *limiter);
-void	ft_execute(char **arg, t_mini mini, int in_fd, int out_fd);
+int		ft_execute(char **arg, t_mini mini, int in_fd, int out_fd);
+void	ft_exec_builtin(char **cmd, t_mini mini);
 /**************** BUILT-IN ***********/
 
 void	ft_echo(char **argv, t_mini mini);

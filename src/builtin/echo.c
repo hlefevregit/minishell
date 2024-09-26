@@ -6,13 +6,13 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:45:33 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/23 11:11:28 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:21:19 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *get_env_var(char **env, const char *key)
+char    *get_env_var(char **env, const char *key)
 {
     size_t key_len;
     int i;
