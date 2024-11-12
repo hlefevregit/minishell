@@ -1,0 +1,157 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/11/12 18:24:29 by hulefevr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include <termios.h>
+# include <stdbool.h>
+# include <dirent.h>
+# include <curses.h>
+# include <sys/ioctl.h>
+# include <sys/ioctl.h>
+// # ifndef READLINE_LIBRARY 
+// #  define READLINE_LIBRARY 
+// # endif
+
+# include "libft.h"
+# include "get_next_line.h"
+
+# define STDIN  STDIN_FILENO
+# define STDOUT STDOUT_FILENO
+# define STDERR STDERR_FILENO
+
+# define S_QUOTE 39
+# define D_QUOTE 34
+
+# define _XOPEN_SOURCE 700
+# define _GNU_SOURCE
+
+# define TRUE  1
+# define FALSE 0
+
+# define GREEN "\033[0m\033[1;32m"
+# define CYAN "\033[0m\033[1;36m"
+# define YELLOW "\033[0m\033[1;33m\033[3;33m"
+# define RESET "\033[0m"
+# define RED "\e[0;31m"
+
+typedef enum e_token_type
+{
+	T_CMD,
+    T_ARG,
+	T_RLESS,
+    T_RGREAT,
+	T_DLESS,
+	T_DGREAT,
+    T_OR_FILE,
+    T_I_FILE, 
+    T_OD_FILE,
+	T_PIPE,
+	T_AND,
+	T_OR,
+	T_NL,
+	T_ERR,
+	T_HEREDOC,
+	T_VAR,
+	T_S_QUOTE,
+	T_D_QUOTE,
+}	t_token_type;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*value;
+	struct s_token	*next;
+}	t_token;
+
+typedef struct s_cmd
+{
+	char			*cmd;
+	char			**args;
+	int				in;
+	int				out;
+	int				pipe;
+	int				heredoc;
+	char			*limiter;
+	struct s_cmd	*next;
+}	t_cmd;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
+typedef struct s_data
+{
+	t_cmd	*cmd;
+	t_env	*env;
+	t_token	*token;
+	int		num_cmd;
+}	t_data;
+
+typedef struct s_shell
+{
+	t_data	*data;
+	char	*line;
+	char	**envp;
+	int		exit_status;
+}	t_shell;
+
+typedef struct s_global
+{
+	int	exit_status;
+	char	**envp;
+}			t_global;
+
+extern t_global	g_global;
+
+int		ft_cd(char **av);
+void	ft_echo(char **arg);
+void	ft_env(char **argv);
+int		ft_exit(char **av);
+void	ft_export(char **arg);
+void	ft_pwd(void);
+void	ft_unset(char **arg);
+
+char    *get_env_var(char **env, const char *key);
+void	here_doc(char *limiter);
+void	ft_execute(t_cmd *cmd);
+void	ft_free_tab(char **tab);
+
+t_data	init_data(t_data *data);
+t_token	*get_token(char **args);
+
+int		ft_builtins(t_cmd *s);
+int		ft_exec(t_cmd *cmd);
+void	shell_loop(t_shell *shell);
+
+t_shell	init_shell(char **envp);
+t_data	get_lex(t_shell *shell);
+t_cmd	*get_cmd_data(t_cmd *cmd, t_token *token, char **env);
+
+char	*find_in_env(char *cmd, char **envp);
+
+
+
+#endif
