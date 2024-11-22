@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/22 14:57:30 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:05:23 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,11 @@ int	ft_exec_pipex(t_mini mini)
 	// printf("exit_status = %d\n", g_global.exit_status);
 	// ft_putstr_fd(GREEN"Done\n"RESET, 0);
 	// usleep(7000);
+	i = 0;
+	while (i < mini.num_cmd)
+	{
+		free(mini.pipefd[i]);
+		i++;
+	}
 	return (0);
 }
