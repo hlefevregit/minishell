@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:50:59 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/26 16:31:40 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/22 12:58:40 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,63 +87,94 @@ void	ft_exec_builtin(char **cmd, t_mini mini)
 	}
 }
 
+int	handle_in_redir(char **arg)
+{
+	int		i;
+	int		fd;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (ft_strncmp(arg[i], "<", 1) == 0)
+		{
+			if (arg[i + 1] == NULL)
+			{
+				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", STDERR_FILENO);
+				return (STDIN_FILENO);
+			}
+			fd = open(arg[i + 1], O_RDONLY);
+			if (fd == -1)
+			{
+				ft_putstr_fd("minishell: ", STDERR_FILENO);
+				ft_putstr_fd(arg[i + 1], STDERR_FILENO);
+				ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+				return (-1);
+			}
+			i--;
+			while (arg[i++])
+				arg[i] = NULL;
+			return (fd);
+		}
+		i++;
+	}
+	return (STDIN_FILENO);
+}
+
+int	handle_out_redir(char **arg)
+{
+	int		i;
+	int		fd;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (ft_strncmp(arg[i], ">", 1) == 0)
+		{
+			if (arg[i + 1] == NULL)
+			{
+				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", STDERR_FILENO);
+				return (STDOUT_FILENO);
+			}
+			if (ft_strncmp(arg[i], ">>", 2) == 0)
+				fd = open(arg[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
+			else
+				fd = open(arg[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			i--;
+			while (arg[i++])
+				arg[i] = NULL;
+			return (fd);
+		}
+		i++;
+	}
+	return (STDOUT_FILENO);
+}
+
 int	ft_execute(char **arg, t_mini mini, int in_fd, int out_fd)
 {
-	pid_t	pid;
-	int		status;
+	// pid_t	pid;
+	// int		status;
 	int		exit_status;
 
 	if (!arg || !arg[0])
 		return (-1);
-	handle_redirections(arg);
+	in_fd = handle_in_redir(arg);
+	out_fd = handle_out_redir(arg);
+	if (in_fd != STDIN_FILENO)
+		dup2(in_fd, STDIN_FILENO);
+	if (out_fd != STDOUT_FILENO)
+		dup2(out_fd, STDOUT_FILENO);
 	
 	if (ft_is_builtin(arg[0]) == 1)
 	{
-		if (in_fd != STDIN_FILENO)
-		{
-			dup2(in_fd, STDIN_FILENO);
-			close(in_fd);
-		}
-		if (out_fd != STDOUT_FILENO)
-		{
-			dup2(out_fd, STDOUT_FILENO);
-			close(out_fd);
-		}
 		ft_exec_builtin(arg, mini);
 		return (0);
 	}
 	else
 	{
-		pid = fork();
-		if (pid < 0)
-		{
-			perror("fork");
-			return (-1);
-		}
-		if (pid == 0)
-		{
-			printf("Executing command: %s\n", arg[0]);
-			if (in_fd != STDIN_FILENO)
-			{
-				dup2(in_fd, STDIN_FILENO);
-				close(in_fd);
-			}
-			if (out_fd != STDOUT_FILENO)
-			{
-				dup2(out_fd, STDOUT_FILENO);
-				close(out_fd);
-			}
-			exit_status = try_execve(arg, mini);
-			if (exit_status == -1)
-				exit(127);
-			exit(exit_status);
-		}
-		else
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				g_global.exit_status = WEXITSTATUS(status);
-		}
+		printf("Executing command: %s\n", arg[0]);
+		exit_status = try_execve(arg, mini);
+		if (exit_status == -1)
+			return (127);
 	}
 	return (g_global.exit_status);
 }
