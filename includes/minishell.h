@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/26 15:28:10 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:21:23 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_mini
 	int		num_cmd;
 	int		exit;
 	int		in_error_state;
+	int		*pipefd[2];
 }             t_mini;
 
 typedef struct s_global

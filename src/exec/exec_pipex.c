@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/22 13:06:25 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:57:30 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,21 +74,50 @@
 // 	return ;
 // }
 
-void	ft_child_proc(char **av, t_mini mini, int i)
-{
-	int	fd[2];
-	int fdd;
-	pid_t	pid;
-	int		status;
 
-	fdd = 0;
-	while (av[i])
+void	dup_pipes(t_mini mini, int index)
+{
+	if (index >= 1)
 	{
-		if (pipe(fd) == -1)
-		{
-			perror("pipe");
-			exit(EXIT_FAILURE);
-		}
+		dup2(mini.pipefd[index - 1][0], STDIN_FILENO);
+		close(mini.pipefd[index - 1][0]);
+		close(mini.pipefd[index - 1][1]);
+	}
+	if (index < mini.num_cmd - 1)
+	{
+		dup2(mini.pipefd[index][1], STDOUT_FILENO);
+		close(mini.pipefd[index][0]);
+		close(mini.pipefd[index][1]);
+	}
+}
+
+void	close_pipe(t_mini mini, int index)
+{
+	if (index >= 1)
+	{
+		close(mini.pipefd[index - 1][0]);
+		close(mini.pipefd[index - 1][1]);
+	}
+	// if (index < mini.num_cmd - 1)
+	// {
+	// 	close(mini.pipefd[index][0]);
+	// 	close(mini.pipefd[index][1]);
+	// }
+}
+
+void	ft_child_proc(char **av, t_mini mini)
+{
+	// int	fd[2];
+	// int fdd;
+	pid_t	pid;
+	// int		status;
+	int		index;
+
+	index = -1;
+	while (++index < mini.num_cmd)
+	{
+		if (index < mini.num_cmd -1)
+			pipe(mini.pipefd[index]);
 		pid = fork();
 		if (pid < 0)
 		{
@@ -97,20 +126,17 @@ void	ft_child_proc(char **av, t_mini mini, int i)
 		}
 		if (pid == 0)
 		{
-			dup2(fdd, 0);
-			if (av[i + 1])
-				dup2(fd[1], 1);
-			close(fd[0]);
-			exit (ft_execute(ft_split(av[i], 32), mini, 0, 1));
+			dup_pipes(mini, index);		
+			exit(ft_execute(ft_split(av[index], 32), mini, mini.pipefd[index][0], mini.pipefd[index][1]));
 		}
-		else
-		{
-			waitpid(pid, &status, 0);
-			g_global.exit_status = WEXITSTATUS(status);
-			close(fd[1]);
-			fdd = fd[0];
-			i++;
-		}
+		close_pipe(mini, index);
+		// else
+		// {
+		// 	waitpid(pid, &status, 0);
+		// 	g_global.exit_status = WEXITSTATUS(status);
+		// 	close(fd[1]);
+		// 	fdd = fd[0];
+		// }
 	}
 	
 }
@@ -120,8 +146,16 @@ int	ft_exec_pipex(t_mini mini)
 	int	i;
 
 	i = 0;
-	ft_child_proc(mini.isolate_cmd, mini, 0);
-	printf("exit_status = %d\n", g_global.exit_status);
-	ft_putstr_fd(GREEN"Done\n"RESET, 0);
+	while (i < mini.num_cmd)
+	{
+		mini.pipefd[i] = malloc(sizeof(int) * 2);
+		if (!mini.pipefd[i])
+			return (-1);
+		i++;
+	}
+	ft_child_proc(mini.isolate_cmd, mini);
+	// printf("exit_status = %d\n", g_global.exit_status);
+	// ft_putstr_fd(GREEN"Done\n"RESET, 0);
+	// usleep(7000);
 	return (0);
 }

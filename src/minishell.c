@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/22 10:26:47 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:05:16 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	init_prompt(char **envp)
 	while (1)
 	{
 		mini.cmd = readline(GREEN"MINISHELL DRUCKER A LA RESCOUSSE > "RESET);
-		printf("cmd = %s\n", mini.cmd);
+		// printf("cmd = %s\n", mini.cmd);
 		if (!mini.cmd)
 			handle_ctrl_d();
 		add_history(mini.cmd);
@@ -136,6 +136,7 @@ void	init_prompt(char **envp)
 			rl_clear_history();
 			exit(g_global.exit_status % 256);
 		}
+		usleep(1000);
 	}
 }
 
