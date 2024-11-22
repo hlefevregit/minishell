@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:15:48 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/02 17:18:08 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/23 10:58:04 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	*find_path(char *cmd, char **envp)
 		free(part_path);
 		if (access(o_path, F_OK | X_OK) == 0)
 		{
+			free_double(split_path);
 			return (o_path);
 		}
 		free(o_path);

@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/16 17:43:53 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:26:47 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,38 @@ void	free_struct(t_mini mini)
 		i = -1;
 		while (mini.cmd_split[++i])
 		{
-			printf("free mini.cmd_split[%d] = %s\n", i, mini.cmd_split[i]);
+			// printf("free mini.cmd_split[%d] = %s\n", i, mini.cmd_split[i]);
 			if (mini.cmd_split[i])
 				free(mini.cmd_split[i]);
 		}
 		free(mini.cmd_split);
-		printf("free mini.cmd_split\n");
+		// printf("free mini.cmd_split\n");
 	}
 	if (mini.isolate_cmd)
 	{
 		i = -1;
-		printf("len of mini.isolate_cmd = %d\n", count_array(mini.isolate_cmd));
+		// printf("len of mini.isolate_cmd = %d\n", count_array(mini.isolate_cmd));
 		while (mini.isolate_cmd[++i])
 		{
-			printf("free mini.isolate_cmd[%d] = %s\n", i, mini.isolate_cmd[i]);
+			// printf("free mini.isolate_cmd[%d] = %s\n", i, mini.isolate_cmd[i]);
 			if (mini.isolate_cmd[i])
 				free(mini.isolate_cmd[i]);
 		}
 		free(mini.isolate_cmd);
-		printf("free mini.isolate_cmd\n");
+		// printf("free mini.isolate_cmd\n");
+	}
+	if (mini.isolate_cmd2)
+	{
+		i = -1;
+		// printf("len of mini.isolate_cmd1 = %d\n", count_array(mini.isolate_cmd1));
+		while (mini.isolate_cmd2[++i])
+		{
+			// printf("free mini.isolate_cmd1[%d] = %s\n", i, mini.isolate_cmd1[i]);
+			if (mini.isolate_cmd2[i])
+				free(mini.isolate_cmd2[i]);
+		}
+		free(mini.isolate_cmd2);
+		// printf("free mini.isolate_cmd1\n");
 	}
 	return ;
 }
@@ -84,6 +97,11 @@ t_mini	init_mini(char **envp)
 {
 	t_mini	mini;
 
+	if (envp[0] == NULL)
+	{
+		printf("Error: envp is NULL\n");
+		exit(1);
+	}
 	mini.envp = envp;
 	mini.cmd = NULL;
 	mini.cmd_split = NULL;
@@ -92,6 +110,9 @@ t_mini	init_mini(char **envp)
 	mini.outfile = STDOUT;
 	mini.token = NULL;
 	mini.num_tokens = 0;
+	mini.num_cmd = 0;
+	mini.exit = -1;
+	mini.in_error_state = 0;
 	return (mini);
 }
 
@@ -103,18 +124,18 @@ void	init_prompt(char **envp)
 	while (1)
 	{
 		mini.cmd = readline(GREEN"MINISHELL DRUCKER A LA RESCOUSSE > "RESET);
+		printf("cmd = %s\n", mini.cmd);
 		if (!mini.cmd)
 			handle_ctrl_d();
-		if (ft_strcmp(mini.cmd, "exit") == 0)
-		{
-			rl_clear_history();
-			exit(0);
-		}
 		add_history(mini.cmd);
 		if (mini.cmd[0] != 0)
 			if (get_lex_of_cmd(mini) == -1)
 				break ;
-		// free_struct(mini);
+		if (mini.exit >= 0)
+		{
+			rl_clear_history();
+			exit(g_global.exit_status % 256);
+		}
 	}
 }
 
@@ -123,7 +144,7 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 
-	signal(SIGQUIT, handle);
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle);
 	if (ac == 1)
 		init_prompt(envp);

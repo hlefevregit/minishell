@@ -6,64 +6,57 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:26:22 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/01 13:27:00 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:17:52 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	simple_gnl(char **line, char *limiter)
-{
-	char	*buffer;
-	int		i;
-	int		r;
-	char	c;
-
-	i = 0;
-	r = 0;
-	buffer = (char *)malloc(BUFSIZ);
-	if (!buffer)
-		return (-1);
-	r = read(0, &c, 1);
-	while (r && c != '\n' && c != '\0')
-	{
-		if (c != '\n' && c != '\0')
-			buffer[i++] = c;
-		r = read(0, &c, 1);
-	}
-	buffer[i] = '\n';
-	buffer[++i] = '\0';
-	*line = buffer;
-	if (ft_strncmp(buffer, limiter, ft_strlen(limiter)) == 0)
-		exit(EXIT_SUCCESS);
-	return (r);
-}
-
 void	here_doc(char *limiter)
 {
-	pid_t	pid2;
-	int		fd[2];
+	int		tmp_fd;
+	size_t	len;
 	char	*line;
 
-	if (pipe(fd) == -1)
+	tmp_fd = open("/tmp/heredoc_tmp", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (tmp_fd < 0)
+	{
+		perror("open");
 		exit(EXIT_FAILURE);
-	pid2 = fork();
-	if (pid2 == 0)
+	}
+	while (1)
 	{
-		close(fd[0]);
-		line = malloc(BUFSIZ);
-		while (simple_gnl(&line, limiter))
+		line = readline("> ");
+		if (!line)
 		{
-			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-				exit(EXIT_SUCCESS);
-			ft_putstr_fd(line, fd[1]);
-			free(line);
+			perror("readline");
+			close(tmp_fd);
+			exit(EXIT_FAILURE);
 		}
+		if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+		{
+			free(line);
+			break ;
+		}
+		len = ft_strlen(line);
+		line[len] = '\n';
+		len++;
+		if (write(tmp_fd, line, len) < 0)
+		{
+			free(line);
+			perror("write");
+			close(tmp_fd);
+			exit(EXIT_FAILURE);
+		}
+		free(line);
 	}
-	else
+	close(tmp_fd);
+	tmp_fd = open("/tmp/heredoc_tmp", O_RDONLY);
+	if (tmp_fd < 0)
 	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		wait(NULL);
+		perror("open");
+		exit(EXIT_FAILURE);
 	}
+	dup2(tmp_fd, STDIN_FILENO);
+	close(tmp_fd);
 }

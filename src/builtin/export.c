@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:56:15 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/05 18:03:07 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:24:28 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,20 @@ char	*cpy_dat_env(char *new_entry, char *name, char *value)
 	return (new_entry);
 }
 
-void	update_env(char **env, char *name, char *value)
+void	update_env(char **env, char *name, char *value, char **envp)
 {
 	int		i;
 	char	*new_entry;
+	char	*env_value;
 
-	i = -1;
-	while (env[++i])
+	if (value && value[0] == '$')
+	{
+		env_value = get_env_var(envp, value + 1);
+		if (env_value)
+			value = env_value;
+	}
+	i = 0;
+	while (env[i])
 	{
 		if (ft_strncmp(env[i], name, strlen(name)) == 0
 			&& env[i][ft_strlen(name)] == '=')
@@ -42,6 +49,7 @@ void	update_env(char **env, char *name, char *value)
 			env[i] = cpy_dat_env(new_entry, name, value);
 			return ;
 		}
+		i++;
 	}
 	new_entry = malloc(ft_strlen(name) + ft_strlen(value) + 2);
 	if (!new_entry)
@@ -95,6 +103,52 @@ void parse_arg(char *arg, char **name, char **value)
 	p_update(value, p);
 }
 
+void	printf_sorted_env(char **envp)
+{
+	int		i;
+	int		sorted;
+	char	*tmp;
+	char	**sorted_env;
+	
+	i = 0;
+	while (envp[i])
+		i++;
+	sorted_env = malloc(sizeof(char *) * (i + 1));
+	if (!sorted_env)
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (envp[i])
+	{
+		sorted_env[i] = envp[i];
+		i++;
+	}
+	sorted_env[i] = NULL;
+	sorted = 0;
+	while (!sorted)
+	{
+		sorted = 1;
+		i = 0;
+		while (sorted_env[i + 1])
+		{
+			if (ft_strcmp(sorted_env[i], sorted_env[i + 1]) > 0)
+			{
+				tmp = sorted_env[i];
+				sorted_env[i] = sorted_env[i + 1];
+				sorted_env[i + 1] = tmp;
+				sorted = 0;
+			}
+			i++;
+		}
+	}
+	i = 0;
+	while (sorted_env[i])
+	{
+		printf("declare -x %s\n", sorted_env[i]);
+		i++;
+	}
+	free(sorted_env);	
+}
+
 void ft_export(char **arg, t_mini mini)
 {
 	int     i;
@@ -102,11 +156,19 @@ void ft_export(char **arg, t_mini mini)
 	char    *value;
 
 	i = 1;
-	while (arg[i])
+	if (!arg[1])
 	{
-		parse_arg(arg[i], &name, &value);
-		update_env(mini.envp, name, value);
-		i++;
+		printf_sorted_env(mini.envp);
+		g_global.exit_status = 0;
 	}
-	g_global.exit_status = 0;
+	else
+	{
+		while (arg[i])
+		{
+			parse_arg(arg[i], &name, &value);
+			update_env(mini.envp, name, value, mini.envp);
+			i++;
+		}
+		g_global.exit_status = 0;
+	}
 }
