@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/25 12:32:07 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/25 17:27:52 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,16 @@ void	ft_child_proc(char **av, t_mini mini)
 			pipe(mini.pipefd[index]);
 		if (ft_is_builtin(ft_split(av[index], 32)[0]) == 1)
 		{
+			int saved_stdout = dup(STDOUT_FILENO);
+			int out_fd = handle_out_redir(ft_split(av[index], 32));
+			if (out_fd != STDOUT_FILENO)
+				dup2(out_fd, STDOUT_FILENO);
 			ft_exec_builtin(ft_split(av[index], 32), mini);
+			if (out_fd != STDOUT_FILENO)
+			{
+				dup2(saved_stdout, STDOUT_FILENO);
+				close(saved_stdout);
+			}
 			continue ;
 		}
 		handle_here_doc(ft_split(av[index], 32));

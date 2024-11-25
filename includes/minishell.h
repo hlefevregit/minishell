@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/25 11:58:08 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/25 14:59:32 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ void	here_doc(char *limiter);
 int		ft_execute(char **arg, t_mini mini, int in_fd, int out_fd);
 void	ft_exec_builtin(char **cmd, t_mini mini);
 void	handle_here_doc(char **arg);
+int		handle_in_redir(char **arg);
+int		handle_out_redir(char **arg);
 
 /**************** BUILT-IN ***********/
 
