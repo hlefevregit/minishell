@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/22 10:27:19 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/25 11:22:06 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ char	**isolate_cmd(t_mini mini)
 				if (mini.token[j].value[1] != '?')
 				{
 					tmp = ft_strjoin_with_space(ret[i], \
-					find_in_env(mini.token[j].value, mini.envp));
+					find_in_env(&mini.token[j].value[1], mini.envp));
 				}
 				else
 				{

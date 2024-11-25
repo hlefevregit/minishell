@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:50:59 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/22 14:49:40 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:30:43 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,10 @@ int	handle_in_redir(char **arg)
 			}
 			fd = open(arg[i + 1], O_RDONLY);
 			if (fd == -1)
-			{
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				ft_putstr_fd(arg[i + 1], STDERR_FILENO);
-				ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 				return (-1);
-			}
 			i--;
-			while (arg[i++])
-				arg[i] = NULL;
+			arg[i] = "";
+			arg[i + 1] = "";
 			return (fd);
 		}
 		i++;
@@ -141,7 +136,7 @@ int	handle_out_redir(char **arg)
 				fd = open(arg[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			i--;
 			while (arg[i++])
-				arg[i] = NULL;
+				arg[i] = "";
 			return (fd);
 		}
 		i++;
@@ -149,10 +144,32 @@ int	handle_out_redir(char **arg)
 	return (STDOUT_FILENO);
 }
 
+void	handle_here_doc(char **arg)
+{
+	int		i;
+	
+	i = 0;
+	while (arg[i])
+	{
+		if (ft_strncmp(arg[i], "<<", 2) == 0)
+		{
+			arg[i] = " ";
+			i++;
+			if (arg[i] == NULL)
+			{
+				ft_putendl_fd("minishell: syntax error near unexpected token `newline'", STDERR_FILENO);
+				return ;
+			}
+			here_doc(arg[i]);
+			arg[i] = " ";
+			return ;
+		}
+		i++;
+	}
+}
+
 int	ft_execute(char **arg, t_mini mini, int in_fd, int out_fd)
 {
-	// pid_t	pid;
-	// int		status;
 	int		exit_status;
 
 	if (!arg || !arg[0])
@@ -173,7 +190,7 @@ int	ft_execute(char **arg, t_mini mini, int in_fd, int out_fd)
 	{
 		printf("Executing command: %s\n", arg[0]);
 		exit_status = try_execve(arg, mini);
-		if (exit_status == -1)
+		if (exit_status == 127)
 			return (127);
 	}
 	return (g_global.exit_status);

@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 13:17:29 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/22 16:05:23 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:32:07 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,19 +98,11 @@ void	close_pipe(t_mini mini, int index)
 		close(mini.pipefd[index - 1][0]);
 		close(mini.pipefd[index - 1][1]);
 	}
-	// if (index < mini.num_cmd - 1)
-	// {
-	// 	close(mini.pipefd[index][0]);
-	// 	close(mini.pipefd[index][1]);
-	// }
 }
 
 void	ft_child_proc(char **av, t_mini mini)
 {
-	// int	fd[2];
-	// int fdd;
 	pid_t	pid;
-	// int		status;
 	int		index;
 
 	index = -1;
@@ -118,6 +110,12 @@ void	ft_child_proc(char **av, t_mini mini)
 	{
 		if (index < mini.num_cmd -1)
 			pipe(mini.pipefd[index]);
+		if (ft_is_builtin(ft_split(av[index], 32)[0]) == 1)
+		{
+			ft_exec_builtin(ft_split(av[index], 32), mini);
+			continue ;
+		}
+		handle_here_doc(ft_split(av[index], 32));
 		pid = fork();
 		if (pid < 0)
 		{
@@ -126,17 +124,10 @@ void	ft_child_proc(char **av, t_mini mini)
 		}
 		if (pid == 0)
 		{
-			dup_pipes(mini, index);		
+			dup_pipes(mini, index);
 			exit(ft_execute(ft_split(av[index], 32), mini, mini.pipefd[index][0], mini.pipefd[index][1]));
 		}
 		close_pipe(mini, index);
-		// else
-		// {
-		// 	waitpid(pid, &status, 0);
-		// 	g_global.exit_status = WEXITSTATUS(status);
-		// 	close(fd[1]);
-		// 	fdd = fd[0];
-		// }
 	}
 	
 }
@@ -154,9 +145,6 @@ int	ft_exec_pipex(t_mini mini)
 		i++;
 	}
 	ft_child_proc(mini.isolate_cmd, mini);
-	// printf("exit_status = %d\n", g_global.exit_status);
-	// ft_putstr_fd(GREEN"Done\n"RESET, 0);
-	// usleep(7000);
 	i = 0;
 	while (i < mini.num_cmd)
 	{

@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:26:22 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/09/23 13:17:52 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:06:45 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ void	here_doc(char *limiter)
 		free(line);
 	}
 	close(tmp_fd);
-	tmp_fd = open("/tmp/heredoc_tmp", O_RDONLY);
-	if (tmp_fd < 0)
-	{
-		perror("open");
-		exit(EXIT_FAILURE);
-	}
-	dup2(tmp_fd, STDIN_FILENO);
-	close(tmp_fd);
+	// tmp_fd = open("/tmp/heredoc_tmp", O_RDONLY);
+	// if (tmp_fd < 0)
+	// {
+	// 	perror("open");
+	// 	exit(EXIT_FAILURE);
+	// }
+	// dup2(tmp_fd, STDIN_FILENO);
+	// close(tmp_fd);
 }
