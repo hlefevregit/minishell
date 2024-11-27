@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:50:59 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/25 17:18:26 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/27 15:51:53 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,24 @@ int	try_execve(char **cmd, t_mini mini)
 		ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
 		ft_putendl_fd(cmd[0], 2);
 		g_global.exit_status = 127;
-		return (-1);
+		return (127);
 	}
 	pid = fork();
+	int i = -1;
+	while (cmd[++i])
+		printf("%s ", cmd[i]);
 	if (pid == 0)
 	{
 		if (execve(path, cmd, mini.envp) == -1)
-		{
-			ft_putstr_fd("minishell: command not found: ", STDERR_FILENO);
-			ft_putendl_fd(cmd[0], 2);
 			exit(127);
-		}
-	}	
+	}
 	else
 	{
 		waitpid(pid, &status, 0);
 		if (WIFEXITED(status))
 			g_global.exit_status = WEXITSTATUS(status);
+		if (g_global.exit_status == 127)
+			printf("minishell: %s: %s\n", cmd[0], strerror(errno));
 	}
 	free(path);
 	return (g_global.exit_status);
@@ -86,7 +87,7 @@ void	ft_exec_builtin(char **cmd, t_mini mini)
 		exit (g_global.exit_status % 256);
 	}
 }
-void	remove_args(char **arg)
+char	**remove_args(char **arg)
 {
 	int		i;
 
@@ -101,7 +102,7 @@ void	remove_args(char **arg)
 		}
 		i++;
 	}
-	return ;
+	return (arg);
 }
 
 int	handle_in_redir(char **arg)
@@ -120,14 +121,14 @@ int	handle_in_redir(char **arg)
 				return (STDIN_FILENO);
 			}
 			fd = open(arg[i + 1], O_RDONLY);
+			dup2(fd, STDIN_FILENO);
 			if (fd == -1)
 				return (-1);
-			i--;
 			arg[i] = NULL;
 			arg[i + 1] = NULL;
 			return (fd);
 		}
-		i++;
+		i++;	
 	}
 	return (STDIN_FILENO);
 }
@@ -151,10 +152,8 @@ int	handle_out_redir(char **arg)
 				fd = open(arg[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 			else
 				fd = open(arg[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			i--;
-			while (arg[i++])
-				arg[i] = NULL;
-			remove_args(arg);
+			dup2(fd, STDOUT_FILENO);
+			arg = remove_args(arg);
 			return (fd);
 		}
 		i++;
@@ -189,27 +188,16 @@ void	handle_here_doc(char **arg)
 
 int	ft_execute(char **arg, t_mini mini, int in_fd, int out_fd)
 {
-	int		exit_status;
+	int	exit_status;
 
-
-	(void)in_fd;
-	(void)out_fd;
 	if (!arg || !arg[0])
 		return (-1);
-	// in_fd = handle_in_redir(arg);
-	// out_fd = handle_out_redir(arg);
-	// int i = -1;
-	// while (arg[++i])
-	// 	printf("arg[%d]: %s\n", i, arg[i]);
-	// if (in_fd != STDIN_FILENO)
-	// 	dup2(in_fd, STDIN_FILENO);
-	// if (out_fd != STDOUT_FILENO)
-	// 	dup2(out_fd, STDOUT_FILENO);
-	else
-	{
-		exit_status = try_execve(arg, mini);
-		if (exit_status == 127)
-			return (127);
-	}
+	in_fd = handle_in_redir(arg);
+	out_fd = handle_out_redir(arg);
+	exit_status = try_execve(arg, mini);
+	if (exit_status == 127)
+		return (127);
+	close(in_fd);
+	close(out_fd);
 	return (g_global.exit_status);
 }

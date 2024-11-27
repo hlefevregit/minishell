@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 13:08:54 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/25 16:01:26 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/11/27 14:42:37 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ t_mini	init_mini(char **envp)
 	mini.num_cmd = 0;
 	mini.exit = -1;
 	mini.in_error_state = 0;
+	g_global.exit_status = 0;
 	return (mini);
 }
 
