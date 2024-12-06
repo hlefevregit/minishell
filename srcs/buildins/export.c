@@ -1,123 +1,174 @@
-#include "../../inc/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/03 13:56:15 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/09/26 13:24:28 by hulefevr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-char	**expand_env(t_cmd *cmd)
+#include "../../includes/minishell.h"
+
+char	*cpy_dat_env(char *new_entry, char *name, char *value)
 {
-	int		size;
-	char	**new_env;
-	int		i;
-
-	i = 0;
-	size = ft_tablen(cmd->data->env);
-	new_env = malloc((size + 2) * sizeof(char *));
-	if (!new_env)
-		return (NULL);
-	while (cmd->data->env[i] != NULL)
-	{
-		new_env[i] = ft_strdup(cmd->data->env[i]);
-		if (new_env[i] == NULL)
-		{
-			ft_free_tab(new_env);
-			printf("alloc faild");
-			return (NULL);
-		}
-		i++;
-	}
-	new_env[i] = NULL;
-	return (new_env);
+	ft_memcpy(new_entry, name, ft_strlen(name));
+	new_entry[ft_strlen(name)] = '=';
+	ft_memcpy(new_entry + ft_strlen(name) + 1, value,ft_strlen(value));
+	new_entry[ft_strlen(name) + ft_strlen(value) + 2] = '\0';
+	return (new_entry);
 }
 
-void	put_line_in_env(t_cmd *cmd, int n)
-{
-	int		size;
-	char	**new_env;
-
-	size = ft_tablen(cmd->data->env);
-	new_env = expand_env(cmd);
-	new_env[size] = ft_strdup(cmd->args[n]);
-	if (!new_env[size])
-	{
-		printf("alloc failed");
-		return ;
-	}
-	new_env[size + 1] = NULL;
-	ft_free_tab(cmd->data->env);
-	cmd->data->env = new_env;
-}
-
-void	new_val_for_env(t_cmd *cmd, int n)
+void	update_env(char **env, char *name, char *value, char **envp)
 {
 	int		i;
-	char	*new_env;
+	char	*new_entry;
+	char	*env_value;
 
-	i = 0;
-	new_env = ft_strdup(cmd->args[n]);
-	if (new_env == NULL)
+	if (value && value[0] == '$')
 	{
-		printf("alloc faild \n");
-		return ;
+		env_value = get_env_var(envp, value + 1);
+		if (env_value)
+			value = env_value;
 	}
-	while (cmd->data->env[i] != NULL)
+	i = 0;
+	while (env[i])
 	{
-		if (ft_strncmp(cmd->data->env[i], new_env,
-				ft_strchr(new_env, '=') - new_env) == 0)
+		if (ft_strncmp(env[i], name, strlen(name)) == 0
+			&& env[i][ft_strlen(name)] == '=')
 		{
-			free(cmd->data->env[i]);
-			cmd->data->env[i] = new_env;
+			free(env[i]);
+			new_entry = malloc(ft_strlen(name) + ft_strlen(value) + 2);
+			if (!new_entry)
+			{
+				perror("malloc");
+				exit(EXIT_FAILURE);
+			}
+			env[i] = cpy_dat_env(new_entry, name, value);
 			return ;
 		}
 		i++;
 	}
+	new_entry = malloc(ft_strlen(name) + ft_strlen(value) + 2);
+	if (!new_entry)
+		exit(EXIT_FAILURE);
+	env[i] = cpy_dat_env(new_entry, name, value);
+	env[i + 1] = NULL;
 }
 
-void	add_val_env(t_cmd *cmd, int n)
+void	p_update(char **value, char *p)
+{
+	char	q;
+	
+	if (!*value)
+		*value = "";
+	if (**value == '"' || **value == '\'')
+	{
+		q = **value;
+		(*value)++;
+		p = *value + strlen(*value) - 1;
+		if (*p == q)
+			*p = '\0';
+	}
+	return ;
+}
+
+void parse_arg(char *arg, char **name, char **value)
+{
+	int		in_squote;
+	int		in_dquote;
+	char	*p;
+
+	*name = arg;
+	*value = NULL;
+	in_dquote = 0;
+	in_squote = 0;
+	p = arg;
+	while (*p)
+	{
+		if (*p == '\'' && !in_dquote)
+			in_squote = !in_squote;
+		else if (*p == '"' && !in_squote)
+			in_dquote = !in_dquote;
+		else if (*p == '=' && !in_squote && !in_dquote)
+		{
+			*p = '\0';
+			*value = p + 1;
+			break;
+		}
+		p++;
+	}
+	p_update(value, p);
+}
+
+void	printf_sorted_env(char **envp)
 {
 	int		i;
-	char	*new_value;
-	char	*old_env;
-	char	*combined_env;
-
+	int		sorted;
+	char	*tmp;
+	char	**sorted_env;
+	
 	i = 0;
-	new_value = ft_strchr(cmd->args[n], '=') + 1;
-	old_env = NULL;
-	combined_env = NULL;
-	while (cmd->data->env[i] != NULL)
+	while (envp[i])
+		i++;
+	sorted_env = malloc(sizeof(char *) * (i + 1));
+	if (!sorted_env)
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (envp[i])
 	{
-		if (ft_strncmp(cmd->data->env[i], cmd->args[n],
-				ft_strchr(cmd->args[n], '=') - cmd->args[n]) == 0)
-		{
-			old_env = cmd->data->env[i];
-			combined_env = ft_strjoin(old_env, new_value);
-			if (!combined_env)
-				return ;
-			free(cmd->data->env[i]);
-			cmd->data->env[i] = combined_env;
-			return ;
-		}
+		sorted_env[i] = envp[i];
 		i++;
 	}
+	sorted_env[i] = NULL;
+	sorted = 0;
+	while (!sorted)
+	{
+		sorted = 1;
+		i = 0;
+		while (sorted_env[i + 1])
+		{
+			if (ft_strcmp(sorted_env[i], sorted_env[i + 1]) > 0)
+			{
+				tmp = sorted_env[i];
+				sorted_env[i] = sorted_env[i + 1];
+				sorted_env[i + 1] = tmp;
+				sorted = 0;
+			}
+			i++;
+		}
+	}
+	i = 0;
+	while (sorted_env[i])
+	{
+		printf("declare -x %s\n", sorted_env[i]);
+		i++;
+	}
+	free(sorted_env);	
 }
 
-void	ft_export(t_cmd *cmd)
+void ft_export(char **arg, t_mini mini)
 {
-	int	i;
+	int     i;
+	char    *name;
+	char    *value;
 
 	i = 1;
-	while (cmd->args[i] != NULL)
+	if (!arg[1])
 	{
-		if (!check_env_name(cmd->args[i]))
-			return ;
-		if (plus_in_name(cmd->args[i]))
+		printf_sorted_env(mini.envp);
+		g_global.exit_status = 0;
+	}
+	else
+	{
+		while (arg[i])
 		{
-			remove_plus(cmd->args[i]);
-			if (!already_in_env(cmd->args[i], cmd))
-				put_line_in_env(cmd, i);
-			else
-				add_val_env(cmd, i);
+			parse_arg(arg[i], &name, &value);
+			update_env(mini.envp, name, value, mini.envp);
+			i++;
 		}
-		else if (!already_in_env(cmd->args[i], cmd))
-			put_line_in_env(cmd, i);
-		else
-			new_val_for_env(cmd, i);
-		i++;
+		g_global.exit_status = 0;
 	}
 }

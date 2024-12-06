@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 10:34:32 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 11:32:25 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+char	*ft_strnstr(char const *big, char const *little, size_t len)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	size_t	i;
+	size_t	j;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	i = 0;
+	if (big == little || ft_strlen(little) == 0)
+		return ((char *)big);
+	while (big[i] && len > i)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		j = 0;
+		while (big[i + j] && little[j]
+			&& big[i + j] == little[j] && i + j < len)
+		{
+			j++;
+		}
+		if (j == ft_strlen(little))
+		{
+			return ((char *)big + i);
+		}
+		i++;
 	}
-	else
-		printf("%s\n", buffer);
+	return (NULL);
 }

@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 10:20:02 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 10:20:12 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+int	ft_tolower(int c)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
-
-	if (getcwd(buffer, BUFSIZ) == 0)
+	if (c >= 65 && c <= 90)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		c += 32;
 	}
-	else
-		printf("%s\n", buffer);
+	return (c);
 }

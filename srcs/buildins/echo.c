@@ -1,65 +1,98 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/03 13:45:33 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/09/26 13:21:19 by hulefevr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../includes/minishell.h"
 
-int	check_echo_opt(char *option)
+char    *get_env_var(char **env, const char *key)
 {
-	int	i;
-
-	if (option[0] != '-' || option[1] != 'n')
-		return (0);
-	i = 1;
-	while (option[++i])
-		if (option[i] != 'n')
-			return (0);
-	return (1);
-}
-
-int	print_env(t_cmd *cmd, char *name)
-{
-	int	i;
+    size_t key_len;
+    int i;
 
 	i = 0;
-	if (name[0] != '$')
-		return (0);
-	name++;
-	while (cmd->data->env[i])
+	key_len = ft_strlen(key);
+    while (env[i])
 	{
-		if (ft_strncmp(cmd->data->env[i], name,
-				ft_strchr(cmd->data->env[i], '=') - cmd->data->env[i]) == 0)
-		{
-			printf("%s", ft_strchr(cmd->data->env[i], '=') + 1);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
+        if (ft_strncmp(env[i], key, key_len) == 0 && env[i][key_len] == '=')
+            return (env[i] + key_len + 1);
+        i++;
+    }
+    return (NULL);
 }
 
-void	ft_echo(t_cmd *cmd)
+void print_with_variables(char *str, char **env, int last_exit_status)
 {
-	int	i;
-	int	n_opt;
+    int in_single_quote;
+    int in_double_quote;
 
+	in_double_quote = 0;
+	in_single_quote = 0;
+    while (*str)
+	{
+        if (*str == '\'' && !in_double_quote)
+		{
+            in_single_quote = !in_single_quote;
+            str++;
+        }
+		else if (*str == '"' && !in_single_quote)
+		{
+            in_double_quote = !in_double_quote;
+            str++;
+        }
+		else if (*str == '$' && !in_single_quote)
+		{
+            str++;
+            if (*str == '?')
+			{
+                printf("%d", last_exit_status);
+                str++;
+            }
+			else
+			{
+                char var_name[256] = {0};
+                int i = 0;
+                while (ft_isalnum(*str) || *str == '_')
+                    var_name[i++] = *str++;
+                var_name[i] = '\0';
+                char *value = get_env_var(env, var_name);
+                if (value)
+                    printf("%s", value);
+            }
+        }
+		else
+		{
+            putchar(*str);
+            str++;
+        }
+    }
+}
+
+void ft_echo(char **arg, t_mini mini)
+{
+    int	i;
+    int newline = 1;
+	
 	i = 1;
-	if (cmd->args[i] == NULL)
+    if (arg[1] && ft_strncmp(arg[1], "-n\0", 3) == 0)
 	{
-		ft_putstr("\n");
-		return ;
-	}
-	n_opt = check_echo_opt(cmd->args[i]);
-	if (n_opt == 1 && cmd->args[i + 1] == NULL)
-		return ;
-	while (check_echo_opt(cmd->args[i]))
-		i++;
-	while (cmd->args[i] != NULL)
+        newline = 0;
+        i++;
+    }
+    while (arg[i])
 	{
-		if (!print_env(cmd, cmd->args[i]))
-			ft_putstr(cmd->args[i]);
-		if (cmd->args[i + 1] != NULL)
-			ft_putstr(" ");
-		i++;
-	}
-	if (n_opt == 0)
-		ft_putstr("\n");
-	cmd->data->last_error = 0;
+        if (i > 1 || (i > 2 && newline == 0))
+            putchar(' ');
+        print_with_variables(arg[i], mini.envp, g_global.exit_status);
+        i++;
+    }
+    if (newline)
+        putchar('\n');
 }

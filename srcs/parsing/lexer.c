@@ -2,17 +2,17 @@
 
 char	*token_to_strs(t_token token)
 {
-	if (token == PIPE)
+	if (token == T_PIPE)
 		return ("|");
-	if (token == OUT_TRUNCATE)
+	if (token == T_OUT_TRUNCATE)
 		return (">");
-	if (token == OUT_APPEND)
+	if (token == T_OUT_APPEND)
 		return (">>");
 	if (token == IN)
 		return ("<");
-	if (token == HERE_DOC)
+	if (token == T_HERE_DOC)
 		return ("<<");
-	if (token == WHITESPACE)
+	if (token == T_WHITESPACE)
 		return ("space");
 	return ("arg");
 }
@@ -20,23 +20,23 @@ char	*token_to_strs(t_token token)
 t_token	get_token(char *str)
 {
 	if (!ft_strncmp(str, "|", 1))
-		return (PIPE);
+		return (T_PIPE);
 	if (!ft_strncmp(str, "<<", 2))
-		return (HERE_DOC);
+		return (T_HERE_DOC);
 	if (!ft_strncmp(str, ">>", 2))
-		return (OUT_APPEND);
+		return (T_OUT_APPEND);
 	if (!ft_strncmp(str, ">", 1))
-		return (OUT_TRUNCATE);
+		return (T_OUT_TRUNCATE);
 	if (!ft_strncmp(str, "<", 1))
-		return (IN);
+		return (T_IN);
 	if (ft_iswhitespace(*str))
-		return (WHITESPACE);
+		return (T_WHITESPACE);
 	return (T_NONE);
 }
 
 static void	remove_token(t_token token, t_list **node)
 {
-	if (token == PIPE)
+	if (token == T_PIPE)
 	{
 		*node = (*node)->next;
 		return ;
@@ -75,7 +75,7 @@ int	check_tokens(t_list **tokens)
 	{
 		token = ((t_lexer *)(*tokens)->content)->token;
 		if (token == T_NONE
-			|| (token == PIPE
+			|| (token == T_PIPE
 				&& ((t_lexer *)(*tokens)->next->content)->token != T_NONE))
 		{
 			prev = (*tokens);
@@ -150,7 +150,7 @@ char	*add_whitespace(t_list **dest, t_token token, char *input, int *i)
 {
 	if (*i != 0)
 		ft_lstadd_back(dest, ft_lstnew(new_token(input, *i, T_NONE)));
-	while (token == WHITESPACE)
+	while (token == T_WHITESPACE)
 		token = get_token(input + ++(*i));
 	input = input + *i;
 	*i = 0;
@@ -175,9 +175,9 @@ t_list	*input_lexer(char *input)
 		found_token = get_token(input + i);
 		if (found_token == T_NONE)
 			i++;
-		else if (found_token != WHITESPACE)
+		else if (found_token != T_WHITESPACE)
 			input = add_token(&dest, found_token, input, &i);
-		else if (found_token == WHITESPACE)
+		else if (found_token == T_WHITESPACE)
 			input = add_whitespace(&dest, found_token, input, &i);
 	}
 	if (i != 0)

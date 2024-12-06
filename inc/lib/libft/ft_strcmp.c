@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/03/14 13:59:06 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/06 18:25:02 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+int	ft_strcmp(char *s1, char *s2)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	unsigned int	i;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
-	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
-	}
+	i = 0;
+	while ((s1[i] && s2[i]) && (s1[i] == s2[i]))
+		i++;
+	if (s1[i] == s2[i])
+		return (0);
 	else
-		printf("%s\n", buffer);
+		return (s1[i] - s2[i]);
 }

@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 11:44:12 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 11:44:35 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+char	*ft_strdup(const char *src)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	char			*str;
+	unsigned int	i;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	str = malloc(sizeof(char) * ft_strlen((char *)src) + 1);
+	i = 0;
+	if (str == 0)
+		return (0);
+	while (src[i])
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		str[i] = src[i];
+		i++;
 	}
-	else
-		printf("%s\n", buffer);
+	str[i] = '\0';
+	return (str);
 }

@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 10:35:02 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 10:38:07 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+int	ft_atoi(const char *str)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	size_t	i;
+	int		j;
+	size_t	nombre;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	j = 1;
+	i = 0;
+	nombre = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		if (str[i] == '-')
+			j *= -1;
+		i++;
 	}
-	else
-		printf("%s\n", buffer);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		nombre = nombre * 10 + (str[i] - 48);
+		i++;
+	}
+	return (nombre * j);
 }

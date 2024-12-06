@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/12/06 18:09:05 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/06 18:09:08 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	t_list	*temp;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	if (!del)
+		return ;
+	while ((*lst)->prev)
+		*lst = (*lst)->prev;
+	temp = *lst;
+	while (temp)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		temp = (*lst)->next;
+		ft_lstdelone(*lst, del);
+		*lst = temp;
 	}
-	else
-		printf("%s\n", buffer);
 }

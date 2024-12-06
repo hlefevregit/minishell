@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/09/16 15:59:06 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/09/16 15:59:31 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+char	*ft_strncpy(char *dest, char *src, unsigned int n)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	unsigned int	i;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	i = 0;
+	while (src[i] != '\0' && i < n)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		dest[i] = src[i];
+		i++;
 	}
-	else
-		printf("%s\n", buffer);
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
 }

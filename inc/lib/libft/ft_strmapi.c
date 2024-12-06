@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 11:26:39 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 11:27:45 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	unsigned int	i;
+	char			*g;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	i = 0;
+	g = ft_strdup(s);
+	if (!g || !f || !s)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		return (NULL);
 	}
-	else
-		printf("%s\n", buffer);
+	while (g[i])
+	{
+		g[i] = f(i, g[i]);
+		i++;
+	}
+	return (g);
 }

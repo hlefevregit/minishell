@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 09:50:07 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 09:51:55 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+void	ft_bzero(void *s, size_t n)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	char	*dest;
+	int		i;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	i = 0;
+	dest = (char *)s;
+	while (n > 0)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		dest[i] = '\0';
+		i++;
+		n--;
 	}
-	else
-		printf("%s\n", buffer);
 }

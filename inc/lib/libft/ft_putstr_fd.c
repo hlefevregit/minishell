@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 11:42:17 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 11:42:19 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+void	ft_putstr_fd(char *str, int fd)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	int	i;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	i = 0;
+	while (str[i])
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		write(fd, &str[i], 1);
+		i++;
 	}
-	else
-		printf("%s\n", buffer);
 }

@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 09:52:13 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 09:54:42 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	int		i;
+	char	*s1;
+	char	*s2;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	s1 = (char *)dest;
+	s2 = (char *)src;
+	i = 0;
+	if (!s1 && !s2)
+		return (NULL);
+	while (n > 0)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		s1[i] = s2[i];
+		i++;
+		n--;
 	}
-	else
-		printf("%s\n", buffer);
+	return (dest);
 }

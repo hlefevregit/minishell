@@ -1,65 +1,68 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/03 14:12:35 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/09/26 16:20:44 by hulefevr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../includes/minishell.h"
 
-extern int	g_pid;
-
-void	set_env(char **env, char *env_name, char *env_val, int p)
+void	printf_sorted_env2(char **envp)
 {
 	int		i;
-	int		size;
-	char	*new;
-
+	int		sorted;
+	char	*tmp;
+	char	**sorted_env;
+	
 	i = 0;
-	size = ft_strlen(env_name) + ft_strlen(env_val) + 2;
-	new = malloc(sizeof(char) * size);
-	if (!new)
-		return ;
-	new[size - 1] = '\0';
-	while (*env_name != '\0')
+	while (envp[i])
+		i++;
+	sorted_env = malloc(sizeof(char *) * (i + 1));
+	if (!sorted_env)
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (envp[i])
 	{
-		new[i] = *env_name++;
+		sorted_env[i] = envp[i];
 		i++;
 	}
-	new[i] = '=';
-	i++;
-	while (*env_val != '\0')
+	sorted_env[i] = NULL;
+	sorted = 0;
+	while (!sorted)
 	{
-		new[i] = *env_val++;
-		i++;
-	}
-	free(env[p]);
-	env[p] = new;
-}
-
-void	set_env_var(char **env, char *env_name, char *env_val)
-{
-	int	name_size;
-	int	i;
-
-	i = 0;
-	name_size = ft_strlen(env_name);
-	while (env[i] != NULL)
-	{
-		if (ft_strncmp(env[i], env_name, name_size) == 0)
+		sorted = 1;
+		i = 0;
+		while (sorted_env[i + 1])
 		{
-			set_env(env, env_name, env_val, i);
-			return ;
+			if (ft_strcmp(sorted_env[i], sorted_env[i + 1]) > 0)
+			{
+				tmp = sorted_env[i];
+				sorted_env[i] = sorted_env[i + 1];
+				sorted_env[i + 1] = tmp;
+				sorted = 0;
+			}
+			i++;
 		}
+	}
+	i = 0;
+	while (sorted_env[i])
+	{
+		printf("%s\n", sorted_env[i]);
 		i++;
 	}
+	free(sorted_env);	
 }
 
-void	ft_env(t_cmd *cmd)
+void	ft_env(char **argv, t_mini mini)
 {
-	int	i;
+	char	**env;
 
-	i = 0;
-	while (cmd->data->env[i])
-	{
-		ft_putstr(cmd->data->env[i]);
-		ft_putchar('\n');
-		i++;
-	}
-	g_pid = 0;
-	return ;
+	(void)argv;
+	env = mini.envp;
+	printf_sorted_env2(env);
 }

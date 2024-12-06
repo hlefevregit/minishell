@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_lstrmone.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/12/06 18:10:57 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/06 18:10:59 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+void	ft_lstrmone(t_list *lst, void (*del)(void*))
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
-
-	if (getcwd(buffer, BUFSIZ) == 0)
+	if (lst && del)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		del(lst->content);
+		if (lst->prev)
+			lst->prev->next = lst->next;
+		if (lst->next)
+			lst->next->prev = lst->prev;
+		free(lst);
 	}
-	else
-		printf("%s\n", buffer);
 }

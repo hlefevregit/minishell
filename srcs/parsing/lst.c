@@ -13,7 +13,7 @@ int	is_pipe(void *content)
 	t_lexer	*lexer;
 
 	lexer = content;
-	return (lexer->token == PIPE);
+	return (lexer->token == T_PIPE);
 }
 
 int	is_arg(void *content)

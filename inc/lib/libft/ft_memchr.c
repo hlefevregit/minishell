@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 10:33:11 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 10:33:26 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	unsigned char	*s1;
+	unsigned int	i;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	s1 = (unsigned char *)s;
+	i = 0;
+	while (i < n)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		if (s1[i] == (unsigned char)c)
+		{
+			return ((void *)s1 + i);
+		}
+		i++;
 	}
-	else
-		printf("%s\n", buffer);
+	return (NULL);
 }

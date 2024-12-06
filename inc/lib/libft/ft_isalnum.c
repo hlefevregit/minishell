@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 09:39:09 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 09:41:33 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+int	ft_isalnum(int c)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
-
-	if (getcwd(buffer, BUFSIZ) == 0)
-	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
-	}
-	else
-		printf("%s\n", buffer);
+	if (('0' <= c && c <= '9') || ('A' <= c && c <= 'Z')
+		|| ('a' <= c && c <= 'z'))
+		return (1);
+	return (0);
 }

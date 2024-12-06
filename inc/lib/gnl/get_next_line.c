@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/06/06 12:56:43 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/06 18:27:29 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "get_next_line.h"
 
-void	ft_pwd(t_mini mini)
+char	*get_next_line(int fd)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	static char	*save[32767];
+	char		buffer[BUFFER_SIZE + 1];
+	int			bytes;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	bytes = read(fd, buffer, BUFFER_SIZE);
+	while (bytes > 0)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		buffer[bytes] = '\0';
+		add_buffer(&save[fd], buffer);
+		if (there_is_a_end_of_line(save[fd]) != -1)
+			return (get_line(&save[fd]));
+		bytes = read(fd, buffer, BUFFER_SIZE);
 	}
-	else
-		printf("%s\n", buffer);
+	return (get_line(&save[fd]));
 }

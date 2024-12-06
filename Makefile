@@ -29,7 +29,7 @@ OBJS			=	$(addprefix srcs/, $(ALL_SRCS:.c=.o))
 CC				=	cc
 RM				=	@rm -f
 
-LIBFT			=	libft/libft.a
+LIBFT			=	inc/lib/libft/libft.a
 
 FLAGS			=	-Wall -Werror -Wextra $(INCLUDES) -fsanitize=address -g
 
@@ -41,19 +41,19 @@ $(NAME):			$(LIBFT) start_message $(OBJS)
 					@$(CC) $(OBJS) $(FLAGS) -o $(NAME) $(LD_FLAGS)
 
 $(LIBFT):
-					@make -s -C libft -f Makefile
+					@make -s -C inc/lib/libft -f Makefile
 
 all:				$(NAME)
 
 bonus:				re
 
 clean:
-					@make -s -C libft -f Makefile clean
+					@make -s -C inc/lib/libft -f Makefile clean
 					@echo "\033[0;33mCleaning \033[1;31m$(NAME)\033[0;33m's objects\033[0m"
 					$(RM) $(OBJS)
 
 fclean:				clean
-					@make -s -C libft -f Makefile fclean
+					@make -s -C inc/lib/libft -f Makefile fclean
 					@echo "\033[0;33mRemoving \033[1;31m$(NAME)\033[0;33m.\033[0m"
 					$(RM) $(NAME)
 

@@ -67,6 +67,7 @@ void	ft_execve(t_cmd *cmd)
 	cmd->data->last_error = WEXITSTATUS(ret);
 	if (WEXITSTATUS(ret) == 127)
 	{
+		printf("%s: %s\n", strerror(errno) ,cmd->args[0]);
 		ft_putstr("minishell: no such file or directory: ");
 		ft_putendl(cmd->args[0]);
 	}

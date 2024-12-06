@@ -1,57 +1,82 @@
-#include "../../inc/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/03 14:10:30 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/09/23 11:10:41 by hulefevr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	found(char *env_line, char *env_name)
+#include "../../includes/minishell.h"
+
+int is_valid_identifier(const char *str)
 {
-	int	i;
-
-	i = 0;
-	while (env_name[i])
+	if (!str || !(*str))
+		return (0);
+	if (!(ft_isalpha(*str) || *str == '_'))
+		return (0);
+	str++;
+	while (*str)
 	{
-		if (env_line[i] != env_name[i])
+		if (!(ft_isalnum(*str) || *str == '_'))
 			return (0);
-		i++;
+		str++;
 	}
 	return (1);
 }
 
-int	is_in_env(t_cmd *cmd, char *env_name)
+int find_env_var_index(char **env, const char *key)
 {
-	int	size;
+	size_t key_len;
+	int i;
 
-	size = ft_tablen(cmd->data->env);
-	while (size)
+	key_len = ft_strlen(key);
+	i = 0;
+	while (env[i])
 	{
-		size--;
-		if (found(cmd->data->env[size], env_name) == 1)
-			return (size);
+		if (ft_strncmp(env[i], key, key_len) == 0 && env[i][key_len] == '=')
+			return (i);
+		i++;
 	}
-	return (0);
+	return (-1);
 }
 
-void	ft_unset(t_cmd *cmd)
+void ft_unset(char **arg, t_mini mini)
 {
 	int		i;
-	int		k;
-	char	**new_env;
+	char	*key;
+	int		index;
 
-	k = 1;
-	i = 0;
-	new_env = NULL;
-	while (cmd->args[++i] != NULL)
+	if (!arg || !*arg)
 	{
-		k = is_in_env(cmd, cmd->args[i]);
-		if (k != 0)
+		printf("unset: not enough arguments\n");
+		g_global.exit_status = 1;
+		return ;
+	}
+	i = 1;
+	while (arg[i] != NULL)
+	{
+		key = arg[i];
+		if (!is_valid_identifier(key))
 		{
-			new_env = ft_tabrmi(cmd->data->env, k);
-			if (new_env == NULL)
-			{
-				printf("alloc failed for new_env");
-				return ;
-			}
-			ft_free_tab(cmd->data->env);
-			cmd->data->env = new_env;
+			printf("unset: `%s': not a valid identifier\n", key);
+			i++;
+			continue ;
 		}
-		else
-			printf("cant unset %s -> name is not valid\n", cmd->args[i]);
+		index = find_env_var_index(mini.envp, key);
+		if (index != -1)
+		{
+			free(mini.envp[index]);
+			while (mini.envp[index + 1])
+			{
+				mini.envp[index] = mini.envp[index + 1];
+				index++;
+			}
+			mini.envp[index] = NULL;
+		}
+		i++;
 	}
 }

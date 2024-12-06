@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_lst_to_tab.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/12/06 18:08:39 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/06 18:08:40 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
 
-void	ft_pwd(t_mini mini)
+#include "libft.h"
+
+char	**ft_lst_to_tab(t_list *lst)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	char	**dest;
+	int		i;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	dest = malloc(sizeof(char *) * (ft_lstsize(lst) + 1));
+	if (!(dest))
+		return (NULL);
+	i = 0;
+	while (lst)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		dest[i] = ft_strdup((char *)lst->content);
+		lst = lst->next;
+		i++;
 	}
-	else
-		printf("%s\n", buffer);
+	dest[i] = NULL;
+	return (dest);
 }

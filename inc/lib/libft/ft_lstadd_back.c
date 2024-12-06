@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/12/06 18:08:55 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/06 18:10:12 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
 
-void	ft_pwd(t_mini mini)
+#include "libft.h"
+
+void	ft_lstadd_back(t_list **alst, t_list *new)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	t_list	*node;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	if (!alst || !new)
+		return ;
+	node = *alst;
+	if (!node)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		*alst = new;
+		return ;
 	}
-	else
-		printf("%s\n", buffer);
+	while (node->next != NULL)
+		node = node->next;
+	node->next = new;
+	new->prev = node;
+	new->next = NULL;
 }

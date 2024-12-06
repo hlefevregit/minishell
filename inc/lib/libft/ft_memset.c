@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 09:48:01 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 09:58:18 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	size_t			i;
+	unsigned char	*dest;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	i = 0;
+	dest = (unsigned char *)b;
+	while (i < len)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		dest[i] = c;
+		i++;
 	}
-	else
-		printf("%s\n", buffer);
+	return (b);
 }

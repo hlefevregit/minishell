@@ -1,28 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_lstrm_if.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/12/06 18:10:49 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/06 18:10:51 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+void	ft_lstrm_if(t_list **lst, int (*cmp)(void *), void (*del)(void*))
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	t_list	*node;
+	t_list	*next;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	node = *lst;
+	while (node)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		if (cmp(node->content))
+		{
+			next = node->next;
+			if (node == *lst)
+				*lst = next;
+			ft_lstrmone(node, del);
+			node = next;
+		}
+		else
+			node = node->next;
 	}
-	else
-		printf("%s\n", buffer);
 }

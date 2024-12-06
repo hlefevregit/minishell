@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 11:08:26 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 12:57:10 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	char	*d;
+	size_t	l;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
-	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
-	}
-	else
-		printf("%s\n", buffer);
+	if (!s1 || !set)
+		return (NULL);
+	while (*s1 && ft_strchr(set, *s1))
+		s1++;
+	l = ft_strlen(s1);
+	while (ft_strchr(set, s1[l]) && l)
+		l--;
+	d = ft_substr((char *)s1, 0, l + 1);
+	return (d);
 }

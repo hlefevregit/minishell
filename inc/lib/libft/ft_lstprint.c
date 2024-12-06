@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_lstprint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/12/06 18:10:28 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/06 18:10:30 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+void	ft_lstprint_fd(t_list *lst, int fd)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	int		i;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	i = 0;
+	while (lst)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		ft_putchar_fd('|', fd);
+		ft_putstr_fd((char *)lst->content, fd);
+		ft_putstr_fd("|\n", fd);
+		lst = lst->next;
+		i++;
 	}
-	else
-		printf("%s\n", buffer);
+}
+
+void	ft_lstprint(t_list *lst)
+{
+	while (lst)
+	{
+		printf("|%s|\n", (char *)lst->content);
+		lst = lst->next;
+	}
 }

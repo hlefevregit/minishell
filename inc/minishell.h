@@ -1,26 +1,67 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/06 18:04:08 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/06 18:26:42 by hulefevr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <termios.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <fcntl.h>
 # include <stdio.h>
-#include <unistd.h>
-# include "../libft/includes/libft.h"
+# include <unistd.h>
+# include <fcntl.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include <termios.h>
+# include <stdbool.h>
+# include <dirent.h>
+# include <curses.h>
+# include <sys/ioctl.h>
+# include <sys/ioctl.h>
+// # ifndef READLINE_LIBRARY 
+// #  define READLINE_LIBRARY 
+// # endif
+
+# include "./lib/libft/libft.h"
+
+# define STDIN  STDIN_FILENO
+# define STDOUT STDOUT_FILENO
+# define STDERR STDERR_FILENO
+
+# define S_QUOTE 39
+# define D_QUOTE 34
+
+# define _XOPEN_SOURCE 700
+# define _GNU_SOURCE
+
+# define TRUE  1
+# define FALSE 0
+
+# define GREEN "\033[0m\033[1;32m"
+# define CYAN "\033[0m\033[1;36m"
+# define YELLOW "\033[0m\033[1;33m\033[3;33m"
+# define RESET "\033[0m"
+# define RED "\e[0;31m"
 
 
 typedef enum e_token
 {
-	PIPE,
-	OUT_TRUNCATE,
-	OUT_APPEND,
-	IN,
-	HERE_DOC,
-	WHITESPACE,
+	T_PIPE,
+	T_OUT_TRUNCATE,
+	T_OUT_APPEND,
+	T_IN,
+	T_HERE_DOC,
+	T_WHITESPACE,
 	T_NONE,
 }	t_token;
 
@@ -70,6 +111,8 @@ int		already_in_env(char *env_name, t_cmd *cmd);
 int		check_env_name(char *env_name);
 void	remove_plus(char *str);
 char	*get_var_from_env(char **env, char *var);
+char	*find_path(char *cmd, char **envp);
+char	*find_in_env(char *cmd, char **envp);
 
 /*         Utils/signal.c                   */
 void	signals_main(void);

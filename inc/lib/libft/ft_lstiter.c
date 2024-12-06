@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/12/06 18:09:23 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/06 18:13:11 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	t_list	*temp;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	while (lst != NULL)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		temp = lst->next;
+		f(lst->content);
+		lst = temp;
 	}
-	else
-		printf("%s\n", buffer);
 }

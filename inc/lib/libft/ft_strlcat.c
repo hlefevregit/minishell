@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 13:53:27 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/08/07 15:28:37 by hulefevr         ###   ########.fr       */
+/*   Created: 2024/04/22 10:11:51 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/04/22 11:51:59 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-void	ft_pwd(t_mini mini)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	char	buffer[BUFSIZ];
-	char	*pwd;
+	size_t	j;
+	size_t	len;
 
-	if (getcwd(buffer, BUFSIZ) == 0)
+	j = 0;
+	len = ft_strlen(dst);
+	if (len >= dstsize)
+		return (dstsize + ft_strlen(src));
+	while (src[j] && dstsize > len + 1)
 	{
-		pwd = find_in_env("PWD", mini.envp);
-		printf("%s\n", pwd);
-		free(pwd);
+		dst[len] = src[j];
+		j++;
+		len++;
 	}
-	else
-		printf("%s\n", buffer);
+	dst[len] = '\0';
+	return (ft_strlen(dst) + ft_strlen(&src[j]));
 }

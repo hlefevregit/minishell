@@ -1,21 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/03 13:51:22 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/09/23 12:11:55 by hulefevr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "../../includes/minishell.h"
 
-void	ft_cd(t_cmd *cmd)
+void ft_cd(char **av, t_mini mini)
 {
-	char	*path;
-	int		n_args;
+	char	buffer[BUFSIZ];
 
-	n_args = ft_tablen(cmd->args);
-	if (n_args > 2)
+	if (av[1] == NULL)
 	{
-		ft_printf("minishell: cd: too many arguments\n");
-		cmd->data->last_error = 1;
-		return ;
+		if (chdir(find_in_env("HOME", mini.envp)) != 0)
+		{
+			perror("cd");
+			g_global.exit_status = EXIT_FAILURE;
+		}
 	}
-	if (n_args == 1)
-		path = get_var_from_env(cmd->data->env, "HOME=");
+	else if (ft_strcmp(av[1], "-") == 0)
+	{
+		if (chdir(find_in_env("OLDPWD", mini.envp)) != 0)
+		{
+			perror("cd");
+			g_global.exit_status = EXIT_FAILURE;
+		}
+	}
+	else if (chdir(av[1]) != 0)
+	{
+		perror("cd");
+		g_global.exit_status = EXIT_FAILURE;
+	}
+	else if (getcwd(buffer, BUFSIZ) == 0)
+	{
+		printf("NIQUE TA MERE TOI\n");
+		ft_cd(ft_split("cd ..", 32), mini);
+	}
 	else
-		path = cmd->args[1];
-	cmd->data->last_error = chdir(path);
+		g_global.exit_status = EXIT_SUCCESS;
 }
