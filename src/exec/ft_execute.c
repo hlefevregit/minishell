@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 14:50:59 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/27 15:51:53 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:22:10 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ int	try_execve(char **cmd, t_mini mini)
 		return (127);
 	}
 	pid = fork();
-	int i = -1;
-	while (cmd[++i])
-		printf("%s ", cmd[i]);
 	if (pid == 0)
 	{
 		if (execve(path, cmd, mini.envp) == -1)
@@ -96,12 +93,13 @@ char	**remove_args(char **arg)
 	{
 		if (ft_strcmp(arg[i], ">") == 0 || ft_strcmp(arg[i], ">>") == 0)
 		{
-			arg[i] = NULL;
-			arg[i + 1] = NULL;
+			arg[i] = " ";
+			arg[i + 1] = " ";
 			break ;
 		}
 		i++;
 	}
+	// printf("arg[%d] = %s, pointer = %p\n", i-1, arg[i-1], arg[i-1]);
 	return (arg);
 }
 
@@ -127,7 +125,7 @@ int	handle_in_redir(char **arg)
 			arg[i] = NULL;
 			arg[i + 1] = NULL;
 			return (fd);
-		}
+		}                                                                      
 		i++;	
 	}
 	return (STDIN_FILENO);

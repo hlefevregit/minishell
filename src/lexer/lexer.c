@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 17:12:31 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/25 11:22:06 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/12/06 14:51:08 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,33 +125,7 @@ t_mini	get_token_type(t_mini mini)
 }
 char	**isolate_cmd1(t_mini mini)
 {
-	int		i;
-	int		j;
-	char	**ret;
-	char	*tmp;
-
-	ret = (char **)ft_calloc(get_nb_cmd(mini) + 1, sizeof(char *));
-	if (!ret)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (i < get_nb_cmd(mini))
-	{
-		ret[i] = ft_strdup("");
-		if (!ret[i])
-			return (NULL);
-		while (j < mini.size_cmd && mini.token[j].type != T_PIPE)
-		{
-			tmp = ft_strjoin_with_space(ret[i], mini.token[j].value);
-			free(ret[i]);
-			ret[i] = tmp;
-			j++;
-		}
-		j++;
-		i++;
-	}
-	ret[i] = NULL;
-	return (ret);
+	
 }
 
 char	**isolate_cmd(t_mini mini)

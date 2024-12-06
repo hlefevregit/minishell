@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/06 12:58:19 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/11/27 15:46:51 by hulefevr         ###   ########.fr       */
+/*   Updated: 2024/12/06 15:09:39 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,18 @@ typedef struct s_token
 	char				*value;
 }	t_token;
 
+typedef struct s_cmd
+{
+	char	*cmd;
+	char	**argv;
+	int		argc;
+	int		infile;
+	int		outfile;
+	int		pipe[2];
+	int		is_pipe;
+	t_token	*token;
+}	t_cmd;
+
 typedef struct s_mini
 {
     char    **envp;
@@ -99,6 +111,7 @@ typedef struct s_mini
 	int		exit;
 	int		in_error_state;
 	int		*pipefd[2];
+	t_cmd	*cmd;
 }             t_mini;
 
 typedef struct s_global
