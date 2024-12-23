@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/01 17:59:38 by magostin          #+#    #+#             */
-/*   Updated: 2021/04/07 02:39:06 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:45:58 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:45:59 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef COLOR_H
 # define COLOR_H

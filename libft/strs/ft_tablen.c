@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tablen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/14 14:03:51 by magostin          #+#    #+#             */
-/*   Updated: 2024/05/16 16:59:12 by maagosti         ###   ########.fr       */
+/*   Created: 2024/12/23 14:51:31 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:51:49 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../includes/libft.h"
 
 int	ft_tablen(char **strs)
 {

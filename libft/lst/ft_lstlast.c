@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/15 21:47:48 by magostin          #+#    #+#             */
-/*   Updated: 2021/05/01 00:08:01 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:46:57 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:54:20 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 void	ft_lstlast(t_list **lst)
 {

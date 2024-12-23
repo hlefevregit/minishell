@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/04 16:35:17 by mdelwaul          #+#    #+#             */
-/*   Updated: 2021/04/07 02:37:30 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:48:00 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:53:54 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 void	ft_swap(int *a, int *b)
 {

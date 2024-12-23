@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/23 15:17:49 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 15:17:50 by hulefevr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -15,12 +27,12 @@
 
 typedef enum e_token
 {
-	PIPE,
-	OUT_TRUNCATE,
-	OUT_APPEND,
-	IN,
-	HERE_DOC,
-	WHITESPACE,
+	T_PIPE,
+	T_OUT_TRUNCATE,
+	T_OUT_APPEND,
+	T_IN,
+	T_HERE_DOC,
+	T_WHITESPACE,
 	T_NONE,
 }	t_token;
 

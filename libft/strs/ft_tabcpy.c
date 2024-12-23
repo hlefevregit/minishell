@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tabcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/14 14:03:51 by magostin          #+#    #+#             */
-/*   Updated: 2024/05/16 16:58:33 by maagosti         ###   ########.fr       */
+/*   Created: 2024/12/23 14:51:08 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:52:08 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 char	**ft_tabcpy(char **strs)
 {

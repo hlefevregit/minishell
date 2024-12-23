@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_tab.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/15 13:04:56 by magostin          #+#    #+#             */
-/*   Updated: 2021/06/25 13:49:21 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:49:03 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:53:31 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 void	ft_print_tab(char **strs)
 {

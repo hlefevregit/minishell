@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   store_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/07 01:06:05 by maagosti          #+#    #+#             */
-/*   Updated: 2024/05/07 01:08:44 by maagosti         ###   ########.fr       */
+/*   Created: 2024/12/23 14:45:45 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:54:52 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 char	*store_file(int fd)
 {

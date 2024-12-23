@@ -80,38 +80,45 @@ SRCS_STRS	=	strs/ft_split.c							\
 				strs/ft_tabcpy.c						\
 
 
-SRCS		=	$(SRCS_CHAR) $(SRCS_FILE) $(SRCS_LST) $(SRCS_MATH) $(SRCS_MEM) $(SRCS_PRINT) $(SRCS_STRS)
+SRCS		:=	$(SRCS_CHAR) $(SRCS_FILE) $(SRCS_LST) $(SRCS_MATH) $(SRCS_MEM) $(SRCS_PRINT) $(SRCS_STRS)
 
-OBJS		=	$(SRCS:.c=.o)
+OBJS		:=	$(SRCS:.c=.o)
 
-CC			=	@cc
-RM			=	@rm -f
-NAME		=	libft.a
+CC			:=	@cc
+RM			:=	@rm -f
+NAME		:=	libft.a
 
-FLAGS		=	-Wall -Werror -Wextra -Iincludes #-fsanitize=address -g
+FLAGS		:=	-Wall -Werror -Wextra -Iincludes #-fsanitize=address -g
 
 .c.o:
-				$(CC) $(FLAGS) -c $< -o $(<:.c=.o)
+	@printf $(GREEN)"\r\033[KCompiling libft... "$(YELLOW)"<$<> "$(RESET)"⏳ "
+	$(CC) $(FLAGS) -c $< -o $(<:.c=.o)
 
 $(NAME):		start_message $(OBJS)
-				@ar rc $(NAME) $(OBJS)
-				@ranlib $(NAME)
-				@echo "\033[1A\033[25C\033[1;32m✓\033[0m"
+	@printf $(CYAN)"\r\033[KCompiling '$(NAME)'... "$(RESET)"⏳ "
+	@ar rc $(NAME) $(OBJS)
+	@ranlib $(NAME)
+	@printf $(GREEN)"\r\033[KLibft compiled succesfully ✅\n"$(RESET)
 
 all:			$(NAME)
 
 clean:
-				@echo "\033[0;33mCleaning \033[1;31m$(NAME)\033[0;33m's objects\033[0m"
-				$(RM) $(OBJS)
+	@printf $(CYAN)"\r\033[KErasing libft... "$(RESET)"⏳ "
+	$(RM) $(OBJS)
 
 start_message:
-				@echo "\033[0;33mMaking \033[1;31m$(NAME)\033[0;33m\t\t\033[1;30m[\033[1;31mX\033[1;30m]\033[0m"
+	@echo "\033[0;33mMaking \033[1;31m$(NAME)\033[0;33m\t\t\033[1;30m[\033[1;31mX\033[1;30m]\033[0m"
 
-fclean:			
-				$(RM) $(NAME)
-				$(RM) $(OBJS)
-				@echo "\033[0;33mRemoving \033[1;31m$(NAME)\033[0;33m.\033[0m"
+fclean:	
+	$(RM) $(NAME)
+	$(RM) $(OBJS)
+	@printf $(CYAN)"\r\033[KErasing $(NAME)... "$(RESET)"⏳ "
 
 re:				fclean all
+
+GREEN	:= "\033[0m\033[1;32m"
+CYAN	:= "\033[0m\033[1;36m"
+YELLOW	:= "\033[0m\033[1;33m\033[3;33m"
+RESET	:= "\033[0m"
 
 .PHONY:			all clean fclean re

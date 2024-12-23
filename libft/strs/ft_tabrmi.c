@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tabrmi.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/13 17:02:19 by magostin          #+#    #+#             */
-/*   Updated: 2024/05/16 16:54:02 by maagosti         ###   ########.fr       */
+/*   Created: 2024/12/23 14:51:20 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:51:21 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/libft.h"
 

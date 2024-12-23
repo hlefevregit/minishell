@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/04 12:36:21 by mdelwaul          #+#    #+#             */
-/*   Updated: 2021/06/25 13:26:06 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:45:21 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:55:24 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 int	ft_strmap(char *str, int (*f)(int))
 {

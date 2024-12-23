@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstrmone.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/15 22:06:14 by magostin          #+#    #+#             */
-/*   Updated: 2024/05/19 23:37:59 by maagosti         ###   ########.fr       */
+/*   Created: 2024/12/23 14:47:18 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:54:11 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 void	ft_lstrmone(t_list *lst, void (*del)(void*))
 {

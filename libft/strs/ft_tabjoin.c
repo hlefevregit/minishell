@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tabjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/02 18:36:20 by magostin          #+#    #+#             */
-/*   Updated: 2024/05/16 16:59:00 by maagosti         ###   ########.fr       */
+/*   Created: 2024/12/23 14:51:12 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:52:02 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 char	**ft_tabjoin(char **s1, char **s2)
 {

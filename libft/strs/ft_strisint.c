@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strisint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/22 22:10:39 by mdelwaul          #+#    #+#             */
-/*   Updated: 2021/06/25 13:46:38 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:50:04 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:52:48 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 int	ft_strisint(char *str)
 {

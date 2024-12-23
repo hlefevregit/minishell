@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_to_tab.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/15 17:51:11 by magostin          #+#    #+#             */
-/*   Updated: 2021/06/25 13:29:41 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:46:24 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:54:49 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 char	**ft_lst_to_tab(t_list *lst)
 {

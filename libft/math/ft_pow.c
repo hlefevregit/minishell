@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/16 01:05:40 by mdelwaul          #+#    #+#             */
-/*   Updated: 2021/06/25 13:50:14 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:48:05 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:53:57 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 int	ft_pow(int a, int b)
 {

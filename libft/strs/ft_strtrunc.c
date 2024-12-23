@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrunc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/16 00:57:57 by mdelwaul          #+#    #+#             */
-/*   Updated: 2021/06/25 13:40:47 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:50:56 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:52:13 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 int	ft_strtrunc(char **line, int n)
 {

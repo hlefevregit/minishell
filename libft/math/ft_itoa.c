@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/06 23:16:30 by magostin          #+#    #+#             */
-/*   Updated: 2021/06/25 13:50:58 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:47:48 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 15:12:08 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "../includes/libft.h"
 #include <stdlib.h>
 
-static int	ft_pow(int a, int b)
-{
-	int	temp;
+// static int	ft_pow(int a, int b)
+// {
+// 	int	temp;
 
-	temp = a;
-	while (b > 1)
-	{
-		a *= temp;
-		b--;
-	}
-	if (b == 0)
-		return (1);
-	return (a);
-}
+// 	temp = a;
+// 	while (b > 1)
+// 	{
+// 		a *= temp;
+// 		b--;
+// 	}
+// 	if (b == 0)
+// 		return (1);
+// 	return (a);
+// }
 
 static char	*ft_itoa2(int i, long int n, int neg)
 {

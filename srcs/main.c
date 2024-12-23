@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/23 15:18:33 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 15:18:34 by hulefevr         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 int	g_pid;
@@ -35,11 +47,11 @@ t_func_cmd	get_cmd(char *name)
 
 int	open_options(t_token token)
 {
-	if (token == OUT_APPEND)
+	if (token == T_OUT_APPEND)
 		return (O_WRONLY | O_APPEND | O_CREAT);
-	if (token == OUT_TRUNCATE)
+	if (token == T_OUT_TRUNCATE)
 		return (O_WRONLY | O_TRUNC | O_CREAT);
-	if (token == IN)
+	if (token == T_IN)
 		return (O_RDONLY);
 	return (0);
 }
@@ -55,7 +67,7 @@ void	handle_redirection(void *ptr)
 		dprintf(2, "minishell: no such file or directory: %s\n", content->str);
 		return ;
 	}
-	dup2(content->fd, content->token != IN);
+	dup2(content->fd, content->token != T_IN);
 }
 
 void	close_redirection(void *ptr)

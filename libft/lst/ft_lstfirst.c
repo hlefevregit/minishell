@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstfirst.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/01 00:03:12 by mdelwaul          #+#    #+#             */
-/*   Updated: 2021/06/25 13:31:12 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:46:49 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:54:39 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 void	ft_lstfirst(t_list **list)
 {

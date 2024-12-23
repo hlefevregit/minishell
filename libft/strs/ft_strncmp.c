@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/14 01:06:09 by magostin          #+#    #+#             */
-/*   Updated: 2021/06/25 13:43:09 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:50:30 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:52:32 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 #include <stdio.h>
 #include <string.h>
 

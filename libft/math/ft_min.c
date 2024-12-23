@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_min.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/15 13:33:55 by magostin          #+#    #+#             */
-/*   Updated: 2021/06/25 13:50:10 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:47:55 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:53:58 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 int	ft_min(int a, int b)
 {

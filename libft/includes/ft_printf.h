@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/19 13:25:31 by krain             #+#    #+#             */
-/*   Updated: 2024/04/23 00:20:32 by maagosti         ###   ########.fr       */
+/*   Created: 2024/12/23 14:46:03 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:46:04 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H

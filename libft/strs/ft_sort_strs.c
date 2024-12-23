@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sort_strs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/19 04:37:13 by mdelwaul          #+#    #+#             */
-/*   Updated: 2021/06/25 13:45:32 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:49:45 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:53:03 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 void	ft_swap_str(char **a, char **b)
 {

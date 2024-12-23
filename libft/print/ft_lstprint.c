@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstprint.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/15 13:51:14 by magostin          #+#    #+#             */
-/*   Updated: 2021/06/25 13:49:13 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:48:57 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:53:32 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 void	ft_lstprint_fd(t_list *lst, int fd)
 {

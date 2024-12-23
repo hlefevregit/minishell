@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/22 23:37:26 by maagosti          #+#    #+#             */
-/*   Updated: 2024/04/30 05:03:09 by maagosti         ###   ########.fr       */
+/*   Created: 2024/12/23 14:49:10 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:53:20 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 #define UPPER_HEX_BASE "0123456789ABCDEF"
 #define LOWER_HEX_BASE "0123456789abcdef"
 

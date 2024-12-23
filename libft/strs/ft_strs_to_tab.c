@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strs_to_tab.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/15 12:57:26 by magostin          #+#    #+#             */
-/*   Updated: 2021/06/25 13:46:24 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:50:47 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:52:20 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 char	**ft_strs_to_tab(int n, ...)
 {

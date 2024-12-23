@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lsttotab_if.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/15 17:51:11 by magostin          #+#    #+#             */
-/*   Updated: 2024/05/18 03:51:55 by maagosti         ###   ########.fr       */
+/*   Created: 2024/12/23 14:47:33 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:54:06 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 char	**ft_lsttotab_if(t_list *lst, int (*cmp)(void *), char *(*conv)(void *))
 {

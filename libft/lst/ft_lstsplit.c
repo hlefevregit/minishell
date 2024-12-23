@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/15 21:42:51 by magostin          #+#    #+#             */
-/*   Updated: 2024/05/18 03:51:40 by maagosti         ###   ########.fr       */
+/*   Created: 2024/12/23 14:47:29 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:54:08 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 int	count_lists(t_list *lst, int (cmp)(void *))
 {

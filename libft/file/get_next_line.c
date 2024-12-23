@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maagosti <maagosti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/23 00:43:31 by maagosti          #+#    #+#             */
-/*   Updated: 2024/05/11 17:47:23 by maagosti         ###   ########.fr       */
+/*   Created: 2024/12/23 14:45:39 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:54:56 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 static size_t	gnl_strlen(const char *str)
 {

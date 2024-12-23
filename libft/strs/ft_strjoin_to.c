@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin_to.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/12 18:22:58 by mdelwaul          #+#    #+#             */
-/*   Updated: 2021/06/25 13:48:11 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:50:08 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:52:46 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
 void	ft_strjoin_to(char **dest, char *s2)
 {

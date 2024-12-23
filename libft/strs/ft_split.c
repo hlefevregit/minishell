@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdelwaul <mdelwaul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/11 23:11:24 by marvin            #+#    #+#             */
-/*   Updated: 2021/06/27 12:16:59 by mdelwaul         ###   ########.fr       */
+/*   Created: 2024/12/23 14:49:49 by hulefevr          #+#    #+#             */
+/*   Updated: 2024/12/23 14:52:59 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 #include <stdlib.h>
 #include <stdio.h>
 
