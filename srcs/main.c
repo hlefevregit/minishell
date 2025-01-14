@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:18:33 by hulefevr          #+#    #+#             */
-/*   Updated: 2025/01/06 15:49:57 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:09:54 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,36 +56,14 @@ int	open_options(t_token token)
 	return (0);
 }
 
-void	handle_redirection(void *ptr)
-{
-	t_lexer	*content;
-
-	content = ptr;
-	if (content->token == T_HERE_DOC)
-		here_doc(content->str);
-	content->fd = open(content->str, open_options(content->token), 0777);
-	if (content->fd < 0)
-	{
-		dprintf(2, "minishell: no such file or directory: %s\n", content->str);
-		return ;
-	}
-	dup2(content->fd, content->token != T_IN);
-}
-
-void	close_redirection(void *ptr)
-{
-	t_lexer	*content;
-
-	content = ptr;
-	close(content->fd);
-}
-
 void	pipe_prev(t_list *node)
 {
 	t_cmd	*prev_cmd;
 	t_cmd	*cmd;
 
 	cmd = node->content;
+	if (cmd->out && ((t_lexer *)cmd->out->content)->token == T_HERE_DOC)
+		here_doc(((t_lexer *)cmd->out->content)->str);
 	if (node->prev)
 	{
 		prev_cmd = node->prev->content;
@@ -94,7 +72,7 @@ void	pipe_prev(t_list *node)
 		close(prev_cmd->pipe[1]); 
 	}
 	if (cmd->out)
-		ft_lstiter(cmd->out, &handle_redirection);
+		handle_redirection(cmd);
 	cmd->pid = fork();
 	if (cmd->pid == 0) 
 	{
@@ -122,7 +100,7 @@ void	pipe_next(t_list *node)
 			close(((t_cmd *)node->prev->content)->pipe[0]);
 		}
 		if (cmd->out)
-			ft_lstiter(cmd->out, &handle_redirection);
+			handle_redirection(cmd);
 		get_cmd(cmd->name)(cmd);
 		exit(EXIT_SUCCESS);
 	}

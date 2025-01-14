@@ -6,7 +6,7 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 15:18:00 by hulefevr          #+#    #+#              #
-#    Updated: 2025/01/14 16:37:45 by hulefevr         ###   ########.fr        #
+#    Updated: 2025/01/14 19:11:51 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ ALL_SRCS		=	$(addprefix parsing/, $(SRCS_PARSING)) $(SRCS_UTILS) $(addprefix bui
 
 SRCS_UTILS		=	main.c									\
 					signal.c								\
-					heredoc.c
+					heredoc.c								\
+					redirection.c
 
 SRCS_PARSING	=	parsing.c								\
 					free.c								\
@@ -44,7 +45,7 @@ RM				:=	@rm -f
 
 LIBFT			:=	libft/libft.a
 
-FLAGS			:=	-Wall -Werror -Wextra $(INCLUDES) -fsanitize=address -g
+FLAGS			:=	-Wall -Werror -Wextra $(INCLUDES)  -g
 
 .c.o:
 	@printf $(GREEN)"\r\033[KCompiling objects... "$(YELLOW)"<$<> ⏳ "$(RESET)

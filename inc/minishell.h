@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:17:49 by hulefevr          #+#    #+#             */
-/*   Updated: 2025/01/06 15:49:12 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:07:15 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,7 @@ void	free_data(t_data *data);
 
 
 void	here_doc(char *limiter);
+void	handle_redirection(t_cmd *cmd);
+void	close_redirection(void *ptr);
 
 #endif
