@@ -6,14 +6,15 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 15:18:00 by hulefevr          #+#    #+#              #
-#    Updated: 2024/12/23 15:18:01 by hulefevr         ###   ########.fr        #
+#    Updated: 2025/01/14 16:37:45 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 ALL_SRCS		=	$(addprefix parsing/, $(SRCS_PARSING)) $(SRCS_UTILS) $(addprefix buildins/, $(SRCS_BULTINS))
 
 SRCS_UTILS		=	main.c									\
-					signal.c
+					signal.c								\
+					heredoc.c
 
 SRCS_PARSING	=	parsing.c								\
 					free.c								\
@@ -58,7 +59,7 @@ $(NAME):	 	 $(LIBFT) start_message $(OBJS)
 $(LIBFT):
 	@make -s -C libft -f Makefile
 
-all: $(NAME)
+all: $(NAME) drucker
 
 bonus:	re
 
@@ -72,6 +73,8 @@ vendor/readline: vendor
 vendor:
 	@mkdir vendor
 
+run: all
+	@./$(NAME)
 
 drucker :
 	@echo "	(((((((((((((((((((((((((((((((((((((((((((((((((#((#(#(((((((#(##(##((##((#(##((##((#(((((((####(###(#(((((((#####(##((((#####(######################"
@@ -169,19 +172,15 @@ clean:
 	$(RM) $(OBJS)
 	@printf $(GREEN)"\r\033[Kcleaned 🗑"$(RESET)
 
-fclean:	
+fclean:	clean
 	@printf $(CYAN)"\r\033[KErasing objects... "$(RESET)"⏳ "
-	@rm -rdf $(OBJ)
+	@rm -rdf $(OBJS)
 	@make -s -C libft -f Makefile fclean
 	@printf $(GREEN)"\r\033[KObjects cleaned 🗑"$(RESET)
 	@printf $(CYAN)"\r\033[KErasing binary file... "$(RESET)"⏳ "
 	$(RM) $(NAME)
 	@printf $(GREEN)"\r\033[KBinary file cleaned 🗑"$(RESET)
 	@printf $(GREEN)"\r\033[KForce cleaned 🗑"$(RESET)
-	# @vlc includes/videoplayback.mp4
-	# @open includes/videoplayback.mp4
-	# @clear
-
 start_message:
 	@echo "\033[0;33mMaking \033[1;31m$(NAME)\033[0;33m\t\033[1;30m[\033[1;31mX\033[1;30m]\033[0m"
 

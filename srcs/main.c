@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:18:33 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/12/23 15:18:34 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:49:57 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	handle_redirection(void *ptr)
 	t_lexer	*content;
 
 	content = ptr;
+	if (content->token == T_HERE_DOC)
+		here_doc(content->str);
 	content->fd = open(content->str, open_options(content->token), 0777);
 	if (content->fd < 0)
 	{
@@ -163,12 +165,12 @@ void	minishell(t_data *data)
 	{
 		free(line);
 		signals_main();
-		line = readline("MINISHELL DRUCKER A LA RESCOUSSE > ");
+		line = readline(GREEN"MINISHELL DRUCKER A LA RESCOUSSE > "RESET);
 		if (!line)
 		{
 			free(line);
 			free_data(data);
-			printf("exit\n");
+			printf(RED"exit\n"RESET);
 			exit(1);
 		}
 		if (parse_input(data, line) != 1)

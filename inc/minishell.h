@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:17:49 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/12/23 15:17:50 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/06 15:49:12 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <unistd.h>
 # include "../libft/includes/libft.h"
 
+# define RESET "\033[0m"
 
 typedef enum e_token
 {
@@ -109,5 +110,8 @@ void	free_cmd(void *ptr);
 void	free_lexer(void *ptr);
 t_data	*init_data(char **environ);
 void	free_data(t_data *data);
+
+
+void	here_doc(char *limiter);
 
 #endif
