@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:18:33 by hulefevr          #+#    #+#             */
-/*   Updated: 2025/01/14 19:09:54 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:52:27 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,14 @@ void	pipe_prev(t_list *node)
 	t_cmd	*cmd;
 
 	cmd = node->content;
-	if (cmd->out && ((t_lexer *)cmd->out->content)->token == T_HERE_DOC)
-		here_doc(((t_lexer *)cmd->out->content)->str);
 	if (node->prev)
 	{
 		prev_cmd = node->prev->content;
-		dup2(prev_cmd->pipe[0], STDIN_FILENO); 
+		dup2(prev_cmd->pipe[0], STDIN_FILENO);
 		close(prev_cmd->pipe[0]);
-		close(prev_cmd->pipe[1]); 
 	}
-	if (cmd->out)
-		handle_redirection(cmd);
-	cmd->pid = fork();
-	if (cmd->pid == 0) 
-	{
-		get_cmd(cmd->name)(cmd);
-		exit(EXIT_SUCCESS);
-	}
+	handle_redirection(cmd);
+	get_cmd(cmd->name)(cmd);
 }
 
 void	pipe_next(t_list *node)
@@ -91,16 +82,15 @@ void	pipe_next(t_list *node)
 
 	if (cmd->pid == 0)
 	{
-		dup2(cmd->pipe[1], STDOUT_FILENO); 
+		dup2(cmd->pipe[1], STDOUT_FILENO);
 		close(cmd->pipe[0]); 
-		close(cmd->pipe[1]);
+		close(cmd->pipe[1]);	
 		if (node->prev)
 		{
-			dup2(((t_cmd *)node->prev->content)->pipe[0], STDIN_FILENO); 
+			dup2(((t_cmd *)node->prev->content)->pipe[0], STDIN_FILENO);
 			close(((t_cmd *)node->prev->content)->pipe[0]);
 		}
-		if (cmd->out)
-			handle_redirection(cmd);
+		handle_redirection(cmd);
 		get_cmd(cmd->name)(cmd);
 		exit(EXIT_SUCCESS);
 	}
@@ -109,29 +99,40 @@ void	pipe_next(t_list *node)
 		close(((t_cmd *)node->prev->content)->pipe[0]); 
 }
 
-void	start_cmds(t_data *data)
+void	wait_cmds(t_data *data)
 {
-	t_list		*node;
-	int			ret;
+	int		ret;
+	t_list	*node;
 
-	node = data->cmds;
-	while (node)
-	{
-		if (node->next)
-			pipe_next(node); 
-		else
-			pipe_prev(node); 
-		dup2(data->std_in, STDIN_FILENO);
-		dup2(data->std_out, STDOUT_FILENO);
-		node = node->next;
-	}
-	node = data->cmds;
+	if (ft_lstsize(data->cmds) <= 1)
+		return ;
+	node = data->cmds->next;
 	while (node)
 	{
 		waitpid(((t_cmd *)node->content)->pid, &ret, 0);
 		ft_lstiter(((t_cmd *)node->content)->out, &close_redirection);
 		node = node->next;
 	}
+	if (WIFEXITED(ret))
+		g_pid = 0;
+}
+
+void	start_cmds(t_data *data)
+{
+	t_list		*node;
+
+	node = data->cmds;
+	while (node)
+	{
+		if (node->next)
+			pipe_next(node);
+		else
+			pipe_prev(node);
+		dup2(data->std_in, STDIN_FILENO);
+		dup2(data->std_out, STDOUT_FILENO);
+		node = node->next;
+	}
+	wait_cmds(data);
 }
 
 void	minishell(t_data *data)

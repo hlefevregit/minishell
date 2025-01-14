@@ -6,7 +6,7 @@
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 15:18:00 by hulefevr          #+#    #+#              #
-#    Updated: 2025/01/14 19:11:51 by hulefevr         ###   ########.fr        #
+#    Updated: 2025/01/14 19:18:47 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ RM				:=	@rm -f
 
 LIBFT			:=	libft/libft.a
 
-FLAGS			:=	-Wall -Werror -Wextra $(INCLUDES)  -g
+FLAGS			:=	-Wall -Werror -Wextra $(INCLUDES) -g
 
 .c.o:
 	@printf $(GREEN)"\r\033[KCompiling objects... "$(YELLOW)"<$<> ⏳ "$(RESET)
