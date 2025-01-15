@@ -5,63 +5,65 @@
 #                                                     +:+ +:+         +:+      #
 #    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/06/06 12:52:41 by hulefevr          #+#    #+#              #
-#    Updated: 2024/09/25 14:45:57 by hulefevr         ###   ########.fr        #
+#    Created: 2024/12/23 15:18:00 by hulefevr          #+#    #+#              #
+#    Updated: 2025/01/14 19:18:47 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Compilation variables
-CC		:= cc
-FLAGS	:= -Lvendor/readline/lib -lreadline -ltinfo -lncurses -g 
-CFLAGS	:= -Werror -Wextra -Wall -g
+ALL_SRCS		=	$(addprefix parsing/, $(SRCS_PARSING)) $(SRCS_UTILS) $(addprefix buildins/, $(SRCS_BULTINS))
 
-# Name of the final executable
-NAME	:= minishell
+SRCS_UTILS		=	main.c									\
+					signal.c								\
+					heredoc.c								\
+					redirection.c
 
-SRC		:= 	./src/minishell.c \
-			./src/utils/free_double.c \
-			./src/utils/find_in_env.c \
-			./src/lexer/lexer.c \
-			./src/lexer/ft_split_cmd.c \
-			./src/exec/exec_pipex.c \
-			./src/exec/ft_execute.c \
-			./src/exec/heredoc.c \
-			./src/builtin/cd.c \
-			./src/builtin/echo.c \
-			./src/builtin/env.c \
-			./src/builtin/export.c \
-			./src/builtin/pwd.c \
-			./src/builtin/unset.c \
-			./src/builtin/exit.c \
+SRCS_PARSING	=	parsing.c								\
+					free.c								\
+					lst.c									\
+					lexer.c								\
 
-OBJ		:= $(SRC:.c=.o)
+SRCS_BULTINS	=	cd.c									\
+					echo.c									\
+					env.c									\
+					exit.c									\
+					export.c								\
+					pwd.c									\
+					unset.c									\
+					execve.c								\
+					bul_utils.c 							\
 
-# All needed library
-LIB		:=	lib/libft/libft.a \
-			lib/get_next_line/get_next_line.a \
+INCLUDES		:=	-Iincludes								\
 
-# Colors for differents prints
-GREEN	:= "\033[0m\033[1;32m"
-CYAN	:= "\033[0m\033[1;36m"
-YELLOW	:= "\033[0m\033[1;33m\033[3;33m"
-RESET	:= "\033[0m"
 
-# Compile all .c files
-.c.o: $(SRC)
+LD_FLAGS		:=	-Llibft  -lft -ltermcap -lreadline
+
+NAME			:=	minishell
+OBJS			:=	$(addprefix srcs/, $(ALL_SRCS:.c=.o))
+
+CC				:=	cc
+RM				:=	@rm -f
+
+LIBFT			:=	libft/libft.a
+
+FLAGS			:=	-Wall -Werror -Wextra $(INCLUDES) -g
+
+.c.o:
 	@printf $(GREEN)"\r\033[KCompiling objects... "$(YELLOW)"<$<> ⏳ "$(RESET)
-	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+	@$(CC) -c $< -o $(<:.c=.o) $(FLAGS)
 
-# Compile all .o files
-$(NAME): vendor/readline $(OBJ)
-	# @clear
+$(NAME):	 	 $(LIBFT) start_message $(OBJS)
 	@printf $(GREEN)"\r\033[KObjects compiled succesfully ✅"$(RESET)
-	@make -C lib/libft
-	@make -C lib/get_next_line
 	@printf $(CYAN)"\r\033[KCompiling '$(NAME)'... ⏳"$(RESET)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIB) $(FLAGS) -I includes/ -o $(NAME)
+	@$(CC) $(OBJS) $(FLAGS) -o $(NAME) $(LD_FLAGS)
 	@printf $(GREEN)"\r\033[KSuccess compiling '$(NAME)' ✅"$(RESET)
 
-	# Readline
+$(LIBFT):
+	@make -s -C libft -f Makefile
+
+all: $(NAME) drucker
+
+bonus:	re
+
 vendor/readline: vendor
 	@if [ ! -d "vendor/readline" ]; then \
 		printf $(CYAN)"\r\033[KInstallation of readline... ⏳"$(RESET); \
@@ -72,11 +74,7 @@ vendor/readline: vendor
 vendor:
 	@mkdir vendor
 
-# Default command to launch
-all: $(NAME) 
-
-# Compile and run minishell
-run: all drucker
+run: all
 	@./$(NAME)
 
 drucker :
@@ -168,81 +166,38 @@ drucker :
 	@printf "\n"
 
 
-# Just a cute loading bar
-load:
-	@printf '\r █▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ - 0%%\r'
-	@sleep .1
-	@printf '\r ██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ - 5%%\r'
-	@sleep .1
-	@printf '\r ███▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ - 10%%\r'
-	@sleep .1
-	@printf '\r ████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ - 15%%\r'
-	@sleep .1
-	@printf '\r █████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ - 20%%\r'
-	@sleep .1
-	@printf '\r ██████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ - 25%%\r'
-	@sleep .1
-	@printf '\r ███████▒▒▒▒▒▒▒▒▒▒▒▒▒▒ - 30%%\r'
-	@sleep .1
-	@printf '\r ████████▒▒▒▒▒▒▒▒▒▒▒▒▒ - 35%%\r'
-	@sleep .1
-	@printf '\r █████████▒▒▒▒▒▒▒▒▒▒▒▒ - 40%%\r'
-	@sleep .1
-	@printf '\r ██████████▒▒▒▒▒▒▒▒▒▒▒ - 45%%\r'
-	@sleep .1
-	@printf '\r ███████████▒▒▒▒▒▒▒▒▒▒ - 50%%\r'
-	@sleep .1
-	@printf '\r ████████████▒▒▒▒▒▒▒▒▒ - 55%%\r'
-	@sleep .1
-	@printf '\r █████████████▒▒▒▒▒▒▒▒ - 60%%\r'
-	@sleep .1
-	@printf '\r ██████████████▒▒▒▒▒▒▒ - 65%%\r'
-	@sleep .1
-	@printf '\r ███████████████▒▒▒▒▒▒ - 70%%\r'
-	@sleep .1
-	@printf '\r ████████████████▒▒▒▒▒ - 75%%\r'
-	@sleep .1
-	@printf '\r █████████████████▒▒▒▒ - 80%%\r'
-	@sleep .1
-	@printf '\r ██████████████████▒▒▒ - 85%%\r'
-	@sleep .1
-	@printf '\r ███████████████████▒▒ - 90%%\r'
-	@sleep .1
-	@printf '\r ████████████████████▒ - 95%%\r'
-	@sleep .1
-	@printf '\r █████████████████████ - 100%%\r'
-	@sleep .8
 
-# Clean all .o and .a files
 clean:
 	@printf $(CYAN)"\r\033[KErasing objects... "$(RESET)"⏳ "
-	@rm -rdf $(OBJ)
-	@make -C lib/libft clean
-	@make -C lib/get_next_line clean
+	@make -s -C libft -f Makefile clean
+	$(RM) $(OBJS)
 	@printf $(GREEN)"\r\033[Kcleaned 🗑"$(RESET)
 
-# Same as 'clean' but clean minishell too
-fclean:
+fclean:	clean
 	@printf $(CYAN)"\r\033[KErasing objects... "$(RESET)"⏳ "
-	@rm -rdf $(OBJ)
-	@make -C lib/libft fclean
-	@make -C lib/get_next_line fclean
+	@rm -rdf $(OBJS)
+	@make -s -C libft -f Makefile fclean
 	@printf $(GREEN)"\r\033[KObjects cleaned 🗑"$(RESET)
 	@printf $(CYAN)"\r\033[KErasing binary file... "$(RESET)"⏳ "
-	@rm -rdf $(NAME) test_parser
+	$(RM) $(NAME)
 	@printf $(GREEN)"\r\033[KBinary file cleaned 🗑"$(RESET)
 	@printf $(GREEN)"\r\033[KForce cleaned 🗑"$(RESET)
-	# @vlc includes/videoplayback.mp4
-	# @open includes/videoplayback.mp4
-	# @clear
+start_message:
+	@echo "\033[0;33mMaking \033[1;31m$(NAME)\033[0;33m\t\033[1;30m[\033[1;31mX\033[1;30m]\033[0m"
 
-# Clean readline
 fclean_readline:
 	@printf $(CYAN)"\r\033[KErasing readline... "$(RESET)"⏳ "
 	@rm -rdf vendor
 	@printf $(GREEN)"\r\033[KReadline cleaned 🗑"$(RESET)
 
-# Clean all and recompile minishell
-re: fclean all
 
-.PHONY: all clean fclean re load fclean_readline run readline drucker
+re:	fclean $(LIBFT) start_message $(OBJS)
+	@if [ "$?" = "fclean start_message" ]; then echo -n "\033[1A\033[30C\033[0;33mAlready done\033[15D\033[1B\033[1A\033[2D\033[1;32m✓\033[26D\033[1B\033[0m";else echo -n "\033[1A\033[25C\033[1;32m✓\033[26D\033[1B\033[0m"; fi
+	@$(CC) $(OBJS) $(FLAGS) -o $(NAME) $(LD_FLAGS)
+
+GREEN	:= "\033[0m\033[1;32m"
+CYAN	:= "\033[0m\033[1;36m"
+YELLOW	:= "\033[0m\033[1;33m\033[3;33m"
+RESET	:= "\033[0m"
+
+.PHONY:	all clean fclean re
