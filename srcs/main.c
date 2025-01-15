@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:18:33 by hulefevr          #+#    #+#             */
-/*   Updated: 2025/01/14 19:52:27 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:07:43 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	pipe_prev(t_list *node)
 	t_cmd	*cmd;
 
 	cmd = node->content;
+	// if (cmd->out && ((t_lexer *)cmd->out->content)->token == T_HERE_DOC)
+	// 	here_doc(((t_lexer *)cmd->out->content)->str);
 	if (node->prev)
 	{
 		prev_cmd = node->prev->content;
@@ -96,7 +98,7 @@ void	pipe_next(t_list *node)
 	}
 	close(cmd->pipe[1]);
 	if (node->prev)
-		close(((t_cmd *)node->prev->content)->pipe[0]); 
+		close(((t_cmd *)node->prev->content)->pipe[0]);
 }
 
 void	wait_cmds(t_data *data)
@@ -124,6 +126,7 @@ void	start_cmds(t_data *data)
 	node = data->cmds;
 	while (node)
 	{
+		handle_heredoc(node->content);
 		if (node->next)
 			pipe_next(node);
 		else

@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 19:05:42 by dguerin           #+#    #+#             */
-/*   Updated: 2025/01/14 19:06:08 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:30:15 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,9 @@ void	handle_redirection(t_cmd *cmd)
 	while (lst)
 	{
 		content = lst->content;
-		// if (content->token == T_HERE_DOC)
-		// 	return;
-		content->fd = open(content->str, open_options(content->token), 0777);
-		if (content->fd < 0)
+		if (content->token != T_HERE_DOC)
+			content->fd = open(content->str, open_options(content->token), 0777);
+		if (content->fd < 0 && content->token != T_HERE_DOC)
 		{
 			printf("minishell: no such file or directory: %s\n", content->str);
 			return ;
@@ -44,6 +43,7 @@ void	handle_redirection(t_cmd *cmd)
 		lst = lst->next;
 	}
 }
+
 void	close_redirection(void *ptr)
 {
 	t_lexer	*content;
