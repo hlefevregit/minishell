@@ -6,10 +6,9 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:21:22 by hulefevr          #+#    #+#             */
-/*   Updated: 2025/01/15 14:30:45 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:34:49 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../inc/minishell.h"
 
@@ -27,6 +26,18 @@ char	*get_var_from_env(char **env, char *var)
 	if (!env[i])
 		return (NULL);
 	return (env[i]);
+}
+
+char	*get_absolute(t_cmd *cmd)
+{
+	char	*tmp;
+
+	if (access(cmd->name, F_OK | X_OK) == 0)
+	{
+		tmp = ft_strdup(cmd->name);
+		return (tmp);
+	}
+	return (NULL);
 }
 
 char	*get_path(t_cmd *cmd)
@@ -54,7 +65,7 @@ char	*get_path(t_cmd *cmd)
 	}
 	ft_free_tab(path);
 	free(tmp);
-	return (NULL);
+	return (get_absolute(cmd));
 }
 
 void	ft_execve(t_cmd *cmd)

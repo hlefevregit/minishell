@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:20:43 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/12/23 15:20:44 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:09:30 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ t_data	*init_data(char **environ)
 
 	data = ft_calloc(1, sizeof(t_data));
 	data->env = ft_tabcpy(environ);
+	if (ft_tablen(data->env) == 0)
+	{
+		printf("minishell: env is empty\n");
+		free(data->env);
+		free(data);
+		exit (1);
+	}
 	data->std_in = dup(STDIN_FILENO);
 	data->std_out = dup(STDOUT_FILENO);
 	return (data);

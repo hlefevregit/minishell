@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:21:07 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/12/23 15:21:08 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/15 19:08:01 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../inc/minishell.h"
-
-extern int	g_pid;
 
 void	set_env(char **env, char *env_name, char *env_val, int p)
 {

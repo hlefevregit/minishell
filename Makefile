@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+         #
+#    By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 15:18:00 by hulefevr          #+#    #+#              #
-#    Updated: 2025/01/14 19:18:47 by hulefevr         ###   ########.fr        #
+#    Updated: 2025/01/15 19:11:37 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,12 +15,15 @@ ALL_SRCS		=	$(addprefix parsing/, $(SRCS_PARSING)) $(SRCS_UTILS) $(addprefix bui
 SRCS_UTILS		=	main.c									\
 					signal.c								\
 					heredoc.c								\
-					redirection.c
+					redirection.c							\
+					minishell.c								\
 
 SRCS_PARSING	=	parsing.c								\
-					free.c								\
+					free.c									\
 					lst.c									\
-					lexer.c								\
+					lexer.c									\
+					lexer_utils.c							\
+					utils.c									\
 
 SRCS_BULTINS	=	cd.c									\
 					echo.c									\
