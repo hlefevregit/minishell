@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:20:55 by hulefevr          #+#    #+#             */
-/*   Updated: 2025/01/15 14:50:09 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/15 19:08:04 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-extern int	g_pid;
 
 static void	move_to_dir(char **env, char *path)
 {

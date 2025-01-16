@@ -49,17 +49,15 @@ void	handle_heredoc(t_cmd *cmd)
 	lst = cmd->out;
 	while (lst)
 	{
-		
 		content = lst->content;
 		if (content->token == T_HERE_DOC)
 		{
 			here_doc(content->str);
 			content->fd = open("/tmp/heredoc_tmp", O_RDONLY);
 			if (content->fd < 0)
-				return ;	
-			close(content->fd);	
+				return ;
+			close(content->fd);
 		}
 		lst = lst->next;
 	}
-	
 }

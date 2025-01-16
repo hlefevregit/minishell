@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:18:03 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/12/23 15:18:04 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/15 19:07:49 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-extern int	g_pid;
 
 void	pipe_sigint(int signum)
 {
@@ -48,4 +46,3 @@ void	signals_pipe(void)
 	signal(SIGINT, pipe_sigint);
 	signal(SIGQUIT, pipe_sigint);
 }
-

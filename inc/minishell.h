@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:17:49 by hulefevr          #+#    #+#             */
-/*   Updated: 2025/01/15 13:53:49 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:19:09 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <stdio.h>
-#include <unistd.h>
+# include <unistd.h>
 # include "../libft/includes/libft.h"
 
 # define RESET "\033[0m"
@@ -65,8 +65,18 @@ typedef struct s_cmd
 
 typedef void	(*t_func_cmd)(t_cmd *cmd);
 
+extern int		g_pid;
+
+/*         Main                             */
+
+void	minishell(t_data *data);
+void	start_cmds(t_data *data);
+void	wait_cmds(t_data *data);
+void	pipe_next(t_list *node);
+void	pipe_prev(t_list *node);
 
 /*         Built-ins                       */
+
 void	ft_cd(t_cmd *cmd);
 void	ft_echo(t_cmd *cmd);
 void	ft_env(t_cmd *cmd);
@@ -110,7 +120,6 @@ void	free_cmd(void *ptr);
 void	free_lexer(void *ptr);
 t_data	*init_data(char **environ);
 void	free_data(t_data *data);
-
 
 void	here_doc(char *limiter);
 void	handle_heredoc(t_cmd *cmd);

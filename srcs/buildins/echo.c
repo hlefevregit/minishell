@@ -6,10 +6,9 @@
 /*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:21:03 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/12/23 15:21:04 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:59:08 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../inc/minishell.h"
 
@@ -34,6 +33,11 @@ int	print_env(t_cmd *cmd, char *name)
 	if (name[0] != '$')
 		return (0);
 	name++;
+	if (name[0] == '?')
+	{
+		printf("%d", cmd->data->last_error);
+		return (1);
+	}
 	while (cmd->data->env[i])
 	{
 		if (ft_strncmp(cmd->data->env[i], name,

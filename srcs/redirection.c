@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-static int	open_options(t_token token)
+static int	op_options(t_token token)
 {
 	if (token == T_OUT_APPEND)
 		return (O_WRONLY | O_APPEND | O_CREAT);
@@ -33,7 +33,7 @@ void	handle_redirection(t_cmd *cmd)
 	{
 		content = lst->content;
 		if (content->token != T_HERE_DOC)
-			content->fd = open(content->str, open_options(content->token), 0777);
+			content->fd = open(content->str, op_options(content->token), 0777);
 		if (content->fd < 0 && content->token != T_HERE_DOC)
 		{
 			printf("minishell: no such file or directory: %s\n", content->str);
