@@ -69,3 +69,14 @@ int	check_env_name(char *env_name)
 	}
 	return (1);
 }
+
+void	ft_print_tab_fd1(char **strs)
+{
+	int			i;
+
+	i = -1;
+	while (strs && strs[++i])
+	{
+		printf("declare -x %s\n", strs[i]);
+	}
+}

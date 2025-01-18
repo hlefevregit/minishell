@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:18:33 by hulefevr          #+#    #+#             */
-/*   Updated: 2025/01/15 19:10:00 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:49:32 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	minishell(t_data *data)
 		{
 			free(line);
 			free_data(data);
+			rl_clear_history();
 			printf(RED"exit\n"RESET);
 			exit(1);
 		}

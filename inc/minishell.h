@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:17:49 by hulefevr          #+#    #+#             */
-/*   Updated: 2025/01/16 17:19:09 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:03:15 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	ft_export(t_cmd *cmd);
 void	ft_pwd(t_cmd *cmd);
 void	ft_unset(t_cmd *cmd);
 void	ft_execve(t_cmd *cmd);
+void	export_oargs(t_cmd *cmd);
 
 int		plus_in_name(char *env_name);
 int		already_in_env(char *env_name, t_cmd *cmd);
@@ -100,6 +101,7 @@ void	signals_pipe(void);
 
 /*         Parsing                          */
 int		parse_input(t_data *data, char *input);
+void	expand_env(t_data *data, t_list *tokens);
 
 /*        Parsing/lexer.c             */
 t_list	*input_lexer(char *input);
@@ -125,5 +127,8 @@ void	here_doc(char *limiter);
 void	handle_heredoc(t_cmd *cmd);
 void	handle_redirection(t_cmd *cmd);
 void	close_redirection(void *ptr);
+void	export_oargs(t_cmd *cmd);
+void	ft_print_tab_fd1(char **strs);
+int		is_only_redir(t_list *tokens);
 
 #endif

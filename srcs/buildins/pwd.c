@@ -6,7 +6,7 @@
 /*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 15:22:06 by hulefevr          #+#    #+#             */
-/*   Updated: 2025/01/15 19:07:59 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:05:06 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	ft_pwd(t_cmd *cmd)
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 	{
-		ft_printf("%s\n", "pwd: error retrieving current directory: "\
-			"getcwd: cannot access parent "\
+		ft_printf("%s\n", "pwd: error retrieving current directory: "
+			"getcwd: cannot access parent "
 			"directories: No such file or directory");
 		g_pid = 1;
 		return ;
