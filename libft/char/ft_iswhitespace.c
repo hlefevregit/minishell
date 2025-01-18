@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_iswhitespace.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hulefevr <hulefevr@student.42nice.fr>      +#+  +:+       +#+        */
+/*   By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 14:45:16 by hulefevr          #+#    #+#             */
-/*   Updated: 2024/12/23 14:55:21 by hulefevr         ###   ########.fr       */
+/*   Updated: 2025/01/17 18:24:11 by hulefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_iswhitespace(int c)
 {
-	return (c == ' '
+	return (c == 32
 		|| c == '\f'
 		|| c == '\t'
 		|| c == '\n'

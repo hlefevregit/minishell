@@ -6,7 +6,7 @@
 #    By: hulefevr <hulefevr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 15:18:00 by hulefevr          #+#    #+#              #
-#    Updated: 2025/01/15 19:11:37 by hulefevr         ###   ########.fr        #
+#    Updated: 2025/01/17 17:44:17 by hulefevr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS_PARSING	=	parsing.c								\
 					lexer.c									\
 					lexer_utils.c							\
 					utils.c									\
+					env_expand.c							\
 
 SRCS_BULTINS	=	cd.c									\
 					echo.c									\
@@ -34,6 +35,7 @@ SRCS_BULTINS	=	cd.c									\
 					unset.c									\
 					execve.c								\
 					bul_utils.c 							\
+					export_utils.c							
 
 INCLUDES		:=	-Iincludes								\
 
